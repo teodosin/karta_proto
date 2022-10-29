@@ -8,6 +8,28 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "RefCounted",
+"class": &"DataAccess",
+"language": &"GDScript",
+"path": "res://data_access/data_access.gd"
+}, {
+"base": "DataAccess",
+"class": &"DataAccessInMemory",
+"language": &"GDScript",
+"path": "res://data_access/in_memory.gd"
+}, {
+"base": "Node2D",
+"class": &"NodeBase",
+"language": &"GDScript",
+"path": "res://main_graph_view/nodes/node_base.gd"
+}]
+_global_script_class_icons={
+"DataAccess": "",
+"DataAccessInMemory": "",
+"NodeBase": ""
+}
+
 [application]
 
 config/name="Karta"
@@ -30,5 +52,10 @@ zoomInCamera={
 zoomOutCamera={
 "deadzone": 0.5,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":5,"pressed":false,"double_click":false,"script":null)
+]
+}
+create_new_node={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"unicode":0,"echo":false,"script":null)
 ]
 }
