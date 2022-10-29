@@ -8,6 +8,28 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "RefCounted",
+"class": &"DataAccess",
+"language": &"GDScript",
+"path": "res://data_access/data_access.gd"
+}, {
+"base": "DataAccess",
+"class": &"DataAccessInMemory",
+"language": &"GDScript",
+"path": "res://data_access/in_memory.gd"
+}, {
+"base": "Node2D",
+"class": &"NodeBase",
+"language": &"GDScript",
+"path": "res://main_graph_view/nodes/node_base.gd"
+}]
+_global_script_class_icons={
+"DataAccess": "",
+"DataAccessInMemory": "",
+"NodeBase": ""
+}
+
 [application]
 
 config/name="Karta"
