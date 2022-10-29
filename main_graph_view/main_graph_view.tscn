@@ -1,13 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cun1l1kswppkw"]
+[gd_scene load_steps=2 format=3 uid="uid://cun1l1kswppkw"]
 
 [ext_resource type="Script" path="res://main_graph_view/GraphViewCamera.gd" id="1_bnjw7"]
-[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="2_6delb"]
 
 [node name="MainGraphView" type="Node2D"]
 
 [node name="GraphViewCamera" type="Camera2D" parent="."]
 current = true
 script = ExtResource("1_bnjw7")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_6delb")
