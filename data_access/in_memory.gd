@@ -12,3 +12,7 @@ func addNode():
 	}
 	nodes[lastId] = newNode
 	return lastId
+	
+	
+func addWire(fromId: int, toId: int):
+	pass

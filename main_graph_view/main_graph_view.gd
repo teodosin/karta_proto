@@ -18,12 +18,23 @@ func _input(event):
 	if event.is_action_pressed("createNewNode"):
 		createNode()
 		
-
-func createNode():
+		
+func createNode() -> NodeBase:
 	var newId = data_access.addNode()
-	
 	var newNode = node_base.instantiate()
-	newNode.set_position(get_global_mouse_position())
+	newNode.id = newId
 	add_child(newNode)
+	return newNode
 	
-	print(newId)
+
+func _on_add_button_pressed():
+	if nodeInFocus == null:
+		nodeInFocus = createNode()
+		nodeInFocus.position = get_viewport_rect().size / 2
+	else: 
+		var relatedNode = createNode()
+		data_access.addWire(nodeInFocus.id, relatedNode.id)
+		
+		
+		
+		
