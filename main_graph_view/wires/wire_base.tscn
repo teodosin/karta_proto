@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://cjnan6x56k2hq"]
+[gd_scene load_steps=2 format=3 uid="uid://cjnan6x56k2hq"]
 
-[node name="WireBase" type="Node2D"]
+[ext_resource type="Script" path="res://main_graph_view/wires/wire_base.gd" id="1_i4u06"]
+
+[node name="WireBase" type="Line2D"]
+script = ExtResource("1_i4u06")
