@@ -3,18 +3,15 @@
 [ext_resource type="Script" path="res://main_graph_view/AddButton.gd" id="1_h2dc8"]
 
 [node name="AddButton" type="Button"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -22.0
-offset_top = -23.0
-offset_right = -1051.0
-offset_bottom = -540.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = -1
+anchor_right = 0.0372437
+anchor_bottom = 0.0647762
+offset_right = 75.0953
+offset_bottom = 90.025
 scale = Vector2(0.363599, 0.317993)
 text = "+"
 script = ExtResource("1_h2dc8")
+metadata/_edit_use_anchors_ = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-21, -25)
