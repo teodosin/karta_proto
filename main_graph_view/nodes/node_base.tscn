@@ -24,6 +24,7 @@ offset_bottom = 71.0
 theme = SubResource("Theme_14gnd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_tlxkm")
 
 [node name="IdLabel" type="Label" parent="."]
