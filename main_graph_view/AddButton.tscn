@@ -8,10 +8,11 @@ anchor_right = 0.0372437
 anchor_bottom = 0.0647762
 offset_right = 75.0953
 offset_bottom = 90.025
+grow_horizontal = 2
+grow_vertical = 0
 scale = Vector2(0.363599, 0.317993)
 text = "+"
 script = ExtResource("1_h2dc8")
-metadata/_edit_use_anchors_ = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-21, -25)

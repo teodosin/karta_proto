@@ -14,10 +14,10 @@ script = ExtResource("1_bnjw7")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="AddButton" parent="CanvasLayer" instance=ExtResource("3_q0bio")]
-offset_left = 29.0
-offset_top = 22.0
-offset_right = -1000.0
-offset_bottom = -495.0
+offset_left = 33.0
+offset_top = 17.0
+offset_right = 8.09526
+offset_bottom = 6.02502
 script = null
 
 [connection signal="pressed" from="CanvasLayer/AddButton" to="." method="_on_add_button_pressed"]

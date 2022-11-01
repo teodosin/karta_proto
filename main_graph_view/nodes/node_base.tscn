@@ -1,10 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd77ti7ysuxgj"]
+[gd_scene load_steps=5 format=3 uid="uid://cd77ti7ysuxgj"]
 
 [ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="1_tlxkm"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_base.gd" id="1_uayqf"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
+bg_color = Color(0.368627, 0.368627, 0.368627, 0.847059)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Theme" id="Theme_14gnd"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_xipxx")
+
 [node name="NodeBase" type="Node2D"]
 script = ExtResource("1_uayqf")
+
+[node name="BackgroundPanel" type="PanelContainer" parent="."]
+offset_left = -64.0
+offset_top = -72.0
+offset_right = 65.0
+offset_bottom = 71.0
+theme = SubResource("Theme_14gnd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_tlxkm")
