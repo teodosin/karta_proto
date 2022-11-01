@@ -16,13 +16,17 @@ func _process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("createNewNode"):
-		createNode()
+		createNode(true)
 		
 		
-func createNode() -> NodeBase:
+func createNode(atMouse: bool = false) -> NodeBase:
 	var newId = data_access.addNode()
 	var newNode = node_base.instantiate()
 	newNode.id = newId
+	
+	if atMouse:
+		newNode.set_position(get_global_mouse_position())
+		
 	add_child(newNode)
 	return newNode
 	
