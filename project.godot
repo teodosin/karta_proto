@@ -19,20 +19,26 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://data_access/in_memory.gd"
 }, {
-"base": "Node2D",
+"base": "RefCounted",
 "class": &"NodeBase",
 "language": &"GDScript",
-"path": "res://main_graph_view/nodes/node_base.gd"
+"path": "res://data_access/nodes/node_base.gd"
+}, {
+"base": "Node2D",
+"class": &"NodeViewBase",
+"language": &"GDScript",
+"path": "res://main_graph_view/nodes/node_view_base.gd"
 }, {
 "base": "RefCounted",
 "class": &"WireBase",
 "language": &"GDScript",
-"path": "res://main_graph_view/wires/wire_base.gd"
+"path": "res://data_access/wires/wire_base.gd"
 }]
 _global_script_class_icons={
 "DataAccess": "",
 "DataAccessInMemory": "",
 "NodeBase": "",
+"NodeViewBase": "",
 "WireBase": ""
 }
 

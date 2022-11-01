@@ -1,9 +1,8 @@
 extends Node2D
 
-@onready var node_base = load("res://main_graph_view/nodes/node_base.tscn")
-@onready var wire_base = load("res://main_graph_view/wires/wire_base.tscn")
+@onready var node_base = load("res://main_graph_view/nodes/node_view_base.tscn")
 
-var nodeInFocus: NodeBase = null
+var nodeInFocus: NodeViewBase = null
 
 var data_access: DataAccess = DataAccessInMemory.new()
 # Called when the node enters the scene tree for the first time.
@@ -19,7 +18,7 @@ func _input(event):
 		createNode(true)
 		
 		
-func createNode(atMouse: bool = false) -> NodeBase:
+func createNode(atMouse: bool = false) -> NodeViewBase:
 	var newId = data_access.addNode()
 	var newNode = node_base.instantiate()
 	newNode.id = newId

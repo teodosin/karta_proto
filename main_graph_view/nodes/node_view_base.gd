@@ -1,4 +1,4 @@
-class_name NodeBase
+class_name NodeViewBase
 extends Node2D
 
 var id: int

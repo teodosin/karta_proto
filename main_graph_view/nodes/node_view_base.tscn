@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd77ti7ysuxgj"]
+[gd_scene load_steps=5 format=3 uid="uid://dp7thy6v5k6ye"]
 
-[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="1_tlxkm"]
-[ext_resource type="Script" path="res://main_graph_view/nodes/node_base.gd" id="1_uayqf"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/node_view_base.gd" id="1_jnnre"]
+[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="2_dyysn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
 bg_color = Color(0.368627, 0.368627, 0.368627, 0.847059)
@@ -14,7 +14,7 @@ corner_radius_bottom_left = 8
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_xipxx")
 
 [node name="NodeBase" type="Node2D"]
-script = ExtResource("1_uayqf")
+script = ExtResource("1_jnnre")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
 offset_left = -64.0
@@ -25,7 +25,7 @@ theme = SubResource("Theme_14gnd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("1_tlxkm")
+texture = ExtResource("2_dyysn")
 
 [node name="IdLabel" type="Label" parent="."]
 anchors_preset = 8

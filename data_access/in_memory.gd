@@ -8,13 +8,10 @@ var wires: Dictionary = {}
 
 func addNode():
 	lastId += 1
-	var newNode = {
-		"id": lastId,
-		"name": "node"
-	}
+	var newNode = NodeBase.new(lastId, "node")
 	nodes[lastId] = newNode
 	return lastId
 	
 	
 func addWire(src: int, trgt: int):
-	var newWire: WireBase = WireBase.new()
+	var newWire: WireBase = WireBase.new(src, trgt)
