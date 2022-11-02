@@ -4,7 +4,8 @@ extends DataAccess
 var nodes: Dictionary = {}
 var lastId: int = 0
 
-var wires: Dictionary = {}
+var wires: Array[WireBase] = []
+
 
 func addNode():
 	lastId += 1
@@ -13,5 +14,10 @@ func addNode():
 	return lastId
 	
 	
-func addWire(src: int, trgt: int):
-	var newWire: WireBase = WireBase.new(src, trgt)
+func addWire(srcId: int, trgtId: int, distanceVector: Vector2):
+	var newWire: WireBase = WireBase.new(srcId, trgtId, distanceVector)
+	wires.append(newWire)
+	
+	
+func getAllWires() -> Array[WireBase]:
+	return wires 

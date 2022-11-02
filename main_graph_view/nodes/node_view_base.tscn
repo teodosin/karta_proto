@@ -23,22 +23,35 @@ corner_radius_bottom_left = 5
 [sub_resource type="Theme" id="Theme_bolh2"]
 Panel/styles/panel = SubResource("StyleBoxFlat_wi8g1")
 
-[node name="NodeViewBase" type="Node2D"]
+[node name="NodeViewBase" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -65.0
+offset_top = -55.0
+offset_right = 65.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
-offset_left = -64.0
-offset_top = -72.0
-offset_right = 65.0
-offset_bottom = 71.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(65, 55)
 theme = SubResource("Theme_14gnd")
 
 [node name="FocalPanel" type="Panel" parent="BackgroundPanel"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2i(50, 10)
 layout_mode = 2
-offset_left = 39.0
-offset_right = 89.0
+offset_left = 40.0
+offset_right = 90.0
 offset_bottom = 10.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -49,6 +62,7 @@ visible = false
 texture = ExtResource("2_dyysn")
 
 [node name="IdLabel" type="Label" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -62,12 +76,6 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
-
-[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
+[connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
+[connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
+[connection signal="mouse_exited" from="BackgroundPanel" to="." method="_on_background_panel_mouse_exited"]
