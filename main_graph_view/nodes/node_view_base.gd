@@ -6,6 +6,8 @@ var id: int
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
+signal rightMousePressed
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$IdLabel.text = str(id)
@@ -22,4 +24,9 @@ func _on_control_gui_input(event):
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
 		nodeMoving = false 
+		
+	if event.is_action_pressed("mouseRight"):
+		rightMousePressed.emit()
+	if event.is_action_released("mouseRight"):
+		pass
 	

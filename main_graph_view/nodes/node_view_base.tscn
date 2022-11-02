@@ -1,19 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://dp7thy6v5k6ye"]
+[gd_scene load_steps=7 format=3 uid="uid://dp7thy6v5k6ye"]
 
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_view_base.gd" id="1_jnnre"]
 [ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="2_dyysn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
 bg_color = Color(0.368627, 0.368627, 0.368627, 0.847059)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="Theme" id="Theme_14gnd"]
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_xipxx")
 
-[node name="NodeBase" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wi8g1"]
+bg_color = Color(1, 0.976471, 0.976471, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_bolh2"]
+Panel/styles/panel = SubResource("StyleBoxFlat_wi8g1")
+
+[node name="NodeViewBase" type="Node2D"]
 script = ExtResource("1_jnnre")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
@@ -22,6 +32,17 @@ offset_top = -72.0
 offset_right = 65.0
 offset_bottom = 71.0
 theme = SubResource("Theme_14gnd")
+
+[node name="FocalPanel" type="Panel" parent="BackgroundPanel"]
+modulate = Color(0.466667, 0.447059, 0.454902, 1)
+custom_minimum_size = Vector2i(50, 10)
+layout_mode = 2
+offset_left = 39.0
+offset_right = 89.0
+offset_bottom = 10.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = SubResource("Theme_bolh2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

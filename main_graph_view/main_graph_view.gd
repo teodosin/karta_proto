@@ -3,6 +3,7 @@ extends Node2D
 @onready var node_base = load("res://main_graph_view/nodes/node_view_base.tscn")
 
 var nodeInFocus: NodeViewBase = null
+var nodeWireSource: NodeViewBase = null
 
 var data_access: DataAccess = DataAccessInMemory.new()
 # Called when the node enters the scene tree for the first time.
@@ -23,6 +24,9 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 	var newNode = node_base.instantiate()
 	newNode.id = newId
 	
+	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
+
+	
 	if atMouse:
 		newNode.set_position(get_global_mouse_position())
 		
@@ -38,6 +42,8 @@ func _on_add_button_pressed():
 		var relatedNode = createNode()
 		data_access.addWire(nodeInFocus.id, relatedNode.id)
 		
-		
+func handle_node_click(newNode):
+	nodeWireSource = newNode	
+	print(nodeWireSource.id)
 		
 		
