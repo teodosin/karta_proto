@@ -16,7 +16,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if nodeMoving:
-		self.set_position(get_global_mouse_position()-clickOffset)
+		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
+		self.set_position(newPosition)
+		get_parent().dataAccess.updateNodePosition(id, newPosition)
 
 
 

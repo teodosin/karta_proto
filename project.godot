@@ -17,7 +17,7 @@ _global_script_classes=[{
 "base": "DataAccess",
 "class": &"DataAccessInMemory",
 "language": &"GDScript",
-"path": "res://data_access/in_memory.gd"
+"path": "res://data_access/data_access_in_memory.gd"
 }, {
 "base": "RefCounted",
 "class": &"NodeBase",
