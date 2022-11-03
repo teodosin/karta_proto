@@ -22,8 +22,7 @@ func _input(event):
 	
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
-			dataAccess.addWire(nodeWireSource.id, nodeHovering.id, 
-								nodeHovering.position - nodeWireSource.position)
+			dataAccess.addWire(nodeWireSource.id, nodeHovering.id)
 		nodeWireSource = null
 		nodeHovering = null
 		
@@ -47,14 +46,18 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 	
 func _draw():
 	if nodeWireSource:
-		draw_dashed_line(nodeWireSource.position, get_global_mouse_position(), Color.BLUE_VIOLET, 1.0, 2.0)
+		draw_dashed_line(nodeWireSource.position, get_global_mouse_position(), 
+						Color.WHITE, 1.0, 2.0)
 		
-	if not focalNode: 
-		return
-	var focalPosition: Vector2 = focalNode.position
+# for now just draw all wires,
+# once we add the logic for focal nodes, we will have to 
+# select a subset of wires to draw (for example only
+# between nodes that are related to focal node)  
 	for w in dataAccess.getAllWires():
 		var wire: WireBase = w
-		draw_line(focalPosition, focalPosition + wire.targetPosition, Color.PERU, 1, true)		
+		var sourceNode: NodeBase = dataAccess.getNode(wire.sourceId)
+		var targetNode: NodeBase = dataAccess.getNode(wire.targetId)
+		draw_line(targetNode.position, targetNode.position, Color.YELLOW, 2, true)		
 
 
 func _on_add_button_pressed():
@@ -63,7 +66,7 @@ func _on_add_button_pressed():
 		focalNode.position = get_viewport_rect().size / 2
 	else: 
 		var relatedNode = createNode()
-		dataAccess.addWire(focalNode.id, relatedNode.id, relatedNode.position - focalNode.position)
+		dataAccess.addWire(focalNode.id, relatedNode.id)
 		
 func handle_node_click(newNode):
 	nodeWireSource = newNode	

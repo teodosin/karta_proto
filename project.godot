@@ -30,6 +30,11 @@ _global_script_classes=[{
 "path": "res://main_graph_view/nodes/node_view_base.gd"
 }, {
 "base": "RefCounted",
+"class": &"RelatedNode",
+"language": &"GDScript",
+"path": "res://data_access/nodes/related_node.gd"
+}, {
+"base": "RefCounted",
 "class": &"WireBase",
 "language": &"GDScript",
 "path": "res://data_access/wires/wire_base.gd"
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "DataAccessInMemory": "",
 "NodeBase": "",
 "NodeViewBase": "",
+"RelatedNode": "",
 "WireBase": ""
 }
 

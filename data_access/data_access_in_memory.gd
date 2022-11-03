@@ -13,14 +13,24 @@ func addNode(position: Vector2):
 	nodes[lastId] = newNode
 	return lastId
 	
+func getNode(id: int) -> NodeBase: 
+	assert(nodes.has(id), "ERROR node not found")
+	return nodes[id]
 	
 func updateNodePosition(id: int, position: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
 	nodes[id].position = position
 	
+func addRelatedNode(id: int, relatedId: int, relatedPosition: Vector2):
+	assert(nodes.has(id), "ERROR node not found")
+	var node: NodeBase = nodes[id]
+	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, node.position - relatedPosition)
 	
-func addWire(srcId: int, trgtId: int, distanceVector: Vector2):
-	var newWire: WireBase = WireBase.new(srcId, trgtId, distanceVector)
+	
+
+	
+func addWire(srcId: int, trgtId: int):
+	var newWire: WireBase = WireBase.new(srcId, trgtId)
 	wires.append(newWire)
 	
 	
