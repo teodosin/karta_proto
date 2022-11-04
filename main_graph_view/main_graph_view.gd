@@ -23,7 +23,7 @@ func _input(event):
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
 			dataAccess.addWire(nodeWireSource.id, nodeHovering.id)
-			print(nodeHovering.id)
+			print("kaka " + str(nodeHovering.id) + " " + str(nodeWireSource.id))
 		nodeWireSource = null
 		nodeHovering = null
 		
@@ -34,7 +34,7 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 	else: 
 		position = Vector2.ZERO
 	var newNode = nodeBaseTemplate.instantiate()
-	var newId = dataAccess.addNode(newNode.position)
+	var newId = dataAccess.addNode(position)
 	newNode.id = newId
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
@@ -59,7 +59,6 @@ func _draw():
 		var sourceNode: NodeBase = dataAccess.getNode(wire.sourceId)
 		var targetNode: NodeBase = dataAccess.getNode(wire.targetId)
 		draw_line(sourceNode.position, targetNode.position, Color.YELLOW, 2, true)	
-		print(sourceNode.position, targetNode.position)	
 
 
 func _on_add_button_pressed():

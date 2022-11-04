@@ -21,7 +21,6 @@ func _process(_delta):
 		get_parent().dataAccess.updateNodePosition(id, newPosition)
 
 
-
 func _on_background_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):
 		clickOffset = get_global_mouse_position() - self.position
