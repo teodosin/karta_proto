@@ -23,6 +23,7 @@ func _input(event):
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
 			dataAccess.addWire(nodeWireSource.id, nodeHovering.id)
+			print(nodeHovering.id)
 		nodeWireSource = null
 		nodeHovering = null
 		
@@ -57,7 +58,8 @@ func _draw():
 		var wire: WireBase = w
 		var sourceNode: NodeBase = dataAccess.getNode(wire.sourceId)
 		var targetNode: NodeBase = dataAccess.getNode(wire.targetId)
-		draw_line(targetNode.position, targetNode.position, Color.YELLOW, 2, true)		
+		draw_line(sourceNode.position, targetNode.position, Color.YELLOW, 2, true)	
+		print(sourceNode.position, targetNode.position)	
 
 
 func _on_add_button_pressed():
@@ -70,7 +72,6 @@ func _on_add_button_pressed():
 		
 func handle_node_click(newNode):
 	nodeWireSource = newNode	
-	print(nodeWireSource.id)
 func handle_mouse_hover(newNode):
 	if nodeWireSource:
 		nodeHovering = newNode
