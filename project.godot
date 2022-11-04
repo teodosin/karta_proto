@@ -17,17 +17,35 @@ _global_script_classes=[{
 "base": "DataAccess",
 "class": &"DataAccessInMemory",
 "language": &"GDScript",
-"path": "res://data_access/in_memory.gd"
+"path": "res://data_access/data_access_in_memory.gd"
 }, {
-"base": "Node2D",
+"base": "RefCounted",
 "class": &"NodeBase",
 "language": &"GDScript",
-"path": "res://main_graph_view/nodes/node_base.gd"
+"path": "res://data_access/nodes/node_base.gd"
+}, {
+"base": "Control",
+"class": &"NodeViewBase",
+"language": &"GDScript",
+"path": "res://main_graph_view/nodes/node_view_base.gd"
+}, {
+"base": "RefCounted",
+"class": &"RelatedNode",
+"language": &"GDScript",
+"path": "res://data_access/nodes/related_node.gd"
+}, {
+"base": "RefCounted",
+"class": &"WireBase",
+"language": &"GDScript",
+"path": "res://data_access/wires/wire_base.gd"
 }]
 _global_script_class_icons={
 "DataAccess": "",
 "DataAccessInMemory": "",
-"NodeBase": ""
+"NodeBase": "",
+"NodeViewBase": "",
+"RelatedNode": "",
+"WireBase": ""
 }
 
 [application]
@@ -54,8 +72,18 @@ zoomOutCamera={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":5,"pressed":false,"double_click":false,"script":null)
 ]
 }
-create_new_node={
+createNewNode={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"unicode":0,"echo":false,"script":null)
+]
+}
+mouseLeft={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+]
+}
+mouseRight={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"pressed":false,"double_click":false,"script":null)
 ]
 }
