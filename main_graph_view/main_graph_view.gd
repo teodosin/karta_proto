@@ -8,13 +8,15 @@ var nodeHovering: NodeViewBase = null
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+signal focalSet
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
+func _ready():
+	pass
 func _process(_delta):
 	queue_redraw()
+
+
 
 func _input(event):
 	if event.is_action_pressed("createNewNode"):
@@ -27,6 +29,8 @@ func _input(event):
 		nodeWireSource = null
 		nodeHovering = null
 		
+		
+		
 func createNode(atMouse: bool = false) -> NodeViewBase:
 	var position: Vector2
 	if atMouse: 
@@ -36,15 +40,27 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 	var newNode = nodeBaseTemplate.instantiate()
 	var newId = dataAccess.addNode(position)
 	newNode.id = newId
+	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
+	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
+	
 	newNode.set_position(position)	
+	
 	if not focalNode:
-		focalNode = newNode
+		setAsFocal(newNode)
+		
+	# If there is a focal node, the new node will be automatically connected
+	# to it as its target.
+	dataAccess.addWire(focalNode.id, newNode.id)
+		
 	add_child(newNode)
 	return newNode
 	
-	
+func setAsFocal(node):
+	focalNode = node
+	focalSet.emit(focalNode.id)
+
 func _draw():
 	if nodeWireSource:
 		draw_dashed_line(nodeWireSource.position, get_global_mouse_position(), 
@@ -74,4 +90,6 @@ func handle_node_click(newNode):
 func handle_mouse_hover(newNode):
 	if nodeWireSource:
 		nodeHovering = newNode
+func handle_node_set_itself_focal(newNode):
+	setAsFocal(newNode)
 		
