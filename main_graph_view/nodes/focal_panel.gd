@@ -18,13 +18,16 @@ func setFocal(isTrue: bool):
 		updateColor(unselectedColor)
 	
 func updateColor(col: Color):
-	if currentColor == focalColor:
-		return
-		
 	currentColor = col
 	self.modulate = currentColor
 
 func _on_mouse_entered():
+	if currentColor == focalColor:
+		return
+		
 	updateColor(highlightColor)
 func _on_mouse_exited():
+	if currentColor == focalColor:
+		return
+	
 	updateColor(unselectedColor)
