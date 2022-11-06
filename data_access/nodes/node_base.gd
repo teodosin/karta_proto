@@ -2,15 +2,25 @@ class_name NodeBase
 
 var id: int
 var name: String
-var position: Vector2
 var relatedNodes = {}
 
 
-func _init(id: int, name: String, position: Vector2):
+func _init(id: int, name: String):
 	self.id = id
 	self.name = name
-	self.position = position
+	self.relatedNodes = {}
+	
+	
+func getRelatedNode(relatedId: int) -> RelatedNode: 
+	assert(relatedNodes.has(relatedId), "ERROR related node not found")
+	return relatedNodes[relatedId]
 	
 	
 func addRelatedNode(relatedNode: RelatedNode):
 	relatedNodes[relatedNode.id] = relatedNode
+	
+	
+func updateRelatedNode(id: int, position: Vector2):
+	assert(relatedNodes.has(id), "ERROR related node not found")
+	var relatedNode: RelatedNode = relatedNodes[id]
+	relatedNode.relativePosition = position

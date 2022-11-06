@@ -2,11 +2,12 @@ class_name NodeViewBase
 extends Control
 
 var id: int
-var focalId: int
 var isFocal: bool = false
 
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
+var dataNode: NodeBase = null
+var relatedNodes = {} # id -> NodeViewBase
 
 signal rightMousePressed
 signal mouseHovering
