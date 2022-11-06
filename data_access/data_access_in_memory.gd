@@ -26,9 +26,6 @@ func addRelatedNode(id: int, relatedId: int, relatedPosition: Vector2):
 	var node: NodeBase = nodes[id]
 	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, node.position - relatedPosition)
 	
-	
-
-	
 func addWire(srcId: int, trgtId: int):
 	var newWire: WireBase = WireBase.new(srcId, trgtId)
 	wires.append(newWire)

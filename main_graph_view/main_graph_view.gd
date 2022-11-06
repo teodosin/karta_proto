@@ -84,6 +84,7 @@ func _on_add_button_pressed():
 	else: 
 		var relatedNode = createNode()
 		dataAccess.addWire(focalNode.id, relatedNode.id)
+		dataAccess.addRelatedNode(focalNode.id, relatedNode.id, relatedNode.position - focalNode.position)
 		
 func handle_node_click(newNode):
 	nodeWireSource = newNode	

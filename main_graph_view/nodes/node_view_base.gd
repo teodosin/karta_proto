@@ -20,12 +20,16 @@ func _ready():
 func _process(_delta):
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
-		self.set_position(newPosition)
-		get_parent().dataAccess.updateNodePosition(id, newPosition)
+		if isFocal:
+			self.set_position(newPosition)
+			get_parent().dataAccess.updateNodePosition(id, newPosition)
+		else: 
+			pass # signal to focalNode to update relative position of this node
+			# get_parent().dataAccess.updateRelatedNodePosition()
+			
 
 func setAsFocal(newFocalId):
-	focalId = newFocalId
-	if id == focalId:	
+	if id == newFocalId:	
 		isFocal = true
 		thisNodeAsFocal.emit()
 		$BackgroundPanel/FocalPanel.setFocal(true)
