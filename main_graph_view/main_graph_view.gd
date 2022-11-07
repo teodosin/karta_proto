@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
+@onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
 
 var focalNode: NodeViewBase = null
 var nodeWireSource: NodeViewBase = null
@@ -8,7 +9,8 @@ var nodeHovering: NodeViewBase = null
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
-signal focalSet
+var spawnedNodes: Dictionary = {} # id -> NodeViewBase
+var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 
 func _ready():
@@ -23,22 +25,29 @@ func _input(event):
 	
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
-			dataAccess.addWire(nodeWireSource.id, nodeHovering.id)
-			print("kaka " + str(nodeHovering.id) + " " + str(nodeWireSource.id))
+			createWire(nodeWireSource, nodeHovering)
 		nodeWireSource = null
 		nodeHovering = null
 
 
 func createNode(atMouse: bool = false) -> NodeViewBase:
+	
+	var dataNode: NodeBase = dataAccess.addNode()
+
+	var newNode = spawnNode(dataNode, atMouse)
+	
+	return newNode
+	
+func spawnNode(newNodeData: NodeBase, atMouse):
 	var position: Vector2
 	if atMouse: 
 		position = get_global_mouse_position()
 	else: 
 		position = Vector2.ZERO
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
-	var dataNode: NodeBase = dataAccess.addNode()
-	newNode.id = dataNode.id
-	newNode.dataNode = dataNode
+
+	newNode.id = newNodeData.id
+	newNode.dataNode = newNodeData
 	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
@@ -46,20 +55,48 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 	
 	newNode.set_position(position)	
 	
-	if not focalNode:
-		setAsFocal(newNode)
+
 		
 	# If there is a focal node, the new node will be automatically connected
 	# to it as its target.
-	dataAccess.addWire(focalNode.id, newNode.id)
-		
 	add_child(newNode)
+	spawnedNodes[str(newNode.id)] = newNode
+	
+	if not focalNode:
+		setAsFocal(newNode)
+		return newNode
+			
+	createWire(focalNode, newNode)
+	
 	return newNode
+	
 
+func createWire(source, target) -> WireViewBase:
+	#print(source, target)
+	var newWireData = dataAccess.addWire(source.id, target.id)
+
+	var newWire = spawnWire(newWireData)
+	print(spawnedWires)
+	
+	return newWire
+
+func spawnWire(newWireData: WireBase) -> WireViewBase:
+	var newWire: WireViewBase = wireBaseTemplate.instantiate()
+	newWire.id = newWireData.id
+	newWire.source = spawnedNodes[str(newWireData.sourceId)]
+	newWire.target = spawnedNodes[str(newWireData.targetId)]
+	
+	spawnedWires[str(newWire.id)] = newWire
+	#print(newWire)
+	add_child(newWire)
+	return newWire
+	
 	
 func setAsFocal(node):
-	focalNode = node
-	focalSet.emit(focalNode.id)
+	if focalNode != node:
+		focalNode = node
+		for n in spawnedNodes:
+			spawnedNodes[n].setAsFocal(focalNode.id)
 
 
 func _draw():
@@ -68,34 +105,16 @@ func _draw():
 	if nodeWireSource:
 		draw_dashed_line(nodeWireSource.position, get_global_mouse_position(), 
 						Color.WHITE, 1.0, 2.0)
-	for w in dataAccess.getAllWires():
-		var wire: WireBase = w
-		var sourcePosition: Vector2 = _findRelatedPosition(wire.sourceId)
-		var targetPosition: Vector2 = _findRelatedPosition(wire.targetId)
-		if sourcePosition != null and targetPosition != null: 
-			draw_line(sourcePosition, targetPosition, Color.YELLOW, 2, true)	
+	for w in spawnedWires:
+		var wire: WireViewBase = spawnedWires[w]
+		var sourcePosition: Vector2 = wire.source.position
+		var targetPosition: Vector2 = wire.target.position 
+		draw_line(sourcePosition, targetPosition, Color.YELLOW, 2, true)	
 
-
-func _findRelatedPosition(wireEndId: int) -> Vector2:
-	var nodeData: NodeBase = focalNode.dataNode
-	var position: Vector2
-	if wireEndId == focalNode.id: 
-		position = focalNode.position
-	elif nodeData.relatedNodes.has(wireEndId): 
-		position = focalNode.position + nodeData.relatedNodes[wireEndId]
-	else: 
-		position = Vector2.INF
-	return position
 
 
 func _on_add_button_pressed():
-	if focalNode == null:
-		focalNode = createNode()
-		focalNode.position = get_viewport_rect().size / 2
-	else: 
-		var relatedNode = createNode()
-		dataAccess.addWire(focalNode.id, relatedNode.id)
-		dataAccess.addRelatedNode(focalNode.id, relatedNode.id, relatedNode.position - focalNode.position)
+	createNode()
 
 		
 func handle_node_click(newNode):
@@ -107,6 +126,6 @@ func handle_mouse_hover(newNode):
 		nodeHovering = newNode
 
 
-func handle_node_set_itself_focal(newNode):
-	setAsFocal(newNode)
+func handle_node_set_itself_focal(newFocalId):
+	setAsFocal(spawnedNodes[str(newFocalId.id)])
 		

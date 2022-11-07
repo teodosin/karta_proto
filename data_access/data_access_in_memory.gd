@@ -2,16 +2,23 @@ class_name DataAccessInMemory
 extends DataAccess
 
 var nodes: Dictionary = {}
-var lastId: int = 0
+var wires: Dictionary = {}
+var lastNodeId: int = 0
+var lastWireId: int = 0
 
-var wires: Array[WireBase] = []
 
 
 func addNode() -> NodeBase:
-	lastId += 1
-	var newNode: NodeBase = NodeBase.new(lastId, "node")
-	nodes[lastId] = newNode
+	lastNodeId += 1
+	var newNode: NodeBase = NodeBase.new(lastNodeId, "node")
+	nodes[lastNodeId] = newNode
 	return newNode
+
+func addWire(srcId: int, trgtId: int) -> WireBase:
+	lastWireId += 1
+	var newWire: WireBase = WireBase.new(lastWireId, srcId, trgtId)
+	wires[str(lastWireId)] = newWire
+	return newWire
 	
 func getNode(id: int) -> NodeBase: 
 	assert(nodes.has(id), "ERROR node not found")
@@ -29,10 +36,7 @@ func addRelatedNode(id: int, relatedId: int, relatedPosition: Vector2):
 	var node: NodeBase = nodes[id]
 	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, node.position - relatedPosition)
 	
-func addWire(srcId: int, trgtId: int):
-	var newWire: WireBase = WireBase.new(srcId, trgtId)
-	wires.append(newWire)
+
 	
-	
-func getAllWires() -> Array[WireBase]:
+func getAllWires() -> Dictionary:
 	return wires 

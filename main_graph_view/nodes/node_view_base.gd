@@ -21,29 +21,20 @@ func _ready():
 func _process(_delta):
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
-		if isFocal:
-			self.set_position(newPosition)
-			get_parent().dataAccess.updateNodePosition(id, newPosition)
-		else: 
-			pass # signal to focalNode to update relative position of this node
-			# get_parent().dataAccess.updateRelatedNodePosition()
+
+		self.set_position(newPosition)
+			#get_parent().dataAccess.updateNodePosition(id, newPosition)
 			
 
 func setAsFocal(newFocalId):
-	if id == newFocalId:	
-		isFocal = true
+	if self.id == newFocalId:	
+		self.isFocal = true		
 		thisNodeAsFocal.emit()
 		$BackgroundPanel/FocalPanel.setFocal(true)
 	else:
-		print("NOLONGREFOCAL")
-		isFocal = false
 		$BackgroundPanel/FocalPanel.setFocal(false)
-		
 	# Is it okay to use get_parent() here?
-	get_parent().focalSet.connect(self.handle_focal_set.bind(get_parent()))
 
-func handle_focal_set(focalId):
-	setAsFocal(focalId)
 
 
 func _on_background_panel_gui_input(event):

@@ -38,6 +38,11 @@ _global_script_classes=[{
 "class": &"WireBase",
 "language": &"GDScript",
 "path": "res://data_access/wires/wire_base.gd"
+}, {
+"base": "Node2D",
+"class": &"WireViewBase",
+"language": &"GDScript",
+"path": "res://main_graph_view/wire_view_base.gd"
 }]
 _global_script_class_icons={
 "DataAccess": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "NodeBase": "",
 "NodeViewBase": "",
 "RelatedNode": "",
-"WireBase": ""
+"WireBase": "",
+"WireViewBase": ""
 }
 
 [application]

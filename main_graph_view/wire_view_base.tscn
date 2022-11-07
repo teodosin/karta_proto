@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://meayqcvs4dg0"]
+
+[ext_resource type="Script" path="res://main_graph_view/wire_view_base.gd" id="1_308h3"]
+
+[node name="WireViewBase" type="Node2D"]
+script = ExtResource("1_308h3")
