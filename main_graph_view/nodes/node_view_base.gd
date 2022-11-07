@@ -6,6 +6,10 @@ var isFocal: bool = false
 
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
+
+var nextPosition= null
+var animationSpeed: float = 50.0
+
 var dataNode: NodeBase = null
 var relatedNodes = {} # id -> NodeViewBase
 
@@ -18,11 +22,19 @@ func _ready():
 	$IdLabel.text = str(id)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
+	if nextPosition != null:
+		var difference = nextPosition - self.position
+		if difference.length() > 0.1:
+			self.set_position(self.position + difference / 2)
+		else: 
+			nextPosition = null
+	
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
 		self.set_position(newPosition)
+
 			#get_parent().dataAccess.updateNodePosition(id, newPosition)
 			
 
@@ -35,14 +47,15 @@ func setAsFocal(newFocalId):
 		$BackgroundPanel/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
-
+func animatePosition(newPosition: Vector2):
+	self.nextPosition = newPosition
 
 func _on_background_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
-		nodeMoving = false 
+		nodeMoving = false
 		
 	if event.is_action_pressed("mouseRight"):
 		rightMousePressed.emit()

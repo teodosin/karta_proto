@@ -14,7 +14,11 @@ var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 
 func _ready():
-	pass
+	dataAccess.loadData()
+	
+	if not dataAccess.nodes.is_empty():
+		setAsFocal(dataAccess.nodes.values()[0])
+
 func _process(_delta):
 	queue_redraw()
 
@@ -33,12 +37,13 @@ func _input(event):
 func createNode(atMouse: bool = false) -> NodeViewBase:
 	
 	var dataNode: NodeBase = dataAccess.addNode()
+	dataAccess.saveData()
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
 	return newNode
 	
-func spawnNode(newNodeData: NodeBase, atMouse):
+func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	var position: Vector2
 	if atMouse: 
 		position = get_global_mouse_position()
@@ -52,6 +57,7 @@ func spawnNode(newNodeData: NodeBase, atMouse):
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
+
 	
 	newNode.set_position(position)	
 	
@@ -75,6 +81,8 @@ func createWire(source, target) -> WireViewBase:
 	#print(source, target)
 	var newWireData = dataAccess.addWire(source.id, target.id)
 
+	dataAccess.saveData()
+
 	var newWire = spawnWire(newWireData)
 	print(spawnedWires)
 	
@@ -93,10 +101,30 @@ func spawnWire(newWireData: WireBase) -> WireViewBase:
 	
 	
 func setAsFocal(node):
-	if focalNode != node:
-		focalNode = node
+	if focalNode == node:
+		return
+	
+	if spawnedNodes.is_empty():
+		return
+	
+	if focalNode != null:
 		for n in spawnedNodes:
-			spawnedNodes[n].setAsFocal(focalNode.id)
+			if spawnedNodes[n].id == focalNode.id:
+				continue
+			else:
+				focalNode.dataNode.relatedNodes[spawnedNodes[n].id] = {
+					"id": spawnedNodes[n].id, "relativePosition": spawnedNodes[n].position - focalNode.position
+				}
+		
+	focalNode = node
+	for n in spawnedNodes:
+		if spawnedNodes[n].id == focalNode.id:
+			continue
+		spawnedNodes[n].setAsFocal(focalNode.id)
+		var newPosition = focalNode.dataNode.getRelatedNodePosition(spawnedNodes[n].id, focalNode.position)
+		spawnedNodes[n].animatePosition(newPosition)
+	focalNode.dataNode.assignedPositions = 0
+	
 
 
 func _draw():
@@ -116,15 +144,12 @@ func _draw():
 func _on_add_button_pressed():
 	createNode()
 
-		
 func handle_node_click(newNode):
 	nodeWireSource = newNode	
-
 
 func handle_mouse_hover(newNode):
 	if nodeWireSource:
 		nodeHovering = newNode
-
 
 func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[str(newFocalId.id)])
