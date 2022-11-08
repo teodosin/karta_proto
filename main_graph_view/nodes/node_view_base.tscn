@@ -27,12 +27,7 @@ Panel/styles/panel = SubResource("StyleBoxFlat_wi8g1")
 [node name="NodeViewBase" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -65.0
-offset_top = -55.0
-offset_right = 65.0
-offset_bottom = 85.0
-grow_horizontal = 2
-grow_vertical = 2
+pivot_offset = Vector2(65, 54)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_jnnre")
@@ -41,39 +36,34 @@ script = ExtResource("1_jnnre")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 159.0
+offset_bottom = 143.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(65, 55)
 theme = SubResource("Theme_14gnd")
 
 [node name="FocalPanel" type="Panel" parent="BackgroundPanel"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
-custom_minimum_size = Vector2i(60, 10)
-offset_left = 35.0
-offset_right = 95.0
+custom_minimum_size = Vector2(60, 10)
+offset_left = 49.0
+offset_right = 109.0
 offset_bottom = 10.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
 
+[node name="IdLabel" type="Label" parent="BackgroundPanel"]
+offset_right = 159.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+horizontal_alignment = 1
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_dyysn")
-
-[node name="IdLabel" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.0
-offset_top = -85.0
-offset_right = 21.0
-offset_bottom = -62.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_alignment = 1
 
 [connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
 [connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]

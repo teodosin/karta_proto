@@ -17,12 +17,17 @@ signal rightMousePressed
 signal mouseHovering
 signal thisNodeAsFocal
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	$IdLabel.text = str(id)
+	$BackgroundPanel/IdLabel.text = str(id)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Function to get the center of the node, for drawing wires for example
+func getPositionCenter() -> Vector2:
+	return self.position + ($BackgroundPanel.size / 2)
+	
+
 func _process(delta):
+	# Logic for smoothly moving the node to a new position
 	if nextPosition != null:
 		var difference = nextPosition - self.position
 		if difference.length() > 0.1:
@@ -30,15 +35,16 @@ func _process(delta):
 		else: 
 			nextPosition = null
 	
+	# Logic for moving the node manually with the mouse
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
 		self.set_position(newPosition)
 
-			#get_parent().dataAccess.updateNodePosition(id, newPosition)
-			
 
 func setAsFocal(newFocalId):
+	# If the id of the new Focal matches this node's id,
+	# mark it as the new focal
 	if self.id == newFocalId:	
 		self.isFocal = true		
 		thisNodeAsFocal.emit()

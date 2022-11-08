@@ -54,6 +54,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
 	
+	# Signals from the instanced node must be connected right as the node is
+	# instanced.
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
@@ -68,8 +70,14 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	add_child(newNode)
 	spawnedNodes[str(newNode.id)] = newNode
 	
+	# If there is no focalNode, the first node created will become that.
 	if not focalNode:
 		setAsFocal(newNode)
+		newNode.setAsFocal(focalNode.id)
+		
+		# The last step is creating the wire that connects the new node to the 
+		# focal node. We want to skip that if the current node becomes the focal,
+		# and we do that by returning newNode here.
 		return newNode
 			
 	createWire(focalNode, newNode)
@@ -117,6 +125,9 @@ func setAsFocal(node):
 				}
 		
 	focalNode = node
+	
+	# Reposition camera on new focal node 
+	# $GraphViewCamera.animatePosition(focalNode.position)
 	for n in spawnedNodes:
 		if spawnedNodes[n].id == focalNode.id:
 			continue
@@ -135,8 +146,8 @@ func _draw():
 						Color.WHITE, 1.0, 2.0)
 	for w in spawnedWires:
 		var wire: WireViewBase = spawnedWires[w]
-		var sourcePosition: Vector2 = wire.source.position
-		var targetPosition: Vector2 = wire.target.position 
+		var sourcePosition: Vector2 = wire.source.getPositionCenter()
+		var targetPosition: Vector2 = wire.target.getPositionCenter()
 		draw_line(sourcePosition, targetPosition, Color.YELLOW, 2, true)	
 
 
