@@ -7,9 +7,9 @@ var relatedNodes = {} # id -> NodeBase
 var assignedPositions: int = 0
 
 
-func _init(id: int, name: String):
-	self.id = id
-	self.name = name
+func _init(n_id: int, n_name: String):
+	self.id = n_id
+	self.name = n_name
 	self.relatedNodes = {}
 	
 func getRelatedNodePosition(nodeId: int, nodePosition: Vector2) -> Vector2:
@@ -28,7 +28,7 @@ func addRelatedNode(relatedNode: RelatedNode):
 	relatedNodes[relatedNode.id] = relatedNode
 	
 	
-func updateRelatedNode(id: int, position: Vector2):
-	assert(relatedNodes.has(id), "ERROR related node not found")
-	var relatedNode: RelatedNode = relatedNodes[id]
-	relatedNode.relativePosition = position
+func updateRelatedNode(u_id: int, u_position: Vector2):
+	assert(relatedNodes.has(u_id), "ERROR related node not found")
+	var relatedNode: RelatedNode = relatedNodes[u_id]
+	relatedNode.relativePosition = u_position

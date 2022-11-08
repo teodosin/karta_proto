@@ -26,7 +26,7 @@ func getPositionCenter() -> Vector2:
 	return self.position + ($BackgroundPanel.size / 2)
 	
 
-func _process(delta):
+func _process(_delta):
 	# Logic for smoothly moving the node to a new position
 	if nextPosition != null:
 		var difference = nextPosition - self.position

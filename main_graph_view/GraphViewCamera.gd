@@ -4,12 +4,9 @@ var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
 var nextPosition = null
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _physics_process(_delta):
 	if nextPosition != null:
 		var difference = nextPosition - self.position
@@ -32,6 +29,7 @@ func _input(event):
 		panning = false
 
 	if event.is_action_pressed("zoomInCamera"):
+		# Zoom is centered on mouse position
 		var adjustedPosition = (get_global_mouse_position() - self.position) * 0.1
 		self.position = self.position + adjustedPosition
 		self.zoom *= 1.1
