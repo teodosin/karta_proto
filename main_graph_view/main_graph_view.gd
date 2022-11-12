@@ -86,13 +86,13 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	
 
 func createWire(source, target) -> WireViewBase:
-	#print(source, target)
+
 	var newWireData = dataAccess.addWire(source.id, target.id)
 
 	dataAccess.saveData()
 
 	var newWire = spawnWire(newWireData)
-	print(spawnedWires)
+
 	
 	return newWire
 
@@ -103,7 +103,7 @@ func spawnWire(newWireData: WireBase) -> WireViewBase:
 	newWire.target = spawnedNodes[str(newWireData.targetId)]
 	
 	spawnedWires[str(newWire.id)] = newWire
-	#print(newWire)
+
 	add_child(newWire)
 	return newWire
 	
@@ -123,11 +123,16 @@ func setAsFocal(node):
 				focalNode.dataNode.relatedNodes[spawnedNodes[n].id] = {
 					"id": spawnedNodes[n].id, "relativePosition": spawnedNodes[n].position - focalNode.position
 				}
+				for related in focalNode.dataNode.relatedNodes:
+					print(related)
+					spawnedNodes[related].dataNode.relatedNodes[focalNode.id] = {
+						"id": related.id, "relativePosition": focalNode.position - spawnedNodes[related.id].position 
+					}
 		
 	focalNode = node
 	
-	
-	deleteNodes(findSpawnedToDelete(focalNode.dataNode.relatedNodes, spawnedNodes))
+	var toBeDeleted = findSpawnedToDelete(focalNode.dataNode.relatedNodes, spawnedNodes)
+	deleteNodes(toBeDeleted)
 	
 	# Reposition camera on new focal node 
 	# $GraphViewCamera.animatePosition(focalNode.position)
@@ -142,13 +147,18 @@ func setAsFocal(node):
 func findSpawnedToDelete(related: Dictionary, spawned: Dictionary):
 	var toBeDeleted: Array = []
 	
+	print("RELATED: "+str(related))
+	print("SPAWNED: "+str(spawned))
+	
 	for n in spawned:
-		if n not in related:
+
+		if n not in related and n != str(focalNode.id):
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
 
 func deleteNodes(toBeDeleted: Array):
+	print("TO BE DELETED:"+str(toBeDeleted))
 	for nid in toBeDeleted:
 		remove_child(spawnedNodes[nid])
 		#spawnedNodes[nid].queue_free()
