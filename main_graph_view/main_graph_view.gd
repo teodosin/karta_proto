@@ -126,6 +126,9 @@ func setAsFocal(node):
 		
 	focalNode = node
 	
+	
+	deleteNodes(findSpawnedToDelete(focalNode.dataNode.relatedNodes, spawnedNodes))
+	
 	# Reposition camera on new focal node 
 	# $GraphViewCamera.animatePosition(focalNode.position)
 	for n in spawnedNodes:
@@ -136,13 +139,25 @@ func setAsFocal(node):
 		spawnedNodes[n].animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
+func findSpawnedToDelete(related: Dictionary, spawned: Dictionary):
+	var toBeDeleted: Array = []
+	
+	for n in spawned:
+		if n not in related:
+			toBeDeleted.append(n)
+			
+	return toBeDeleted
 
+func deleteNodes(toBeDeleted: Array):
+	for nid in toBeDeleted:
+		remove_child(spawnedNodes[nid])
+		#spawnedNodes[nid].queue_free()
 
 func _draw():
 	if not focalNode: 
 		return 
 	if nodeWireSource:
-		draw_dashed_line(nodeWireSource.position, get_global_mouse_position(), 
+		draw_dashed_line(nodeWireSource.getPositionCenter(), get_global_mouse_position(), 
 						Color.WHITE, 1.0, 2.0)
 	for w in spawnedWires:
 		var wire: WireViewBase = spawnedWires[w]
