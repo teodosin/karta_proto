@@ -123,11 +123,11 @@ func setAsFocal(node):
 				focalNode.dataNode.relatedNodes[spawnedNodes[n].id] = {
 					"id": spawnedNodes[n].id, "relativePosition": spawnedNodes[n].position - focalNode.position
 				}
-				for related in focalNode.dataNode.relatedNodes:
-					print(related)
-					spawnedNodes[related].dataNode.relatedNodes[focalNode.id] = {
-						"id": related.id, "relativePosition": focalNode.position - spawnedNodes[related.id].position 
-					}
+		for related in focalNode.dataNode.relatedNodes.keys():
+			print(focalNode.id)
+			spawnedNodes[str(related)].dataNode.relatedNodes[str(focalNode.id)] = {
+				"id": related, "relativePosition": focalNode.position - spawnedNodes[related.id].position 
+			}
 		
 	focalNode = node
 	
