@@ -68,7 +68,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	# If there is a focal node, the new node will be automatically connected
 	# to it as its target.
 	add_child(newNode)
-	spawnedNodes[str(newNode.id)] = newNode
+	spawnedNodes[newNode.id] = newNode
 	
 	# If there is no focalNode, the first node created will become that.
 	if not focalNode:
@@ -86,21 +86,16 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool):
 	
 
 func createWire(source, target) -> WireViewBase:
-
 	var newWireData = dataAccess.addWire(source.id, target.id)
-
 	dataAccess.saveData()
-
 	var newWire = spawnWire(newWireData)
-
-	
 	return newWire
 
 func spawnWire(newWireData: WireBase) -> WireViewBase:
 	var newWire: WireViewBase = wireBaseTemplate.instantiate()
 	newWire.id = newWireData.id
-	newWire.source = spawnedNodes[str(newWireData.sourceId)]
-	newWire.target = spawnedNodes[str(newWireData.targetId)]
+	newWire.source = spawnedNodes[newWireData.sourceId]
+	newWire.target = spawnedNodes[newWireData.targetId]
 	
 	spawnedWires[str(newWire.id)] = newWire
 
@@ -116,16 +111,16 @@ func setAsFocal(node):
 		return
 	
 	if focalNode != null:
-		for n in spawnedNodes:
-			if spawnedNodes[n].id == focalNode.id:
+		for n in spawnedNodes.values():
+			if n.id == focalNode.id:
 				continue
 			else:
-				focalNode.dataNode.relatedNodes[spawnedNodes[n].id] = {
-					"id": spawnedNodes[n].id, "relativePosition": spawnedNodes[n].position - focalNode.position
+				focalNode.dataNode.relatedNodes[n.id] = {
+					"id": n.id, "relativePosition": n.position - focalNode.position
 				}
 		for related in focalNode.dataNode.relatedNodes.keys():
 			print(focalNode.id)
-			spawnedNodes[str(related)].dataNode.relatedNodes[str(focalNode.id)] = {
+			spawnedNodes[related].dataNode.relatedNodes[focalNode.id] = {
 				"id": related, "relativePosition": focalNode.position - spawnedNodes[related.id].position 
 			}
 		
@@ -136,12 +131,12 @@ func setAsFocal(node):
 	
 	# Reposition camera on new focal node 
 	# $GraphViewCamera.animatePosition(focalNode.position)
-	for n in spawnedNodes:
-		if spawnedNodes[n].id == focalNode.id:
+	for n in spawnedNodes.values():
+		if n.id == focalNode.id:
 			continue
-		spawnedNodes[n].setAsFocal(focalNode.id)
-		var newPosition = focalNode.dataNode.getRelatedNodePosition(spawnedNodes[n].id, focalNode.position)
-		spawnedNodes[n].animatePosition(newPosition)
+		n.setAsFocal(focalNode.id)
+		var newPosition = focalNode.dataNode.getRelatedNodePosition(n.id, focalNode.position)
+		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
 func findSpawnedToDelete(related: Dictionary, spawned: Dictionary):
@@ -150,9 +145,9 @@ func findSpawnedToDelete(related: Dictionary, spawned: Dictionary):
 	print("RELATED: "+str(related))
 	print("SPAWNED: "+str(spawned))
 	
-	for n in spawned:
+	for n in spawned.keys():
 
-		if n not in related and n != str(focalNode.id):
+		if n not in related and n != focalNode.id:
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
@@ -188,5 +183,5 @@ func handle_mouse_hover(newNode):
 		nodeHovering = newNode
 
 func handle_node_set_itself_focal(newFocalId):
-	setAsFocal(spawnedNodes[str(newFocalId.id)])
+	setAsFocal(spawnedNodes[newFocalId.id])
 		
