@@ -67,20 +67,20 @@ func addWire(srcId: int, trgtId: int) -> WireBase:
 	return newWire
 	
 func getNode(id: int) -> NodeBase: 
-	assert(nodes.has(id), "ERROR node not found")
+	assert(nodes.keys().has(id), "ERROR node not found")
 	return nodes[id]
 	
 func updateRelatedNodePosition(id: int, relatedId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
 	var node: NodeBase = nodes[id] 
-	assert(node.relatedNodes.has(relatedId), "ERROR related node not found")
+	assert(node.relatedNodes.keys().has(relatedId), "ERROR related node not found")
 	node.setRelatedNodePosition(relatedId, selfPos, relatedPos)
 	
 func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
 	var node: NodeBase = nodes[id]
-	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, selfPos - relatedPos)
-	node.addRelatedNode(relatedId)
+
+	node.addRelatedNode(relatedId, selfPos - relatedPos)
 
 	
 func getAllWires() -> Dictionary:

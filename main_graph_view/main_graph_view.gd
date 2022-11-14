@@ -48,8 +48,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	var position: Vector2
 	if atMouse: 
 		position = get_global_mouse_position()
-	else: 
-		position = Vector2.ZERO
+	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
+		position = focalNode.position - focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -61,8 +61,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 
-
-	
 	newNode.set_position(position)	
 	
 
@@ -136,6 +134,22 @@ func setAsFocal(node):
 	if spawnedNodes.is_empty():
 		return
 	
+	if focalNode != null:
+		for n in spawnedNodes.values():
+			if n.id == focalNode.id:
+				continue
+			else:
+				focalNode.dataNode.addRelatedNode(n.id)
+				dataAccess.addRelatedNode(focalNode.id, n.id, focalNode.position, n.position)
+				
+		for related in focalNode.dataNode.relatedNodes.keys():
+			var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
+			relatedDataNode.relatedNodes[focalNode.id] = {
+				"id": related, "relativePosition": focalNode.position - spawnedNodes[related].position 
+			}
+			focalNode.dataNode.addRelatedNode(related)
+			dataAccess.addRelatedNode(focalNode.id, related, focalNode.position, spawnedNodes[related].position)			
+	
 	focalNode = node
 	
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
@@ -145,7 +159,7 @@ func setAsFocal(node):
 	spawnNodes(toBeSpawned)
 	
 	# Reposition camera on new focal node:
-	# $GraphViewCamera.animatePosition(focalNode.position)
+	$GraphViewCamera.animatePosition(focalNode.getPositionCenter())
 	
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():

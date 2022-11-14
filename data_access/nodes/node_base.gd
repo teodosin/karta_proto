@@ -30,10 +30,9 @@ func getRelatedNodePosition(nodeId: int, nodePosition: Vector2):
 		assignedPositions += 1
 		return nodePosition + Vector2(0, 150 * assignedPositions)	
 		
-func addRelatedNode(relatedId: int):
-	relatedNodes[relatedId] = RelatedNode.new(relatedId, Vector2.ZERO)
+func addRelatedNode(relatedId: int, relativePos: Vector2 = Vector2.ZERO):
+	relatedNodes[relatedId] = RelatedNode.new(relatedId, relativePos)
 
-		
 		
 func getRelatedNode(relatedId: int) -> RelatedNode: 
 	return relatedNodes[relatedId]

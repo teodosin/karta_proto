@@ -54,7 +54,6 @@ func _process(delta):
 		self.set_position(newPosition)
 		if !isFocal:
 			pass
-			# Ugly pattern but will do for now
 
 
 
