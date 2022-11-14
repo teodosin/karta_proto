@@ -2,7 +2,7 @@ class_name NodeBase
 
 var id: int
 var name: String
-var relatedNodes = {} # id -> NodeBase
+var relatedNodes = {} # id -> RelatedNode
 
 var assignedPositions: int = 0
 
@@ -15,23 +15,24 @@ func _init(n_id: int, n_name: String):
 func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(relatedNodes.has(nodeId), "ERROR related node not found")
 	if relatedPos == Vector2.ZERO or relatedPos == null:
-		relatedNodes[nodeId].relativePosition = null
+		relatedNodes[nodeId].relativePosition = Vector2.ZERO
 	else:
 		relatedNodes[nodeId].relativePosition = relatedPos - selfPos
 	
 	
-func getRelatedNodePosition(nodeId: int, nodePosition: Vector2) -> Vector2:
+func getRelatedNodePosition(nodeId: int, nodePosition: Vector2):
 	if !relatedNodes.keys().has(nodeId):
-		return Vector2.ZERO
+		return
 	
-	if relatedNodes[nodeId].relativePosition != null:
-		return nodePosition + relatedNodes[nodeId]["relativePosition"]
+	if relatedNodes[nodeId].relativePosition != Vector2.ZERO:
+		return nodePosition + relatedNodes[nodeId].relativePosition
 	else: 
 		assignedPositions += 1
 		return nodePosition + Vector2(0, 150 * assignedPositions)	
 		
 func addRelatedNode(relatedId: int):
-	relatedNodes[relatedId] = {"id": relatedId, "relativePosition": null}
+	relatedNodes[relatedId] = RelatedNode.new(relatedId, Vector2.ZERO)
+
 		
 		
 func getRelatedNode(relatedId: int) -> RelatedNode: 
