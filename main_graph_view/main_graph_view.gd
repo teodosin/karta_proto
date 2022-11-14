@@ -49,7 +49,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	if atMouse: 
 		position = get_global_mouse_position()
 	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
-		position = focalNode.position - focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
+		position = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -62,6 +62,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 
 	newNode.set_position(position)	
+	
+
 		
 	# If there is a focal node, the new node will be automatically connected
 	# to it as its target.
@@ -142,10 +144,10 @@ func setAsFocal(node):
 				dataAccess.addRelatedNode(focalNode.id, n.id, focalNode.position, n.position)
 		"""
 				
-		for related in focalNode.dataNode.relatedNodes.keys():
+		for relatedId in focalNode.dataNode.relatedNodes.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			focalNode.dataNode.addRelatedNode(related)
-			dataAccess.addRelatedNode(focalNode.id, related, focalNode.position, spawnedNodes[related].position)			
+			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[relatedId].position)
+			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)			
 	
 	focalNode = node
 	
