@@ -22,7 +22,13 @@ func _process(_delta):
 	
 	queue_redraw()
 func _draw():
-	draw_line(
-		sourcePos, 
-		targetPos, Color.YELLOW, 2.0 * source.fadeOut * target.fadeOut, true
-	)
+	if source.isFocal or target.isFocal:
+		draw_line(
+			sourcePos, 
+			targetPos, Color.YELLOW, 0.5 * source.fadeOut * target.fadeOut, true
+		)
+	else:
+		draw_line(
+			sourcePos, 
+			targetPos, Color.YELLOW, 2.0 * source.fadeOut * target.fadeOut, true
+		)
