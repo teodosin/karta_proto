@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://main_graph_view/wire_view_base.gd" id="1_308h3"]
 
 [node name="WireViewBase" type="Node2D"]
+z_index = -20
 script = ExtResource("1_308h3")

@@ -4,6 +4,9 @@ extends Control
 var id: int
 var isFocal: bool = false
 
+var despawning = false
+var fadeOut = 1.0
+
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
@@ -11,11 +14,11 @@ var nextPosition= null
 var animationSpeed: float = 50.0
 
 var dataNode: NodeBase = null
-var relatedNodes = {} # id -> NodeViewBase
 
 signal rightMousePressed
 signal mouseHovering
 signal thisNodeAsFocal
+signal nodeMoved
 
 
 func _ready():
@@ -26,7 +29,16 @@ func getPositionCenter() -> Vector2:
 	return self.position + ($BackgroundPanel.size / 2)
 	
 
-func _process(_delta):
+func _process(delta):
+	# Fade-out when despawning
+	if despawning:
+		fadeOut -= delta
+		self.modulate = lerp(Color(1.0,1.0,1.0,0.0), Color(1.0,1.0,1.0,1.0), ease(fadeOut, -2.0))
+		if fadeOut <= 0.0:
+			get_parent().remove_child(self)
+			self.queue_free()	
+	
+	
 	# Logic for smoothly moving the node to a new position
 	if nextPosition != null:
 		var difference = nextPosition - self.position
@@ -40,6 +52,10 @@ func _process(_delta):
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
 		self.set_position(newPosition)
+		if !isFocal:
+			pass
+			# Ugly pattern but will do for now
+
 
 
 func setAsFocal(newFocalId):
@@ -55,6 +71,10 @@ func setAsFocal(newFocalId):
 
 func animatePosition(newPosition: Vector2):
 	self.nextPosition = newPosition
+
+func despawn():
+	despawning = true
+		# Also remove the node from the array of references
 
 func _on_background_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):

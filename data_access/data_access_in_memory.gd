@@ -1,8 +1,8 @@
 class_name DataAccessInMemory
 extends DataAccess
 
-var nodes: Dictionary = {}
-var wires: Dictionary = {}
+var nodes: Dictionary = {} # id -> NodeBase
+var wires: Dictionary = {} # id -> WireBase
 var lastNodeId: int = 0
 var lastWireId: int = 0
 
@@ -70,18 +70,17 @@ func getNode(id: int) -> NodeBase:
 	assert(nodes.has(id), "ERROR node not found")
 	return nodes[id]
 	
-func updateRelatedNodePosition(id: int, relatedId: int, position: Vector2):
+func updateRelatedNodePosition(id: int, relatedId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
 	var node: NodeBase = nodes[id] 
 	assert(node.relatedNodes.has(relatedId), "ERROR related node not found")
-	var relatedNode: RelatedNode = nodes.relatedNodes[relatedId]
-	relatedNode.position = position
+	node.setRelatedNodePosition(relatedId, selfPos, relatedPos)
 	
-func addRelatedNode(id: int, relatedId: int, relatedPosition: Vector2):
+func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
 	var node: NodeBase = nodes[id]
-	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, node.position - relatedPosition)
-	
+	var newRelatedNode: RelatedNode = RelatedNode.new(relatedId, selfPos - relatedPos)
+	node.addRelatedNode(relatedId)
 
 	
 func getAllWires() -> Dictionary:

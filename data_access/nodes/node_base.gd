@@ -12,21 +12,33 @@ func _init(n_id: int, n_name: String):
 	self.name = n_name
 	self.relatedNodes = {}
 	
+func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
+	assert(relatedNodes.has(nodeId), "ERROR related node not found")
+	if relatedPos == Vector2.ZERO or relatedPos == null:
+		relatedNodes[nodeId].relativePosition = null
+	else:
+		relatedNodes[nodeId].relativePosition = relatedPos - selfPos
+	
+	
 func getRelatedNodePosition(nodeId: int, nodePosition: Vector2) -> Vector2:
-	if relatedNodes.has(nodeId):
+	if !relatedNodes.keys().has(nodeId):
+		return Vector2.ZERO
+	
+	if relatedNodes[nodeId].relativePosition != null:
 		return nodePosition + relatedNodes[nodeId]["relativePosition"]
 	else: 
 		assignedPositions += 1
 		return nodePosition + Vector2(0, 150 * assignedPositions)	
-	
+		
+func addRelatedNode(relatedId: int):
+	relatedNodes[relatedId] = {"id": relatedId, "relativePosition": null}
+		
+		
 func getRelatedNode(relatedId: int) -> RelatedNode: 
-	assert(relatedNodes.has(relatedId), "ERROR related node not found")
 	return relatedNodes[relatedId]
 	
 	
-func addRelatedNode(relatedNode: RelatedNode):
-	relatedNodes[relatedNode.id] = relatedNode
-	
+
 	
 func updateRelatedNode(u_id: int, u_position: Vector2):
 	assert(relatedNodes.has(u_id), "ERROR related node not found")
