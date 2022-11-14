@@ -135,18 +135,17 @@ func setAsFocal(node):
 		return
 	
 	if focalNode != null:
+		"""
 		for n in spawnedNodes.values():
 			if n.id == focalNode.id:
 				continue
 			else:
 				focalNode.dataNode.addRelatedNode(n.id)
 				dataAccess.addRelatedNode(focalNode.id, n.id, focalNode.position, n.position)
+		"""
 				
 		for related in focalNode.dataNode.relatedNodes.keys():
-			var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			relatedDataNode.relatedNodes[focalNode.id] = {
-				"id": related, "relativePosition": focalNode.position - spawnedNodes[related].position 
-			}
+			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
 			focalNode.dataNode.addRelatedNode(related)
 			dataAccess.addRelatedNode(focalNode.id, related, focalNode.position, spawnedNodes[related].position)			
 	
@@ -159,7 +158,7 @@ func setAsFocal(node):
 	spawnNodes(toBeSpawned)
 	
 	# Reposition camera on new focal node:
-	$GraphViewCamera.animatePosition(focalNode.getPositionCenter())
+	# $GraphViewCamera.animatePosition(focalNode.getPositionCenter())
 	
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
