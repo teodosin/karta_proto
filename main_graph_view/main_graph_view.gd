@@ -62,8 +62,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 
 	newNode.set_position(position)	
-	
-
 		
 	# If there is a focal node, the new node will be automatically connected
 	# to it as its target.
