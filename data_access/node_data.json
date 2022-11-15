@@ -1,0 +1,121 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "name": "node",
+            "relatedNodes": {
+                "2": {
+                    "id": 2,
+                    "relativePositionX": -214,
+                    "relativePositionY": -99
+                },
+                "3": {
+                    "id": 3,
+                    "relativePositionX": -418,
+                    "relativePositionY": -194
+                },
+                "4": {
+                    "id": 4,
+                    "relativePositionX": 145,
+                    "relativePositionY": -231
+                },
+                "5": {
+                    "id": 5,
+                    "relativePositionX": 427,
+                    "relativePositionY": 23
+                },
+                "6": {
+                    "id": 6,
+                    "relativePositionX": 203,
+                    "relativePositionY": 325
+                }
+            }
+        },
+        {
+            "id": 2,
+            "name": "node",
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 3,
+            "name": "node",
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 4,
+            "name": "node",
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 5,
+            "name": "node",
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 6,
+            "name": "node",
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        }
+    ],
+    "settings": {
+        "lastNodeId": 6,
+        "lastWireId": 5
+    },
+    "wires": [
+        {
+            "id": 1,
+            "sourceId": 1,
+            "targetId": 2
+        },
+        {
+            "id": 2,
+            "sourceId": 1,
+            "targetId": 3
+        },
+        {
+            "id": 3,
+            "sourceId": 1,
+            "targetId": 4
+        },
+        {
+            "id": 4,
+            "sourceId": 1,
+            "targetId": 5
+        },
+        {
+            "id": 5,
+            "sourceId": 1,
+            "targetId": 6
+        }
+    ]
+}

@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cun1l1kswppkw"]
+[gd_scene load_steps=3 format=3 uid="uid://cun1l1kswppkw"]
 
 [ext_resource type="Script" path="res://main_graph_view/GraphViewCamera.gd" id="1_bnjw7"]
 [ext_resource type="Script" path="res://main_graph_view/main_graph_view.gd" id="1_irfyb"]
-[ext_resource type="PackedScene" uid="uid://cutd68q8givla" path="res://main_graph_view/AddButton.tscn" id="3_q0bio"]
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_irfyb")
@@ -13,11 +12,9 @@ script = ExtResource("1_bnjw7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AddButton" parent="CanvasLayer" instance=ExtResource("3_q0bio")]
-offset_left = 33.0
-offset_top = 17.0
-offset_right = 8.09526
-offset_bottom = 6.02502
-script = null
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "DELETE ALL"
 
-[connection signal="pressed" from="CanvasLayer/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]

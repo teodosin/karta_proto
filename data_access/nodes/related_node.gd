@@ -1,8 +1,8 @@
 class_name RelatedNode
 
 var id: int
-var position: Vector2
+var relativePosition: Vector2
 
-func _init(id: int, position: Vector2):
-	self.id = id
-	self.position = position
+func _init(rid: int, rrelativePosition: Vector2):
+	self.id = rid
+	self.relativePosition = rrelativePosition
