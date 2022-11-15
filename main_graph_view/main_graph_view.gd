@@ -138,7 +138,8 @@ func saveRelativePositions():
 
 		for relatedId in focalNode.dataNode.relatedNodes.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[relatedId].position)
+			print(str(typeof(int(relatedId)) == TYPE_INT) + str(spawnedNodes.keys()))
+			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
 			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
 	
 func setAsFocal(node):

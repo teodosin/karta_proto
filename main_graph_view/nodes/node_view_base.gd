@@ -84,7 +84,10 @@ func setAsFocal(newFocalId):
 		$BackgroundPanel/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
-func animatePosition(newPosition: Vector2):
+func animatePosition(newPosition):
+	if newPosition == null:
+		return
+	
 	self.prevPosition = self.position
 	self.nextPosition = newPosition
 

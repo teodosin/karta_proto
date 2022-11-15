@@ -13,7 +13,8 @@ func _init(n_id: int, n_name: String, n_rel: Dictionary):
 	self.relatedNodes = n_rel
 	
 func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
-	assert(relatedNodes.has(nodeId), "ERROR related node not found")
+	print("TypeOf :)))))" + str(typeof(relatedNodes.keys()[0])) + str(nodeId))
+	assert(relatedNodes.has(int(nodeId)), "ERROR related node not found")
 	if relatedPos == Vector2.ZERO or relatedPos == null:
 		relatedNodes[nodeId].relativePosition = Vector2.ZERO
 	else:
