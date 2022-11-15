@@ -17,13 +17,17 @@ func _ready():
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
-		spawnNode(dataAccess.nodes.values()[0])
+		for noob in dataAccess.nodes.values():
+			spawnNode(noob)
+			break
+		
+		print(str(focalNode.dataNode.relatedNodes))
 	
 		print(str(focalNode.dataNode.relatedNodes.keys()))
 	
 		for nid in focalNode.dataNode.relatedNodes.keys():
 			print("SPAWNING RELATED NODE")
-			spawnNode(dataAccess.nodes[nid])
+			spawnNode(dataAccess.getNode(nid))
 		
 		for w in dataAccess.wires.values():
 			spawnWire(w)
@@ -73,6 +77,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
+	
+	print("DATANODE: " + str(newNode.dataNode.relatedNodes.values()))
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.

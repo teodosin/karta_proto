@@ -1,1 +1,1 @@
-{"nodes":[],"wires":[]}
+{"nodes":[{"id":1,"name":"node","relatedNodes":{"2":{"id":2,"relativePositionX":-192,"relativePositionY":-120},"3":{"id":3,"relativePositionX":102,"relativePositionY":-160}}},{"id":2,"name":"node","relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}},{"id":3,"name":"node","relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}}],"wires":[{"id":1,"sourceId":1,"targetId":2},{"id":2,"sourceId":1,"targetId":3}]}

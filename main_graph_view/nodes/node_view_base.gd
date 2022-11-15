@@ -4,6 +4,7 @@ extends Control
 var id: int
 var isFocal: bool = false
 
+var spawning = true
 var despawning = false
 var fadeOut = 1.0
 
@@ -23,6 +24,8 @@ signal nodeMoved
 
 
 func _ready():
+	
+	
 	$BackgroundPanel/IdLabel.text = str(id)
 	
 # Function to get the center of the node, for drawing wires for example
@@ -31,9 +34,18 @@ func getPositionCenter() -> Vector2:
 	
 
 func _process(delta):
+	# fade In when spawning
+	
+	if spawning:
+		fadeOut -= delta * 3
+		self.modulate = lerp(Color(1.0,1.0,1.0,1.0), Color(1.0,1.0,1.0,0.0), ease(fadeOut, -2.0))
+		if fadeOut <= 0.0:
+			spawning = false
+			fadeOut = 1.0
+	
 	# Fade-out when despawning
 	if despawning:
-		fadeOut -= delta * 2
+		fadeOut -= delta * 3
 		self.modulate = lerp(Color(1.0,1.0,1.0,0.0), Color(1.0,1.0,1.0,1.0), ease(fadeOut, -2.0))
 		if fadeOut <= 0.0:
 			get_parent().remove_child(self)
@@ -45,7 +57,7 @@ func _process(delta):
 		var difference = nextPosition - prevPosition
 		if self.position != nextPosition:
 			self.position = lerp(prevPosition, nextPosition, ease(animationStep, -2.0))
-			animationStep += delta * 1.5
+			animationStep += delta * 2
 		else:
 			prevPosition = null
 			nextPosition = null

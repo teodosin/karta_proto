@@ -7,10 +7,10 @@ var relatedNodes = {} # id -> RelatedNode
 var assignedPositions: int = 0
 
 
-func _init(n_id: int, n_name: String):
+func _init(n_id: int, n_name: String, n_rel: Dictionary):
 	self.id = n_id
 	self.name = n_name
-	self.relatedNodes = {}
+	self.relatedNodes = n_rel
 	
 func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(relatedNodes.has(nodeId), "ERROR related node not found")

@@ -39,17 +39,17 @@ func loadData():
 		var loadedId
 		var loadedName
 		var loadedRelated = {}
-		if inode.has("id") and inode.has("name"):
+		if inode.has("id") and inode.has("name") and inode.has("relatedNodes"):
+			assert(typeof(inode["relatedNodes"]) == TYPE_DICTIONARY, "ERROR: relatedNodes is not a dictionary.")
 			loadedId = inode["id"]
 			loadedName = inode["name"]
-			loadNode(loadedId, loadedName)
 			
-			if inode.has("relatedNodes"):
-				for rel in inode["relatedNodes"]:
-					var loadedRel = RelatedNode.new(rel["id"], rel["relativePosition"])
-					loadedRelated[rel["id"]] = loadedRel
-					
-				inode.relatedNodes = loadedRelated
+			for rel in inode["relatedNodes"].values():
+				var loadedRel = RelatedNode.new(rel["id"], Vector2(rel["relativePositionX"], rel["relativePositionY"]))
+				loadedRelated[rel["id"]] = loadedRel
+			
+			loadNode(loadedId, loadedName, loadedRelated)
+			
 			
 	for iwire in foundWires:
 		if foundWires.is_empty():
@@ -63,12 +63,16 @@ func loadData():
 			loadedSource = iwire["sourceId"]
 			loadedTarget = iwire["targetId"]
 			loadWire(loadedId, loadedSource, loadedTarget)
+			
+	print("NODES" + str(nodes))
+	print("WIRES" + str(wires))
 		
-func loadNode(loadedId, loadedName) -> NodeBase:
-	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName)
+func loadNode(loadedId, loadedName, loadedRelated) -> NodeBase:
+	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName, loadedRelated)
 	nodes[loadedId] = loadedNode
 	
 	return loadedNode
+
 	
 func loadWire(wid, srcWid, trgtWid) -> WireBase:
 	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid)
@@ -83,16 +87,17 @@ func saveData():
 	var nodesToBeSaved = []
 	var wiresToBeSaved = []
 	
-	for c in nodes:
+	for c in nodes.values():
 		if (c is NodeBase):
-			var related = []
+			var related = {}
 			
-			for rel in c.relatedNodes:
+			for rel in c.relatedNodes.values():
 				var relatedDict = {
 					"id": rel.id,
-					"relativePosition": rel.relativePosition
+					"relativePositionX": rel.relativePosition.x,
+					"relativePositionY": rel.relativePosition.y
 				}
-				related.append(relatedDict)
+				related[rel.id] = relatedDict
 			
 			var nodeDict = {
 				"id": c.id,
@@ -102,6 +107,7 @@ func saveData():
 			
 			nodesToBeSaved.append(nodeDict)
 			
+	for c in wires.values():
 		if (c is WireBase):
 			var wireDict = {
 				"id": c.id,
@@ -110,6 +116,8 @@ func saveData():
 			}
 			
 			wiresToBeSaved.append(wireDict)
+	
+	print("NODE ARRAY SIZE:" + nodesToBeSaved.size())
 	
 	var json = JSON.new()
 		
@@ -123,7 +131,7 @@ func saveData():
 
 func addNode() -> NodeBase:
 	lastNodeId += 1
-	var newNode: NodeBase = NodeBase.new(lastNodeId, "node")
+	var newNode: NodeBase = NodeBase.new(lastNodeId, "node", {})
 	nodes[lastNodeId] = newNode
 	return newNode
 
