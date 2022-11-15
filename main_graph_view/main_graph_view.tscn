@@ -11,3 +11,10 @@ current = true
 script = ExtResource("1_bnjw7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "DELETE ALL"
+
+[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]

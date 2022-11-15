@@ -33,25 +33,92 @@ func loadData():
 		foundWires = {}
 	
 	for inode in foundNodes:
-		addNode()
+		if foundNodes.is_empty():
+			break
+		
+		var loadedId
+		var loadedName
+		var loadedRelated = {}
+		if inode.has("id") and inode.has("name"):
+			loadedId = inode["id"]
+			loadedName = inode["name"]
+			loadNode(loadedId, loadedName)
+			
+			if inode.has("relatedNodes"):
+				for rel in inode["relatedNodes"]:
+					var loadedRel = RelatedNode.new(rel["id"], rel["relativePosition"])
+					loadedRelated[rel["id"]] = loadedRel
+					
+				inode.relatedNodes = loadedRelated
+			
 	for iwire in foundWires:
-		addWire
-
+		if foundWires.is_empty():
+			break
+		
+		var loadedId
+		var loadedSource
+		var loadedTarget
+		if iwire.has("id") and iwire.has("sourceId") and iwire.has("targetId"):
+			loadedId = iwire["id"]
+			loadedSource = iwire["sourceId"]
+			loadedTarget = iwire["targetId"]
+			loadWire(loadedId, loadedSource, loadedTarget)
+		
+func loadNode(loadedId, loadedName) -> NodeBase:
+	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName)
+	nodes[loadedId] = loadedNode
+	
+	return loadedNode
+	
+func loadWire(wid, srcWid, trgtWid) -> WireBase:
+	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid)
+	wires[wid] = loadedWire
+	
+	return loadedWire
 	
 func saveData():
 	if not FileAccess.file_exists(save_path):
 		print("File does not exist")
 		
-	print("saving file")
+	var nodesToBeSaved = []
+	var wiresToBeSaved = []
+	
+	for c in nodes:
+		if (c is NodeBase):
+			var related = []
+			
+			for rel in c.relatedNodes:
+				var relatedDict = {
+					"id": rel.id,
+					"relativePosition": rel.relativePosition
+				}
+				related.append(relatedDict)
+			
+			var nodeDict = {
+				"id": c.id,
+				"name": c.name,
+				"relatedNodes": related
+			}
+			
+			nodesToBeSaved.append(nodeDict)
+			
+		if (c is WireBase):
+			var wireDict = {
+				"id": c.id,
+				"sourceId": c.sourceId,
+				"targetId": c.targetId
+			}
+			
+			wiresToBeSaved.append(wireDict)
 	
 	var json = JSON.new()
 		
 	#var save_game = FileAccess.open(savePath, FileAccess.WRITE)
 	var file = FileAccess.open(save_path,FileAccess.WRITE)
-	var json_nodes = json.stringify({"nodes": {}, "wires": {}})
+	var json_nodes = json.stringify({"nodes": nodesToBeSaved, "wires": wiresToBeSaved})
 
 	file.store_line(json_nodes)
-	print(json_nodes)
+	print("JSON NODES: " + json_nodes)
 	#save_game.close()
 
 func addNode() -> NodeBase:
@@ -82,6 +149,10 @@ func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 
 	node.addRelatedNode(relatedId, selfPos - relatedPos)
 
-	
 func getAllWires() -> Dictionary:
 	return wires 
+
+func deleteAll():
+	nodes = {}
+	wires = {}
+	saveData()

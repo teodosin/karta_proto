@@ -10,8 +10,9 @@ var fadeOut = 1.0
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
-var nextPosition= null
-var animationSpeed: float = 50.0
+var prevPosition = null
+var nextPosition = null
+var animationStep: float = 0.0
 
 var dataNode: NodeBase = null
 
@@ -32,7 +33,7 @@ func getPositionCenter() -> Vector2:
 func _process(delta):
 	# Fade-out when despawning
 	if despawning:
-		fadeOut -= delta
+		fadeOut -= delta * 2
 		self.modulate = lerp(Color(1.0,1.0,1.0,0.0), Color(1.0,1.0,1.0,1.0), ease(fadeOut, -2.0))
 		if fadeOut <= 0.0:
 			get_parent().remove_child(self)
@@ -41,11 +42,14 @@ func _process(delta):
 	
 	# Logic for smoothly moving the node to a new position
 	if nextPosition != null:
-		var difference = nextPosition - self.position
-		if difference.length() > 0.1:
-			self.set_position(self.position + difference / 2)
-		else: 
+		var difference = nextPosition - prevPosition
+		if self.position != nextPosition:
+			self.position = lerp(prevPosition, nextPosition, ease(animationStep, -2.0))
+			animationStep += delta * 1.5
+		else:
+			prevPosition = null
 			nextPosition = null
+			animationStep = 0.0
 	
 	# Logic for moving the node manually with the mouse
 	if nodeMoving:
@@ -69,6 +73,7 @@ func setAsFocal(newFocalId):
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition: Vector2):
+	self.prevPosition = self.position
 	self.nextPosition = newPosition
 
 func despawn():

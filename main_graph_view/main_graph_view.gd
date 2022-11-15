@@ -16,14 +16,26 @@ var spawnedWires: Dictionary = {} # id -> WireViewBase
 func _ready():
 	dataAccess.loadData()
 	
-	if not dataAccess.nodes.is_empty():
-		setAsFocal(dataAccess.nodes.values()[0])
+	if not dataAccess.nodes.is_empty():	
+		spawnNode(dataAccess.nodes.values()[0])
+	
+		print(str(focalNode.dataNode.relatedNodes.keys()))
+	
+		for nid in focalNode.dataNode.relatedNodes.keys():
+			print("SPAWNING RELATED NODE")
+			spawnNode(dataAccess.nodes[nid])
+		
+		for w in dataAccess.wires.values():
+			spawnWire(w)
+		
+
 
 func _process(_delta):
 	queue_redraw()
 
 
 func _input(event):
+	
 	if event.is_action_pressed("createNewNode"):
 		createNode(true)
 	
@@ -42,14 +54,21 @@ func createNode(atMouse: bool = false) -> NodeViewBase:
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
+	# If there is no focalNode, the first node created will become that.
+
+			
+	createWire(focalNode, newNode)	
+	
 	return newNode
 	
 func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
-	var position: Vector2
+	var spawnPos: Vector2
 	if atMouse: 
-		position = get_global_mouse_position()
+		spawnPos = get_global_mouse_position()
+	if focalNode == null:
+		spawnPos = $GraphViewCamera.position
 	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
-		position = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
+		spawnPos = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -61,7 +80,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 
-	newNode.set_position(position)	
+	newNode.set_position(spawnPos)	
 	
 
 		
@@ -70,22 +89,17 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	add_child(newNode)
 	spawnedNodes[newNode.id] = newNode
 	
-	# If there is no focalNode, the first node created will become that.
 	if not focalNode:
 		setAsFocal(newNode)
 		newNode.setAsFocal(focalNode.id)
-		
-		# The last step is creating the wire that connects the new node to the 
-		# focal node. We want to skip that if the current node becomes the focal,
-		# and we do that by returning newNode here.
-		return newNode
-			
-	createWire(focalNode, newNode)
 	
 	return newNode
 	
 
 func createWire(source, target) -> WireViewBase:
+	if source.id == target.id:
+		return
+	
 	var newWireData = dataAccess.addWire(source.id, target.id)
 	
  # Currently, the dataNode on each NodeViewBase and the NodeBase stored by 
@@ -122,7 +136,14 @@ func spawnWire(newWireData: WireBase) -> WireViewBase:
 
 	add_child(newWire)
 	return newWire
-	
+
+func saveRelativePositions():
+	if focalNode != null:
+
+		for relatedId in focalNode.dataNode.relatedNodes.keys():
+			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
+			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[relatedId].position)
+			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
 	
 func setAsFocal(node):
 	# Can't set focal node if it's already the focal
@@ -134,20 +155,7 @@ func setAsFocal(node):
 	if spawnedNodes.is_empty():
 		return
 	
-	if focalNode != null:
-		"""
-		for n in spawnedNodes.values():
-			if n.id == focalNode.id:
-				continue
-			else:
-				focalNode.dataNode.addRelatedNode(n.id)
-				dataAccess.addRelatedNode(focalNode.id, n.id, focalNode.position, n.position)
-		"""
-				
-		for relatedId in focalNode.dataNode.relatedNodes.keys():
-			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[relatedId].position)
-			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)			
+	saveRelativePositions()	
 	
 	focalNode = node
 	
@@ -192,21 +200,16 @@ func spawnNodes(toBeSpawned):
 func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 	var toBeDeleted: Array = []
 	
-	print("RELATED: "+str(related))
-	print("SPAWNED: "+str(spawned))
-	
 	for n in spawned.keys():
 		if n == focalNode.id:
 			continue
 		
-		print("N is: " + str(n))
 		if n not in related.keys():
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
 
 func despawnNodes(toBeDeleted: Array):
-	print("TO BE DELETED:"+str(toBeDeleted))
 	for nid in toBeDeleted:
 		spawnedNodes[nid].despawn()
 		spawnedNodes.erase(nid)
@@ -236,3 +239,7 @@ func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[newFocalId.id])
 		
 
+# THE DELETE EVERYTHING BUTTON
+func _on_button_button_down():
+	despawnNodes(spawnedNodes.keys())
+	dataAccess.deleteAll()
