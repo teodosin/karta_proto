@@ -20,17 +20,7 @@ func _ready():
 		for noob in dataAccess.nodes.values():
 			spawnNode(noob)
 			break
-		
-		print(str(focalNode.dataNode.relatedNodes))
-	
-		print(str(focalNode.dataNode.relatedNodes.keys()))
-	
-		for nid in focalNode.dataNode.relatedNodes.keys():
-			print("SPAWNING RELATED NODE")
-			spawnNode(dataAccess.getNode(nid))
-		
-		for w in dataAccess.wires.values():
-			spawnWire(w)
+
 		
 
 
@@ -191,7 +181,9 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 	for nid in related.keys():
 		if spawned.keys().has(nid):
 			continue
-			
+		
+		print("ID IN QUESTION" + str(nid))	
+		
 		toBeSpawned.append(data.getNode(nid))
 		
 	return toBeSpawned

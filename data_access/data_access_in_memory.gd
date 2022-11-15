@@ -142,7 +142,8 @@ func addWire(srcId: int, trgtId: int) -> WireBase:
 	return newWire
 	
 func getNode(id: int) -> NodeBase: 
-	assert(nodes.keys().has(id), "ERROR node not found")
+	print("LOOKING FOR NODE IN " + str(nodes.keys()[1]))
+	assert(nodes.has(2), "ERROR node not found")
 	return nodes[id]
 	
 func updateRelatedNodePosition(id: int, relatedId: int, selfPos: Vector2, relatedPos: Vector2):
