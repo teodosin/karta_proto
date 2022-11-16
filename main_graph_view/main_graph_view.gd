@@ -242,3 +242,6 @@ func handle_node_set_itself_focal(newFocalId):
 func _on_button_button_down():
 	despawnNodes(spawnedNodes.keys())
 	dataAccess.deleteAll()
+
+func _on_save_all_button_button_down():
+	dataAccess.saveData()

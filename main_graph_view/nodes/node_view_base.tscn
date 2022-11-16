@@ -32,6 +32,19 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
+[node name="NodeName" type="LineEdit" parent="."]
+offset_top = -32.0
+offset_right = 159.0
+offset_bottom = -1.0
+flat = true
+
+[node name="IdLabel" type="Label" parent="."]
+visible = false
+offset_left = 161.0
+offset_right = 207.0
+offset_bottom = 23.0
+size_flags_vertical = 0
+
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,18 +64,11 @@ size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
 
-[node name="IdLabel" type="Label" parent="BackgroundPanel"]
-offset_right = 159.0
-offset_bottom = 23.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 0
-horizontal_alignment = 1
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_dyysn")
 
+[connection signal="text_changed" from="NodeName" to="." method="_on_node_name_text_changed"]
 [connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
 [connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
 [connection signal="mouse_exited" from="BackgroundPanel" to="." method="_on_background_panel_mouse_exited"]

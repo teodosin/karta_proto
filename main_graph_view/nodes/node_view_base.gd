@@ -26,7 +26,8 @@ signal nodeMoved
 func _ready():
 	
 	
-	$BackgroundPanel/IdLabel.text = str(id)
+	$IdLabel.text = str(id)
+	$NodeName.text = str(dataNode.name)
 	
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
@@ -121,3 +122,6 @@ func _on_focal_panel_gui_input(event):
 		setAsFocal(id)
 	else:
 		pass
+
+func _on_node_name_text_changed(new_text):
+	dataNode.name = new_text

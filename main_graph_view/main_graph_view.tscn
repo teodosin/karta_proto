@@ -12,9 +12,22 @@ script = ExtResource("1_bnjw7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Button" type="Button" parent="CanvasLayer"]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DeleteAllButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+offset_right = 97.0
+offset_bottom = 31.0
 text = "DELETE ALL"
 
-[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]
+[node name="SaveAllButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+offset_top = 35.0
+offset_right = 97.0
+offset_bottom = 66.0
+text = "SAVE ALL"
+
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/DeleteAllButton" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/SaveAllButton" to="." method="_on_save_all_button_button_down"]
