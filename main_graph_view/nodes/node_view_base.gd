@@ -27,6 +27,7 @@ func _ready():
 	
 	
 	$IdLabel.text = str(id)
+	#$TypeLabel.text = dataNode.type
 	$NodeName.text = str(dataNode.name)
 	
 # Function to get the center of the node, for drawing wires for example
@@ -80,9 +81,9 @@ func setAsFocal(newFocalId):
 	if self.id == newFocalId:	
 		self.isFocal = true		
 		thisNodeAsFocal.emit()
-		$BackgroundPanel/FocalPanel.setFocal(true)
+		$BackgroundPanel/VBoxContainer/FocalPanelFocalPanel.setFocal(true)
 	else:
-		$BackgroundPanel/FocalPanel.setFocal(false)
+		$BackgroundPanel/VBoxContainer/FocalPanelFocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition):

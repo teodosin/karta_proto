@@ -33,6 +33,7 @@ size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="."]
+layout_mode = 0
 offset_top = -32.0
 offset_right = 159.0
 offset_bottom = -1.0
@@ -40,12 +41,14 @@ flat = true
 
 [node name="IdLabel" type="Label" parent="."]
 visible = false
+layout_mode = 0
 offset_left = 161.0
 offset_right = 207.0
 offset_bottom = 23.0
 size_flags_vertical = 0
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -55,14 +58,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_14gnd")
 
-[node name="FocalPanel" type="Panel" parent="BackgroundPanel"]
-modulate = Color(0.466667, 0.447059, 0.454902, 1)
-custom_minimum_size = Vector2(60, 10)
+[node name="VBoxContainer" type="VBoxContainer" parent="BackgroundPanel"]
+layout_mode = 2
 offset_right = 159.0
-offset_bottom = 10.0
+offset_bottom = 143.0
+
+[node name="FocalPanel" type="Panel" parent="BackgroundPanel/VBoxContainer"]
+modulate = Color(0.466667, 0.447059, 0.454902, 1)
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 2
+offset_right = 159.0
+offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
+
+[node name="TypeLabel" type="Label" parent="BackgroundPanel/VBoxContainer"]
+layout_mode = 2
+offset_top = 24.0
+offset_right = 159.0
+offset_bottom = 47.0
+size_flags_vertical = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
@@ -72,7 +88,6 @@ texture = ExtResource("2_dyysn")
 [connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
 [connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
 [connection signal="mouse_exited" from="BackgroundPanel" to="." method="_on_background_panel_mouse_exited"]
-[connection signal="gui_input" from="BackgroundPanel/FocalPanel" to="." method="_on_focal_panel_gui_input"]
-[connection signal="gui_input" from="BackgroundPanel/FocalPanel" to="BackgroundPanel/FocalPanel" method="_on_gui_input"]
-[connection signal="mouse_entered" from="BackgroundPanel/FocalPanel" to="BackgroundPanel/FocalPanel" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="BackgroundPanel/FocalPanel" to="BackgroundPanel/FocalPanel" method="_on_mouse_exited"]
+[connection signal="gui_input" from="BackgroundPanel/VBoxContainer/FocalPanel" to="." method="_on_focal_panel_gui_input"]
+[connection signal="mouse_entered" from="BackgroundPanel/VBoxContainer/FocalPanel" to="BackgroundPanel/VBoxContainer/FocalPanel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="BackgroundPanel/VBoxContainer/FocalPanel" to="BackgroundPanel/VBoxContainer/FocalPanel" method="_on_mouse_exited"]

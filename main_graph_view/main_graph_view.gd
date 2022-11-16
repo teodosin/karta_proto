@@ -31,7 +31,11 @@ func _process(_delta):
 func _input(event):
 	
 	if event.is_action_pressed("createNewNode"):
-		createNode(true)
+		#$NewNodePopup.position = (get_global_mouse_position() - $GraphViewCamera.position)+ get_viewport_rect().size/2
+
+		$NewNodePopup.popup()
+		#$NewNodePopup.set_position(get_global_mouse_position())
+		#createNode(true)
 	
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
@@ -223,9 +227,6 @@ func _draw():
 
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
-
-func _on_add_button_pressed():
-	createNode()
 
 func handle_node_click(newNode):
 	nodeWireSource = newNode	
