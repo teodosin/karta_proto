@@ -1,5 +1,7 @@
 extends Node2D
 
+const Enums = preload("res://data_access/enum_node_types.gd")
+
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
 @onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
 
@@ -44,9 +46,9 @@ func _input(event):
 		nodeHovering = null
 
 
-func createNode(atMouse: bool = false) -> NodeViewBase:
+func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
-	var dataNode: NodeBase = dataAccess.addNode()
+	var dataNode: NodeBase = dataAccess.addNode(nodeType)
 	
 	dataAccess.saveData()
 
@@ -244,5 +246,12 @@ func _on_button_button_down():
 	despawnNodes(spawnedNodes.keys())
 	dataAccess.deleteAll()
 
+# SAVE ALL
 func _on_save_all_button_button_down():
+	saveRelativePositions()
 	dataAccess.saveData()
+
+# CREATE NODE POPUP MENU
+func _on_new_node_popup_id_pressed(id):
+	print("NEWNODE IS OF TYPE " + str(Enums.NodeTypes.keys()[id]))
+	createNode(Enums.NodeTypes.keys()[id])

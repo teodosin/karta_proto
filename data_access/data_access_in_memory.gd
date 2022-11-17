@@ -1,6 +1,8 @@
 class_name DataAccessInMemory
 extends DataAccess
 
+const Enums = preload("res://data_access/enum_node_types.gd")
+
 var nodes: Dictionary = {} # id -> NodeBase
 var wires: Dictionary = {} # id -> WireBase
 var lastNodeId: int = 0
@@ -16,7 +18,11 @@ var defaultSettings: Dictionary = {
 func loadData():
 	if not FileAccess.file_exists(save_path):
 		print("File does not exist")
-		return {"settings": defaultSettings, "nodes": {}, "wires": {}}
+		return {
+			"settings": defaultSettings, 
+			"nodes": {}, 
+			"wires": {}
+		}
 		
 	print("file found")
 		
@@ -54,16 +60,18 @@ func loadData():
 		var loadedId: int
 		var loadedName: String
 		var loadedRelated = {}
-		if inode.has("id") and inode.has("name") and inode.has("relatedNodes"):
+		var loadedType: String
+		
+		if inode.has("id") and inode.has("name") and inode.has("relatedNodes") and inode.has("nodeType"):
 			assert(typeof(inode["relatedNodes"]) == TYPE_DICTIONARY, "ERROR: relatedNodes is not a dictionary.")
 			loadedId = inode["id"]
 			loadedName = inode["name"]
-			
+			loadedType = Enums.NodeTypes.keys()[inode["nodeType"]]
 			for rel in inode["relatedNodes"].values():
 				var loadedRel = RelatedNode.new(int(rel["id"]), Vector2(rel["relativePositionX"], rel["relativePositionY"]))
 				loadedRelated[int(rel["id"])] = loadedRel
 			
-			loadNode(loadedId, loadedName, loadedRelated)
+			loadNode(loadedId, loadedName, loadedRelated, loadedType)
 			
 			
 	for iwire in foundWires:
@@ -82,8 +90,8 @@ func loadData():
 	print("NODES" + str(nodes))
 	print("WIRES" + str(wires))
 		
-func loadNode(loadedId: int, loadedName: String, loadedRelated) -> NodeBase:
-	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName, loadedRelated)
+func loadNode(loadedId: int, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
+	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName, loadedRelated, loadedType)
 	nodes[loadedId] = loadedNode
 	
 	return loadedNode
@@ -121,7 +129,8 @@ func saveData():
 			var nodeDict = {
 				"id": c.id,
 				"name": c.name,
-				"relatedNodes": related
+				"relatedNodes": related,
+				"nodeType": Enums.NodeTypes[c.nodeType]
 			}
 			
 			nodesToBeSaved.append(nodeDict)
@@ -148,9 +157,9 @@ func saveData():
 	print("JSON NODES: " + json_nodes)
 	#save_game.close()
 
-func addNode() -> NodeBase:
+func addNode(nodeType: String = "BASE") -> NodeBase:
 	lastNodeId += 1
-	var newNode: NodeBase = NodeBase.new(lastNodeId, "node", {})
+	var newNode: NodeBase = NodeBase.new(lastNodeId, "node", {}, nodeType)
 	nodes[lastNodeId] = newNode
 	return newNode
 

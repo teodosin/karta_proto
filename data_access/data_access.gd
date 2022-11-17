@@ -1,6 +1,6 @@
 class_name DataAccess
 
-func addNode() -> NodeBase:
+func addNode(nodeType: String) -> NodeBase:
 	return null
 	
 func getNode(id: int) -> NodeBase: 
