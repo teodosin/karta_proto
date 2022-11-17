@@ -33,11 +33,9 @@ func _process(_delta):
 func _input(event):
 	
 	if event.is_action_pressed("createNewNode"):
-		#$NewNodePopup.position = (get_global_mouse_position() - $GraphViewCamera.position)+ get_viewport_rect().size/2
-
+		$NewNodePopup.position = get_viewport().get_mouse_position()
 		$NewNodePopup.popup()
-		#$NewNodePopup.set_position(get_global_mouse_position())
-		#createNode(true)
+
 	
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
@@ -82,7 +80,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 
-	newNode.set_position(spawnPos)	
+	newNode.set_position(spawnPos-newNode.size/2)	
 	
 
 		
@@ -254,4 +252,4 @@ func _on_save_all_button_button_down():
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
 	print("NEWNODE IS OF TYPE " + str(Enums.NodeTypes.keys()[id]))
-	createNode(Enums.NodeTypes.keys()[id])
+	createNode(Enums.NodeTypes.keys()[id], true)

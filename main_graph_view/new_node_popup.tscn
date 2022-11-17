@@ -1,12 +1,8 @@
-[gd_scene format=3 uid="uid://bkx345ns55b02"]
+[gd_scene load_steps=2 format=3 uid="uid://bkx345ns55b02"]
+
+[ext_resource type="Script" path="res://main_graph_view/new_node_popup.gd" id="1_itdj8"]
 
 [node name="NewNodePopup" type="PopupMenu"]
 size = Vector2i(111, 100)
 visible = true
-item_count = 3
-item_0/text = "Base"
-item_0/id = 0
-item_1/text = "Text"
-item_1/id = 1
-item_2/text = "Image "
-item_2/id = 2
+script = ExtResource("1_itdj8")
