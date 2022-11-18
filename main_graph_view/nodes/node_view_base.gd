@@ -83,6 +83,7 @@ func setAsFocal(newFocalId):
 		thisNodeAsFocal.emit()
 		$BackgroundPanel/VBoxContainer/FocalPanel.setFocal(true)
 	else:
+		self.isFocal = false
 		$BackgroundPanel/VBoxContainer/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 

@@ -33,12 +33,14 @@ size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="."]
+layout_mode = 0
 offset_top = -32.0
 offset_right = 159.0
 offset_bottom = -1.0
 flat = true
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -49,12 +51,14 @@ grow_vertical = 2
 theme = SubResource("Theme_14gnd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BackgroundPanel"]
+layout_mode = 2
 offset_right = 159.0
 offset_bottom = 143.0
 
 [node name="FocalPanel" type="Panel" parent="BackgroundPanel/VBoxContainer"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
+layout_mode = 2
 offset_right = 159.0
 offset_bottom = 20.0
 size_flags_vertical = 0
@@ -66,16 +70,19 @@ visible = false
 texture = ExtResource("2_dyysn")
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
+layout_mode = 0
 offset_left = 161.0
 offset_right = 201.0
 offset_bottom = 40.0
 
 [node name="IdLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
 offset_right = 40.0
 offset_bottom = 23.0
 size_flags_vertical = 0
 
 [node name="TypeLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
 offset_top = 27.0
 offset_right = 40.0
 offset_bottom = 50.0

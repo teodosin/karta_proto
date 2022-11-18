@@ -96,32 +96,25 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	return newNode
 	
 
+
 func createWire(source, target) -> WireViewBase:
 	if source.id == target.id:
 		return
 	
 	var newWireData = dataAccess.addWire(source.id, target.id)
 	
- # Currently, the dataNode on each NodeViewBase and the NodeBase stored by 
- # dataAccess need to be updated separately. This is inefficient, no?
-
 	source.dataNode.addRelatedNode(target.id)
-	dataAccess.addRelatedNode(source.id, target.id, source.position, target.position)
-	
 	target.dataNode.addRelatedNode(source.id)
-	dataAccess.addRelatedNode(target.id, source.id, target.position, source.position)
-
 
 	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
-	dataAccess.updateRelatedNodePosition(source.id, target.id, source.position, target.position)
-		
 	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
-	dataAccess.updateRelatedNodePosition(target.id, source.id, target.position, source.position)
-		
+
 		
 	dataAccess.saveData()
 	var newWire = spawnWire(newWireData)
 	return newWire
+
+
 
 func spawnWire(newWireData: WireBase) -> WireViewBase:
 	if !spawnedNodes.keys().has(newWireData.sourceId) or !spawnedNodes.keys().has(newWireData.targetId):
@@ -137,6 +130,8 @@ func spawnWire(newWireData: WireBase) -> WireViewBase:
 	add_child(newWire)
 	return newWire
 
+
+
 func saveRelativePositions():
 	if focalNode != null:
 
@@ -145,6 +140,8 @@ func saveRelativePositions():
 			print(str(typeof(int(relatedId)) == TYPE_INT) + str(spawnedNodes.keys()))
 			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
 			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
+	
+	
 	
 func setAsFocal(node):
 	# Can't set focal node if it's already the focal
@@ -178,6 +175,8 @@ func setAsFocal(node):
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
+	
+	
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 	var related = node.dataNode.relatedNodes
 	
@@ -193,12 +192,16 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		
 	return toBeSpawned
 	
+	
+	
 func spawnNodes(toBeSpawned):
 	for n in toBeSpawned:
 		spawnNode(n)
 		
 	for w in dataAccess.wires.values():
 		spawnWire(w)
+	
+	
 	
 func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 	var toBeDeleted: Array = []
@@ -211,6 +214,8 @@ func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
+
+
 
 func despawnNodes(toBeDeleted: Array):
 	for nid in toBeDeleted:
