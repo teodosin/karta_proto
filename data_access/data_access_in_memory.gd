@@ -28,7 +28,8 @@ func loadData():
 		
 	var file = FileAccess.open(save_path, FileAccess.READ)
 
-	var json = JSON.new()
+	# This variable may be unnecessary
+	var _json = JSON.new()
 	
 	# Important but annoying as F detail:
 	# Json seems to import numbers automatically as floats. Be sure to convert
@@ -151,7 +152,7 @@ func saveData():
 		
 	#var save_game = FileAccess.open(savePath, FileAccess.WRITE)
 	var file = FileAccess.open(save_path,FileAccess.WRITE)
-	var json_nodes = json.stringify({"settings": settingsToBeSaved, "nodes": nodesToBeSaved, "wires": wiresToBeSaved})
+	var json_nodes = JSON.stringify({"settings": settingsToBeSaved, "nodes": nodesToBeSaved, "wires": wiresToBeSaved})
 
 	file.store_line(json_nodes)
 	print("JSON NODES: " + json_nodes)

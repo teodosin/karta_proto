@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp7thy6v5k6ye"]
+[gd_scene load_steps=12 format=3 uid="uid://dp7thy6v5k6ye"]
 
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_view_base.gd" id="1_jnnre"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/focal_panel.gd" id="2_djlw1"]
 [ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="2_dyysn"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/NodeName.gd" id="2_km87o"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/view_text.gd" id="3_god8o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwt55"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
 bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
@@ -24,6 +29,13 @@ corner_radius_bottom_left = 5
 [sub_resource type="Theme" id="Theme_bolh2"]
 Panel/styles/panel = SubResource("StyleBoxFlat_wi8g1")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0q2wx"]
+content_margin_left = 10.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 5.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [node name="NodeViewBase" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -33,54 +45,107 @@ size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="."]
+layout_mode = 0
 offset_top = -32.0
-offset_right = 159.0
+offset_right = 578.0
 offset_bottom = -1.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_wwt55")
+selecting_enabled = false
 flat = true
+caret_blink = true
+script = ExtResource("2_km87o")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 159.0
-offset_bottom = 143.0
+offset_right = 106.0
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_14gnd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BackgroundPanel"]
-offset_right = 159.0
-offset_bottom = 143.0
+layout_mode = 2
+offset_right = 106.0
+offset_bottom = 56.0
 
 [node name="FocalPanel" type="Panel" parent="BackgroundPanel/VBoxContainer"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
-offset_right = 159.0
+layout_mode = 2
+offset_right = 106.0
 offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/VBoxContainer"]
+layout_mode = 2
+offset_top = 24.0
+offset_right = 106.0
+offset_bottom = 56.0
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_0q2wx")
+context_menu_enabled = false
+selecting_enabled = false
+wrap_mode = 1
+scroll_fit_content_height = true
+caret_blink = true
+script = ExtResource("3_god8o")
+
+[node name="RightEdge" type="Control" parent="BackgroundPanel/VBoxContainer/TextEdit"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 11
+
+[node name="BottomEdge" type="Control" parent="BackgroundPanel/VBoxContainer/TextEdit"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 12
+
+[node name="Sprite2D" type="Sprite2D" parent="BackgroundPanel/VBoxContainer"]
 visible = false
+position = Vector2(79, 96)
 texture = ExtResource("2_dyysn")
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
+layout_mode = 0
 offset_left = 161.0
 offset_right = 201.0
 offset_bottom = 40.0
 
 [node name="IdLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
 offset_right = 40.0
 offset_bottom = 23.0
 size_flags_vertical = 0
 
 [node name="TypeLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
 offset_top = 27.0
 offset_right = 40.0
 offset_bottom = 50.0
 size_flags_vertical = 0
 
+[connection signal="focus_exited" from="NodeName" to="NodeName" method="_on_focus_exited"]
+[connection signal="gui_input" from="NodeName" to="NodeName" method="_on_gui_input"]
 [connection signal="text_changed" from="NodeName" to="." method="_on_node_name_text_changed"]
 [connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
 [connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
@@ -88,3 +153,8 @@ size_flags_vertical = 0
 [connection signal="gui_input" from="BackgroundPanel/VBoxContainer/FocalPanel" to="." method="_on_focal_panel_gui_input"]
 [connection signal="mouse_entered" from="BackgroundPanel/VBoxContainer/FocalPanel" to="BackgroundPanel/VBoxContainer/FocalPanel" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="BackgroundPanel/VBoxContainer/FocalPanel" to="BackgroundPanel/VBoxContainer/FocalPanel" method="_on_mouse_exited"]
+[connection signal="focus_exited" from="BackgroundPanel/VBoxContainer/TextEdit" to="BackgroundPanel/VBoxContainer/TextEdit" method="_on_focus_exited"]
+[connection signal="gui_input" from="BackgroundPanel/VBoxContainer/TextEdit" to="BackgroundPanel/VBoxContainer/TextEdit" method="_on_gui_input"]
+[connection signal="gui_input" from="BackgroundPanel/VBoxContainer/TextEdit/RightEdge" to="." method="_on_right_edge_gui_input"]
+[connection signal="gui_input" from="BackgroundPanel/VBoxContainer/TextEdit/RightEdge" to="BackgroundPanel/VBoxContainer/TextEdit" method="_on_right_edge_gui_input"]
+[connection signal="gui_input" from="BackgroundPanel/VBoxContainer/TextEdit/BottomEdge" to="BackgroundPanel/VBoxContainer/TextEdit" method="_on_bottom_edge_gui_input"]

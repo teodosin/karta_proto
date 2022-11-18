@@ -73,7 +73,6 @@ func _process(delta):
 			pass
 
 
-
 func setAsFocal(newFocalId):
 	# If the id of the new Focal matches this node's id,
 	# mark it as the new focal
@@ -98,7 +97,7 @@ func despawn():
 		# Also remove the node from the array of references
 
 func _on_background_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft"):
+	if event.is_action_pressed("mouseLeft") and !$BackgroundPanel/VBoxContainer/TextEdit.has_focus():
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
@@ -126,3 +125,5 @@ func _on_focal_panel_gui_input(event):
 
 func _on_node_name_text_changed(new_text):
 	dataNode.name = new_text
+	
+	
