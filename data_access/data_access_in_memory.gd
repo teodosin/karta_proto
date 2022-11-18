@@ -34,7 +34,7 @@ func loadData():
 	# Json seems to import numbers automatically as floats. Be sure to convert
 	# them to int if required.
 	
-	var loaded = json.parse_string(file.get_as_text())
+	var loaded = JSON.parse_string(file.get_as_text())
 	
 	var foundSettings: Dictionary
 	var foundNodes: Array[Dictionary]

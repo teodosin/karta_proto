@@ -52,9 +52,8 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
-	# If there is no focalNode, the first node created will become that.
-
-			
+	# If there is a focal node, the new node will be automatically connected
+	# to it as its target.			
 	createWire(focalNode, newNode)	
 	
 	return newNode
@@ -84,11 +83,11 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	
 
 		
-	# If there is a focal node, the new node will be automatically connected
-	# to it as its target.
+
 	add_child(newNode)
 	spawnedNodes[newNode.id] = newNode
 	
+	# If there is no focalNode, the first node created will become that.	
 	if not focalNode:
 		setAsFocal(newNode)
 		newNode.setAsFocal(focalNode.id)

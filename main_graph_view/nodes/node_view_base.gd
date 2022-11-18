@@ -56,7 +56,6 @@ func _process(delta):
 	
 	# Logic for smoothly moving the node to a new position
 	if nextPosition != null:
-		var difference = nextPosition - prevPosition
 		if self.position != nextPosition:
 			self.position = lerp(prevPosition, nextPosition, ease(animationStep, -2.0))
 			animationStep += delta * 2
