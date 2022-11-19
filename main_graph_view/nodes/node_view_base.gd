@@ -32,7 +32,7 @@ func _ready():
 	
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
-	return self.position + ($BackgroundPanel.size / 2)
+	return self.position + ($VBoxContainer/BackgroundPanel.size / 2)
 	
 
 func _process(delta):
@@ -79,10 +79,10 @@ func setAsFocal(newFocalId):
 	if self.id == newFocalId:	
 		self.isFocal = true		
 		thisNodeAsFocal.emit()
-		$BackgroundPanel/VBoxContainer/FocalPanel.setFocal(true)
+		$VBoxContainer/FocalPanel.setFocal(true)
 	else:
 		self.isFocal = false
-		$BackgroundPanel/VBoxContainer/FocalPanel.setFocal(false)
+		$VBoxContainer/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition):
@@ -97,7 +97,11 @@ func despawn():
 		# Also remove the node from the array of references
 
 func _on_background_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft") and !$BackgroundPanel/VBoxContainer/TextEdit.has_focus():
+	if event.is_action_pressed("mouseLeft") and \
+		!$VBoxContainer/BackgroundPanel/VBoxContainer/TextEdit.has_focus() and \
+		!$VBoxContainer/BackgroundPanel.resizingBottom and \
+		!$VBoxContainer/BackgroundPanel.resizingRight:
+		
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
