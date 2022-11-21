@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dp7thy6v5k6ye"]
+[gd_scene load_steps=14 format=3 uid="uid://dp7thy6v5k6ye"]
 
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_view_base.gd" id="1_jnnre"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/focal_panel.gd" id="2_djlw1"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/NodeName.gd" id="2_km87o"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/view_text.gd" id="3_god8o"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/background_panel.gd" id="4_lm1kv"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/pinned_panel.gd" id="4_r2n7k"]
 
 [sub_resource type="SystemFont" id="SystemFont_kqvky"]
 font_style = 1
@@ -73,21 +74,37 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="FocalPanel" type="Panel" parent="VBoxContainer"]
+[node name="Indicators" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+offset_right = 124.0
+offset_bottom = 20.0
+
+[node name="FocalPanel" type="Panel" parent="VBoxContainer/Indicators"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
 layout_mode = 2
-offset_right = 100.0
+offset_right = 60.0
 offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
 
+[node name="PinnedPanel" type="Panel" parent="VBoxContainer/Indicators"]
+modulate = Color(0.466667, 0.447059, 0.454902, 1)
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 2
+offset_left = 64.0
+offset_right = 124.0
+offset_bottom = 20.0
+size_flags_vertical = 0
+theme = SubResource("Theme_bolh2")
+script = ExtResource("4_r2n7k")
+
 [node name="BackgroundPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 offset_top = 24.0
-offset_right = 100.0
+offset_right = 124.0
 offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -96,12 +113,12 @@ script = ExtResource("4_lm1kv")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BackgroundPanel"]
 layout_mode = 2
-offset_right = 100.0
+offset_right = 124.0
 offset_bottom = 32.0
 
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer/BackgroundPanel/VBoxContainer"]
 layout_mode = 2
-offset_right = 100.0
+offset_right = 124.0
 offset_bottom = 32.0
 size_flags_vertical = 3
 mouse_filter = 1
@@ -117,8 +134,8 @@ script = ExtResource("3_god8o")
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 anchors_preset = 0
-offset_left = 90.0
-offset_right = 100.0
+offset_left = 114.0
+offset_right = 124.0
 offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -131,7 +148,7 @@ custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 anchors_preset = 0
 offset_top = 24.0
-offset_right = 100.0
+offset_right = 124.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -141,21 +158,19 @@ mouse_default_cursor_shape = 9
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -1.0
-offset_top = -50.0
+offset_bottom = 50.0
 grow_horizontal = 0
-grow_vertical = 0
 
 [node name="IdLabel" type="Label" parent="DebugContainer"]
 layout_mode = 2
 offset_right = 1.0
 offset_bottom = 23.0
 size_flags_vertical = 0
+horizontal_alignment = 2
 
 [node name="TypeLabel" type="Label" parent="DebugContainer"]
 layout_mode = 2
@@ -163,13 +178,17 @@ offset_top = 27.0
 offset_right = 1.0
 offset_bottom = 50.0
 size_flags_vertical = 0
+horizontal_alignment = 2
 
 [connection signal="focus_exited" from="NodeName" to="NodeName" method="_on_focus_exited"]
 [connection signal="gui_input" from="NodeName" to="NodeName" method="_on_gui_input"]
 [connection signal="text_changed" from="NodeName" to="." method="_on_node_name_text_changed"]
-[connection signal="gui_input" from="VBoxContainer/FocalPanel" to="." method="_on_focal_panel_gui_input"]
-[connection signal="mouse_entered" from="VBoxContainer/FocalPanel" to="VBoxContainer/FocalPanel" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="VBoxContainer/FocalPanel" to="VBoxContainer/FocalPanel" method="_on_mouse_exited"]
+[connection signal="gui_input" from="VBoxContainer/Indicators/FocalPanel" to="." method="_on_focal_panel_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/Indicators/FocalPanel" to="VBoxContainer/Indicators/FocalPanel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Indicators/FocalPanel" to="VBoxContainer/Indicators/FocalPanel" method="_on_mouse_exited"]
+[connection signal="gui_input" from="VBoxContainer/Indicators/PinnedPanel" to="." method="_on_pinned_panel_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/Indicators/PinnedPanel" to="VBoxContainer/Indicators/PinnedPanel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Indicators/PinnedPanel" to="VBoxContainer/Indicators/PinnedPanel" method="_on_mouse_exited"]
 [connection signal="gui_input" from="VBoxContainer/BackgroundPanel" to="." method="_on_background_panel_gui_input"]
 [connection signal="mouse_entered" from="VBoxContainer/BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/BackgroundPanel" to="." method="_on_background_panel_mouse_exited"]

@@ -3,6 +3,7 @@ extends Control
 
 var id: int
 var isFocal: bool = false
+var isPinned: bool = false
 
 var spawning = true
 var despawning = false
@@ -19,7 +20,10 @@ var dataNode: NodeBase = null
 
 signal rightMousePressed
 signal mouseHovering
+
 signal thisNodeAsFocal
+signal thisNodeAsPinned(nodeId, isTrue)
+
 signal nodeMoved
 
 
@@ -54,16 +58,6 @@ func _process(delta):
 			self.queue_free()	
 	
 	
-	# Logic for smoothly moving the node to a new position
-	if nextPosition != null:
-		if self.position != nextPosition:
-			self.position = lerp(prevPosition, nextPosition, ease(animationStep, -2.0))
-			animationStep += delta * 2
-		else:
-			prevPosition = null
-			nextPosition = null
-			animationStep = 0.0
-	
 	# Logic for moving the node manually with the mouse
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
@@ -72,25 +66,31 @@ func _process(delta):
 		if !isFocal:
 			pass
 
+func setAsPinned():
+	isPinned = !isPinned
+	thisNodeAsPinned.emit()
+	$VBoxContainer/Indicators/PinnedPanel.setPinned(isPinned)
+	
+
 
 func setAsFocal(newFocalId):
+	if isPinned:
+		return 
 	# If the id of the new Focal matches this node's id,
 	# mark it as the new focal
 	if self.id == newFocalId:	
 		self.isFocal = true		
 		thisNodeAsFocal.emit()
-		$VBoxContainer/FocalPanel.setFocal(true)
+		$VBoxContainer/Indicators/FocalPanel.setFocal(true)
 	else:
 		self.isFocal = false
-		$VBoxContainer/FocalPanel.setFocal(false)
+		$VBoxContainer/Indicators/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition):
-	if newPosition == null:
-		return
+	var tween = create_tween()
+	tween.tween_property(self, "position", newPosition, 0.5).set_ease(Tween.EASE_IN_OUT)
 	
-	self.prevPosition = self.position
-	self.nextPosition = newPosition
 
 func despawn():
 	despawning = true
@@ -131,3 +131,8 @@ func _on_node_name_text_changed(new_text):
 	dataNode.name = new_text
 	
 	
+
+
+func _on_pinned_panel_gui_input(event):
+	if event.is_action_pressed("mouseLeft"):
+		setAsPinned()

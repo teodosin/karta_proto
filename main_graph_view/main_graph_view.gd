@@ -11,6 +11,7 @@ var nodeHovering: NodeViewBase = null
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
+var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedWires: Dictionary = {} # id -> WireViewBase
 
@@ -78,6 +79,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
+	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
 
 	newNode.set_position(spawnPos-newNode.size/2)	
 	
@@ -140,8 +142,29 @@ func saveRelativePositions():
 			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
 			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
 	
+func setAsPinned(nodeId):
+	print(str(nodeId))
+	if !spawnedNodes.keys().has(nodeId):
+		return
+
+	var node = spawnedNodes[nodeId]
+
 	
-	
+	if spawnedNodes[nodeId].isPinned == true :
+		print("SETTING AS PINNED")
+
+		remove_child(node)
+		$GraphViewCamera/PinnedNodes.add_child(node)
+		print("CHILDREN Of PinLayer"+str($GraphViewCamera/PinnedNodes.get_children()))
+		pinnedNodes[node.id] = node
+		spawnedNodes.erase(node.id)
+	elif pinnedNodes[nodeId].isPinned == false:
+		$GraphViewCamera/PinnedNodes.remove_child(node)
+		add_child(node)
+		spawnedNodes[node.id] = node
+		pinnedNodes.erase(node.id)
+		print("NODESCALE" + str(node.scale))
+		
 func setAsFocal(node):
 	# Can't set focal node if it's already the focal
 	if focalNode == node:
@@ -242,6 +265,8 @@ func handle_mouse_hover(newNode):
 func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[newFocalId.id])
 		
+func handle_node_set_itself_pinned(node):
+	setAsPinned(node.id)
 
 # THE DELETE EVERYTHING BUTTON
 func _on_button_button_down():

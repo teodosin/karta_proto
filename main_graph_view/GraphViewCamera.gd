@@ -29,12 +29,23 @@ func _input(event):
 		panning = false
 
 	if event.is_action_pressed("zoomInCamera"):
-		# Zoom is centered on mouse position
-		var adjustedPosition = (get_global_mouse_position() - self.position) * 0.1
-		self.position = self.position + adjustedPosition
-		self.zoom *= 1.1
+
+		setZoom(1.1, true)
 	if event.is_action_pressed("zoomOutCamera"):
 		if zoom.x <= 0.2:
 			return
 			
-		self.zoom *= 0.9
+		setZoom(0.9, false)
+
+func setZoom(mult: float, toMouse: bool):
+	
+	var tween = create_tween().set_parallel(true)
+	
+	self.zoom *= mult
+	for n in $PinnedNodes.get_children():
+		tween.tween_property(n, "scale", Vector2(1.0,1.0) / self.zoom, 1) 
+	
+	if toMouse:
+				# Zoom is centered on mouse position
+		var adjustedPosition = (get_global_mouse_position() - self.position) * 0.1
+		self.position = self.position + adjustedPosition
