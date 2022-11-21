@@ -17,7 +17,6 @@ func _init(n_id: int, n_name: String, n_rel: Dictionary, n_type: String = "BASE"
 	self.relatedNodes = n_rel
 	self.nodeType = n_type
 	
-	print("NODE TYPE IS " + str(nodeType))
 	
 func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(relatedNodes.has(int(nodeId)), "ERROR related node not found")

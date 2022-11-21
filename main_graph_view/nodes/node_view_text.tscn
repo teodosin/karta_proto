@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3e8otuu2b0sq"]
+
+[ext_resource type="Script" path="res://main_graph_view/nodes/node_view_text.gd" id="1_wjbmc"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/view_text.gd" id="2_1xxp7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
+bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_14gnd"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_xipxx")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0q2wx"]
+content_margin_left = 10.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 5.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="NodeViewText" type="PanelContainer"]
+custom_minimum_size = Vector2(100, 25)
+offset_top = 24.0
+offset_right = 124.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+theme = SubResource("Theme_14gnd")
+script = ExtResource("1_wjbmc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 124.0
+offset_bottom = 32.0
+metadata/_edit_use_anchors_ = true
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+offset_right = 124.0
+offset_bottom = 32.0
+size_flags_vertical = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0q2wx")
+context_menu_enabled = false
+selecting_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+scroll_fit_content_height = true
+caret_blink = true
+script = ExtResource("2_1xxp7")
+
+[node name="RightEdge" type="Control" parent="."]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 114.0
+offset_right = 124.0
+offset_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 10
+
+[node name="BottomEdge" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 3
+anchors_preset = 0
+offset_top = 24.0
+offset_right = 124.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 9
+
+[connection signal="focus_exited" from="VBoxContainer/TextEdit" to="VBoxContainer/TextEdit" method="_on_focus_exited"]
+[connection signal="gui_input" from="VBoxContainer/TextEdit" to="VBoxContainer/TextEdit" method="_on_gui_input"]
+[connection signal="text_changed" from="VBoxContainer/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="gui_input" from="RightEdge" to="." method="_on_right_edge_gui_input"]
+[connection signal="gui_input" from="BottomEdge" to="." method="_on_bottom_edge_gui_input"]

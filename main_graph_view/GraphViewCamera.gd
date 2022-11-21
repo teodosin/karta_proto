@@ -3,23 +3,17 @@ extends Camera2D
 var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
-var nextPosition = null
 
 
 
 func _physics_process(_delta):
-	if nextPosition != null:
-		var difference = nextPosition - self.position
-		if difference.length() > 0.1:
-			self.set_position(self.position + difference / 2)
-		else: 
-			nextPosition = null
 	
 	if panning:
 		self.position += panPoint - get_global_mouse_position()
 
 func animatePosition(newPosition):
-	nextPosition = newPosition
+	pass
+	
 
 func _input(event):
 	if event.is_action_pressed("panCamera"):
@@ -43,7 +37,7 @@ func setZoom(mult: float, toMouse: bool):
 	
 	self.zoom *= mult
 	for n in $PinnedNodes.get_children():
-		tween.tween_property(n, "scale", Vector2(1.0,1.0) / self.zoom, 1) 
+		tween.tween_property(n, "scale", Vector2(1.0,1.0) / self.zoom, .0001) 
 	
 	if toMouse:
 				# Zoom is centered on mouse position

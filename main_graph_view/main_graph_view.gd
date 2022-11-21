@@ -9,6 +9,8 @@ var focalNode: NodeViewBase = null
 var nodeWireSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
 
+var debugView = false
+
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
@@ -17,6 +19,8 @@ var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 
 func _ready():
+	
+	
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
@@ -44,6 +48,11 @@ func _input(event):
 		nodeWireSource = null
 		nodeHovering = null
 
+	if event.is_action_pressed("debugView"):
+		debugView = !debugView
+		for n in get_tree().get_nodes_in_group("DEBUG"):
+
+			n.visible = debugView
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
@@ -72,7 +81,9 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
 	
-	print("DATANODE: " + str(newNode.dataNode.relatedNodes.values()))
+	newNode.typeData = dataAccess.getTypeData(newNode.id)
+	
+
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.
@@ -82,9 +93,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
 
 	newNode.set_position(spawnPos-newNode.size/2)	
-	
-
-		
 
 	add_child(newNode)
 	spawnedNodes[newNode.id] = newNode
@@ -138,9 +146,11 @@ func saveRelativePositions():
 
 		for relatedId in focalNode.dataNode.relatedNodes.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			print(str(typeof(int(relatedId)) == TYPE_INT) + str(spawnedNodes.keys()))
+			if pinnedNodes.keys().has(relatedId):
+				return
+
 			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
-			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
+
 	
 func setAsPinned(nodeId):
 	print(str(nodeId))

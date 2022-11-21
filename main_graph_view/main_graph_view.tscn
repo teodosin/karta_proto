@@ -28,6 +28,7 @@ size_flags_horizontal = 3
 focus_mode = 1
 
 [node name="PinnedNodes" type="Node2D" parent="GraphViewCamera"]
+z_index = 100
 
 [node name="PinnedLayer" type="CanvasLayer" parent="."]
 
