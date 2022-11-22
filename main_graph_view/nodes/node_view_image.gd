@@ -3,6 +3,8 @@ extends PanelContainer
 var imageData: NodeImage
 var aspect: float = 1.0 # height / width
 
+var readyToLoad := false
+
 var resizingRight: bool = false
 var resizingBottom: bool = false
 var previousSize: Vector2
@@ -10,10 +12,15 @@ var resizeClickPosition: Vector2
 
 func _ready():
 	if imageData:
-		loadImage(imageData.imagePath)
-		custom_minimum_size = imageData.nodeSize
+		readyToLoad = true
+
 
 func _process(_delta):
+	if readyToLoad:
+		loadImage(imageData.imagePath)
+		custom_minimum_size = imageData.nodeSize
+		readyToLoad = false		
+	
 	if resizingRight:
 		custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
 		

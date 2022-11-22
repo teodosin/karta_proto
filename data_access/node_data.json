@@ -1,1 +1,1791 @@
-{"imageData":[{"id":1,"imagePath":"/home/viktor/Downloads/808D8052-1FEF-45AC-95A7-93AC8D55A617.jpeg","nodeSizeX":241.691345214844,"nodeSizeY":324.160491943359},{"id":2,"imagePath":"/home/viktor/Downloads/1E4A104D-8956-4F4D-ACD2-E93465623CA5.jpeg","nodeSizeX":923.126647949219,"nodeSizeY":383.456909179688},{"id":18,"imagePath":"/home/viktor/Downloads/blueDragonVsGenie_1.png","nodeSizeX":257.801147460938,"nodeSizeY":370.589141845703},{"id":19,"imagePath":"/home/viktor/Downloads/BlueDragon_1.png","nodeSizeX":285.810302734375,"nodeSizeY":285.810302734375},{"id":20,"imagePath":"","nodeSizeX":0,"nodeSizeY":0}],"nodes":[{"id":1,"name":"TESTING GROUNDS","nodeType":2,"relatedNodes":{"2":{"id":2,"relativePositionX":98.118408203125,"relativePositionY":438.032348632812},"3":{"id":3,"relativePositionX":374.543701171875,"relativePositionY":-0.6005859375},"6":{"id":6,"relativePositionX":-327.37939453125,"relativePositionY":-166.545166015625},"7":{"id":7,"relativePositionX":-583.50390625,"relativePositionY":1.1634521484375},"8":{"id":8,"relativePositionX":-1653.68505859375,"relativePositionY":268.620971679688},"14":{"id":14,"relativePositionX":228.525146484375,"relativePositionY":-224.340209960938},"15":{"id":15,"relativePositionX":233.398681640625,"relativePositionY":-134.614288330078},"16":{"id":16,"relativePositionX":379.895263671875,"relativePositionY":-137.092132568359},"17":{"id":17,"relativePositionX":376.272705078125,"relativePositionY":-223.632568359375},"18":{"id":18,"relativePositionX":857.733154296875,"relativePositionY":-163.755706787109},"19":{"id":19,"relativePositionX":1191.82885742188,"relativePositionY":-120.006469726562},"20":{"id":20,"relativePositionX":1163.14916992188,"relativePositionY":369.525970458984}}},{"id":2,"name":"node","nodeType":2,"relatedNodes":{"1":{"id":1,"relativePositionX":-299.125366210938,"relativePositionY":-343.660095214844},"3":{"id":3,"relativePositionX":452.455444335938,"relativePositionY":-297.874084472656},"5":{"id":5,"relativePositionX":-178.951293945312,"relativePositionY":389.494598388672}}},{"id":3,"name":"node","nodeType":1,"relatedNodes":{"1":{"id":1,"relativePositionX":-752.284057617188,"relativePositionY":-329.456848144531},"2":{"id":2,"relativePositionX":-825.166381835938,"relativePositionY":391.116821289062},"4":{"id":4,"relativePositionX":230.8642578125,"relativePositionY":243.209915161133}}},{"id":4,"name":"node","nodeType":0,"relatedNodes":{"3":{"id":3,"relativePositionX":-230.8642578125,"relativePositionY":-243.209915161133}}},{"id":5,"name":"node","nodeType":0,"relatedNodes":{"2":{"id":2,"relativePositionX":403.456359863281,"relativePositionY":-525.867309570312}}},{"id":6,"name":"No Name.","nodeType":1,"relatedNodes":{"1":{"id":1,"relativePositionX":345.127014160156,"relativePositionY":-397.508056640625}}},{"id":7,"name":"","nodeType":1,"relatedNodes":{"1":{"id":1,"relativePositionX":708.409973144531,"relativePositionY":-108.411499023438},"9":{"id":9,"relativePositionX":204.973083496094,"relativePositionY":282.615356445312},"10":{"id":10,"relativePositionX":295.859466552734,"relativePositionY":126.450866699219},"11":{"id":11,"relativePositionX":260.242828369141,"relativePositionY":-78.5631103515625},"12":{"id":12,"relativePositionX":55.0687866210938,"relativePositionY":-192.595458984375},"13":{"id":13,"relativePositionX":-203.093444824219,"relativePositionY":-148.690307617188}}},{"id":8,"name":"wideboi","nodeType":1,"relatedNodes":{"1":{"id":1,"relativePositionX":305.371032714844,"relativePositionY":-455.181762695312}}},{"id":9,"name":"Fileyboi.","nodeType":3,"relatedNodes":{"7":{"id":7,"relativePositionX":-391.844909667969,"relativePositionY":-359.662170410156}}},{"id":10,"name":"FIEL","nodeType":3,"relatedNodes":{"7":{"id":7,"relativePositionX":-329.258697509766,"relativePositionY":-103.505920410156},"12":{"id":12,"relativePositionX":-240.790679931641,"relativePositionY":-319.046325683594}}},{"id":11,"name":"Filegang assemble","nodeType":3,"relatedNodes":{"7":{"id":7,"relativePositionX":-413.846801757812,"relativePositionY":-125.399353027344}}},{"id":12,"name":"node","nodeType":3,"relatedNodes":{"7":{"id":7,"relativePositionX":-130.585632324219,"relativePositionY":115.322387695312},"10":{"id":10,"relativePositionX":240.790679931641,"relativePositionY":319.046325683594}}},{"id":13,"name":"node","nodeType":3,"relatedNodes":{"7":{"id":7,"relativePositionX":-55.0687866210938,"relativePositionY":-63.8106079101562}}},{"id":14,"name":"node","nodeType":0,"relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}},{"id":15,"name":"node","nodeType":3,"relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}},{"id":16,"name":"node","nodeType":3,"relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}},{"id":17,"name":"node","nodeType":3,"relatedNodes":{"1":{"id":1,"relativePositionX":0,"relativePositionY":0}}},{"id":18,"name":"BlueDragonVsGenie","nodeType":2,"relatedNodes":{"1":{"id":1,"relativePositionX":-359.739501953125,"relativePositionY":125.883361816406}}},{"id":19,"name":"BlueDragon","nodeType":2,"relatedNodes":{"1":{"id":1,"relativePositionX":-426.060302734375,"relativePositionY":35.4461059570312}}},{"id":20,"name":"node","nodeType":2,"relatedNodes":{"1":{"id":1,"relativePositionX":-1406.14672851562,"relativePositionY":-542.324340820312}}}],"settings":{"lastNodeId":20,"lastWireId":21},"textData":[{"id":3,"nodeSizeX":356.790100097656,"nodeSizeY":153.08642578125,"nodeText":"This text has a purpose."},{"id":6,"nodeSizeX":212.626770019531,"nodeSizeY":157.878555297852,"nodeText":"For example. Mhm."},{"id":7,"nodeSizeX":0,"nodeSizeY":137.899490356445,"nodeText":"No name, for real tho.\n\nFull of files."},{"id":8,"nodeSizeX":1425.70556640625,"nodeSizeY":315.18408203125,"nodeText":"How wide exactly?\t\t                                                                                                                                                                                                                                                                                         Exactly."}],"wires":[{"id":1,"sourceId":1,"targetId":2},{"id":2,"sourceId":1,"targetId":3},{"id":3,"sourceId":3,"targetId":4},{"id":4,"sourceId":2,"targetId":3},{"id":5,"sourceId":2,"targetId":5},{"id":6,"sourceId":1,"targetId":6},{"id":7,"sourceId":1,"targetId":7},{"id":8,"sourceId":1,"targetId":8},{"id":9,"sourceId":7,"targetId":9},{"id":10,"sourceId":7,"targetId":10},{"id":11,"sourceId":7,"targetId":11},{"id":12,"sourceId":7,"targetId":12},{"id":13,"sourceId":7,"targetId":13},{"id":14,"sourceId":10,"targetId":12},{"id":15,"sourceId":1,"targetId":14},{"id":16,"sourceId":1,"targetId":15},{"id":17,"sourceId":1,"targetId":16},{"id":18,"sourceId":1,"targetId":17},{"id":19,"sourceId":1,"targetId":18},{"id":20,"sourceId":1,"targetId":19},{"id":21,"sourceId":1,"targetId":20}]}
+{
+    "imageData": [
+        {
+            "id": 1,
+            "imagePath": "/home/viktor/Downloads/808D8052-1FEF-45AC-95A7-93AC8D55A617.jpeg",
+            "nodeSizeX": 241.691345214844,
+            "nodeSizeY": 324.160491943359
+        },
+        {
+            "id": 2,
+            "imagePath": "/home/viktor/Downloads/1E4A104D-8956-4F4D-ACD2-E93465623CA5.jpeg",
+            "nodeSizeX": 236.890563964844,
+            "nodeSizeY": 236.890563964844
+        },
+        {
+            "id": 18,
+            "imagePath": "/home/viktor/Downloads/blueDragonVsGenie_1.png",
+            "nodeSizeX": 257.801147460938,
+            "nodeSizeY": 370.589141845703
+        },
+        {
+            "id": 19,
+            "imagePath": "/home/viktor/Downloads/ViktorT_EnnakkoKansi.jpg",
+            "nodeSizeX": 254.066040039062,
+            "nodeSizeY": 357.746185302734
+        },
+        {
+            "id": 20,
+            "imagePath": "",
+            "nodeSizeX": 0,
+            "nodeSizeY": 0
+        },
+        {
+            "id": 27,
+            "imagePath": "/home/viktor/Downloads/flyingWhaleInARedSky.png",
+            "nodeSizeX": 229.173583984375,
+            "nodeSizeY": 229.173583984375
+        },
+        {
+            "id": 28,
+            "imagePath": "/home/viktor/Downloads/Inner_Image_001.png",
+            "nodeSizeX": 566.633056640625,
+            "nodeSizeY": 400.584381103516
+        },
+        {
+            "id": 29,
+            "imagePath": "/home/viktor/Downloads/OtherWorldChips3.png",
+            "nodeSizeX": 192.60986328125,
+            "nodeSizeY": 192.60986328125
+        },
+        {
+            "id": 30,
+            "imagePath": "/home/viktor/Downloads/twoWarriors.png",
+            "nodeSizeX": 300.794677734375,
+            "nodeSizeY": 180.476806640625
+        },
+        {
+            "id": 31,
+            "imagePath": "/home/viktor/Downloads/simetrijaJedan01.png",
+            "nodeSizeX": 468.296142578125,
+            "nodeSizeY": 468.296142578125
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "name": "TESTING GROUNDS",
+            "nodeType": 2,
+            "relatedNodes": {
+                "2": {
+                    "id": 2,
+                    "relativePositionX": 362.250122070312,
+                    "relativePositionY": 389.27392578125
+                },
+                "3": {
+                    "id": 3,
+                    "relativePositionX": 374.543701171875,
+                    "relativePositionY": -0.6005859375
+                },
+                "6": {
+                    "id": 6,
+                    "relativePositionX": -371.899291992188,
+                    "relativePositionY": -261.6083984375
+                },
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -583.503784179688,
+                    "relativePositionY": 1.163330078125
+                },
+                "8": {
+                    "id": 8,
+                    "relativePositionX": -1653.68542480469,
+                    "relativePositionY": 268.620849609375
+                },
+                "14": {
+                    "id": 14,
+                    "relativePositionX": 228.525146484375,
+                    "relativePositionY": -224.340087890625
+                },
+                "15": {
+                    "id": 15,
+                    "relativePositionX": 233.398681640625,
+                    "relativePositionY": -134.6142578125
+                },
+                "16": {
+                    "id": 16,
+                    "relativePositionX": 379.895263671875,
+                    "relativePositionY": -137.092041015625
+                },
+                "17": {
+                    "id": 17,
+                    "relativePositionX": 376.272705078125,
+                    "relativePositionY": -223.632568359375
+                },
+                "18": {
+                    "id": 18,
+                    "relativePositionX": 827.683837890625,
+                    "relativePositionY": -291.500305175781
+                },
+                "19": {
+                    "id": 19,
+                    "relativePositionX": 1153.93310546875,
+                    "relativePositionY": -244.746948242188
+                },
+                "20": {
+                    "id": 20,
+                    "relativePositionX": 916.65673828125,
+                    "relativePositionY": 462.5419921875
+                },
+                "27": {
+                    "id": 27,
+                    "relativePositionX": 1190.53515625,
+                    "relativePositionY": 237.41943359375
+                },
+                "28": {
+                    "id": 28,
+                    "relativePositionX": 1485.68237304688,
+                    "relativePositionY": 235.49755859375
+                }
+            }
+        },
+        {
+            "id": 2,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -299.125366210938,
+                    "relativePositionY": -343.660095214844
+                },
+                "3": {
+                    "id": 3,
+                    "relativePositionX": 452.455444335938,
+                    "relativePositionY": -297.874084472656
+                },
+                "5": {
+                    "id": 5,
+                    "relativePositionX": -178.951293945312,
+                    "relativePositionY": 389.494598388672
+                }
+            }
+        },
+        {
+            "id": 3,
+            "name": "node",
+            "nodeType": 1,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -752.284057617188,
+                    "relativePositionY": -329.456848144531
+                },
+                "2": {
+                    "id": 2,
+                    "relativePositionX": -825.166381835938,
+                    "relativePositionY": 391.116821289062
+                },
+                "4": {
+                    "id": 4,
+                    "relativePositionX": 230.8642578125,
+                    "relativePositionY": 243.209915161133
+                }
+            }
+        },
+        {
+            "id": 4,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "3": {
+                    "id": 3,
+                    "relativePositionX": -230.8642578125,
+                    "relativePositionY": -243.209915161133
+                }
+            }
+        },
+        {
+            "id": 5,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "2": {
+                    "id": 2,
+                    "relativePositionX": 403.456359863281,
+                    "relativePositionY": -525.867309570312
+                }
+            }
+        },
+        {
+            "id": 6,
+            "name": "SPECULATION",
+            "nodeType": 1,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -0.865234375,
+                    "relativePositionY": -639.409423828125
+                },
+                "21": {
+                    "id": 21,
+                    "relativePositionX": 525.143127441406,
+                    "relativePositionY": 138.405029296875
+                },
+                "22": {
+                    "id": 22,
+                    "relativePositionX": 294.970336914062,
+                    "relativePositionY": -343.931640625
+                },
+                "23": {
+                    "id": 23,
+                    "relativePositionX": 362.103881835938,
+                    "relativePositionY": 389.653076171875
+                },
+                "24": {
+                    "id": 24,
+                    "relativePositionX": 28.80712890625,
+                    "relativePositionY": 572.816162109375
+                },
+                "25": {
+                    "id": 25,
+                    "relativePositionX": -309.549560546875,
+                    "relativePositionY": 381.979248046875
+                },
+                "26": {
+                    "id": 26,
+                    "relativePositionX": -520.166015625,
+                    "relativePositionY": 217.149169921875
+                }
+            }
+        },
+        {
+            "id": 7,
+            "name": "",
+            "nodeType": 1,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 708.409973144531,
+                    "relativePositionY": -108.411499023438
+                },
+                "9": {
+                    "id": 9,
+                    "relativePositionX": 204.973083496094,
+                    "relativePositionY": 282.615356445312
+                },
+                "10": {
+                    "id": 10,
+                    "relativePositionX": 295.859466552734,
+                    "relativePositionY": 126.450866699219
+                },
+                "11": {
+                    "id": 11,
+                    "relativePositionX": 260.242828369141,
+                    "relativePositionY": -78.5631103515625
+                },
+                "12": {
+                    "id": 12,
+                    "relativePositionX": 55.0687866210938,
+                    "relativePositionY": -192.595458984375
+                },
+                "13": {
+                    "id": 13,
+                    "relativePositionX": -203.093444824219,
+                    "relativePositionY": -148.690307617188
+                }
+            }
+        },
+        {
+            "id": 8,
+            "name": "wideboi",
+            "nodeType": 1,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 305.371032714844,
+                    "relativePositionY": -455.181762695312
+                }
+            }
+        },
+        {
+            "id": 9,
+            "name": "Fileyboi.",
+            "nodeType": 3,
+            "relatedNodes": {
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -391.844909667969,
+                    "relativePositionY": -359.662170410156
+                }
+            }
+        },
+        {
+            "id": 10,
+            "name": "FIEL",
+            "nodeType": 3,
+            "relatedNodes": {
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -329.258697509766,
+                    "relativePositionY": -103.505920410156
+                },
+                "12": {
+                    "id": 12,
+                    "relativePositionX": -240.790679931641,
+                    "relativePositionY": -319.046325683594
+                }
+            }
+        },
+        {
+            "id": 11,
+            "name": "Filegang assemble",
+            "nodeType": 3,
+            "relatedNodes": {
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -413.846801757812,
+                    "relativePositionY": -125.399353027344
+                }
+            }
+        },
+        {
+            "id": 12,
+            "name": "node",
+            "nodeType": 3,
+            "relatedNodes": {
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -130.585632324219,
+                    "relativePositionY": 115.322387695312
+                },
+                "10": {
+                    "id": 10,
+                    "relativePositionX": 240.790679931641,
+                    "relativePositionY": 319.046325683594
+                }
+            }
+        },
+        {
+            "id": 13,
+            "name": "node",
+            "nodeType": 3,
+            "relatedNodes": {
+                "7": {
+                    "id": 7,
+                    "relativePositionX": -55.0687866210938,
+                    "relativePositionY": -63.8106079101562
+                }
+            }
+        },
+        {
+            "id": 14,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 15,
+            "name": "node",
+            "nodeType": 3,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 16,
+            "name": "node",
+            "nodeType": 3,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 17,
+            "name": "node",
+            "nodeType": 3,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": 0,
+                    "relativePositionY": 0
+                }
+            }
+        },
+        {
+            "id": 18,
+            "name": "BlueDragonVsGenie",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -359.739501953125,
+                    "relativePositionY": 125.883361816406
+                },
+                "19": {
+                    "id": 19,
+                    "relativePositionX": 351.756103515625,
+                    "relativePositionY": -0.402099609375
+                },
+                "27": {
+                    "id": 27,
+                    "relativePositionX": 362.851318359375,
+                    "relativePositionY": 528.919738769531
+                },
+                "28": {
+                    "id": 28,
+                    "relativePositionX": 657.99853515625,
+                    "relativePositionY": 526.997863769531
+                }
+            }
+        },
+        {
+            "id": 19,
+            "name": "BlueDragon",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -842.671142578125,
+                    "relativePositionY": 130.803253173828
+                },
+                "18": {
+                    "id": 18,
+                    "relativePositionX": -405.297485351562,
+                    "relativePositionY": -52.338623046875
+                },
+                "27": {
+                    "id": 27,
+                    "relativePositionX": -125.934936523438,
+                    "relativePositionY": 526.874877929688
+                },
+                "28": {
+                    "id": 28,
+                    "relativePositionX": 274.357666015625,
+                    "relativePositionY": 500.500640869141
+                },
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 313.219970703125,
+                    "relativePositionY": -177.045227050781
+                },
+                "30": {
+                    "id": 30,
+                    "relativePositionX": 510.0419921875,
+                    "relativePositionY": 118.603546142578
+                },
+                "31": {
+                    "id": 31,
+                    "relativePositionX": 948.407592773438,
+                    "relativePositionY": -42.1947937011719
+                }
+            }
+        },
+        {
+            "id": 20,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -1406.14672851562,
+                    "relativePositionY": -542.324340820312
+                }
+            }
+        },
+        {
+            "id": 21,
+            "name": " “The Young Designer’s Guide to Speculative and Critical Design”",
+            "nodeType": 1,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": -391.730773925781,
+                    "relativePositionY": -204.378143310547
+                }
+            }
+        },
+        {
+            "id": 22,
+            "name": "Accident",
+            "nodeType": 0,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": -270.047058105469,
+                    "relativePositionY": -370.043975830078
+                }
+            }
+        },
+        {
+            "id": 23,
+            "name": "“Just design. Being Dogmatic about Defining Speculative Critical Design Future Fiction”",
+            "nodeType": 1,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": -258.318420410156,
+                    "relativePositionY": -387.636810302734
+                }
+            }
+        },
+        {
+            "id": 24,
+            "name": " ”Beyond Radical Design?”",
+            "nodeType": 1,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": -99.9829711914062,
+                    "relativePositionY": -477.066986083984
+                }
+            }
+        },
+        {
+            "id": 25,
+            "name": "Beyond Speculative design: Past - Present - Future",
+            "nodeType": 1,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": 135.561828613281,
+                    "relativePositionY": -351.455291748047
+                }
+            }
+        },
+        {
+            "id": 26,
+            "name": " Conversation between David Rudnick and Metahaven",
+            "nodeType": 1,
+            "relatedNodes": {
+                "6": {
+                    "id": 6,
+                    "relativePositionX": 202.714904785156,
+                    "relativePositionY": -299.564239501953
+                }
+            }
+        },
+        {
+            "id": 27,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -1440.1435546875,
+                    "relativePositionY": -545.878601074219
+                },
+                "18": {
+                    "id": 18,
+                    "relativePositionX": -419.091918945312,
+                    "relativePositionY": -739.210632324219
+                },
+                "19": {
+                    "id": 19,
+                    "relativePositionX": 1.293701171875,
+                    "relativePositionY": -357.426025390625
+                },
+                "28": {
+                    "id": 28,
+                    "relativePositionX": 295.147216796875,
+                    "relativePositionY": -1.921875
+                }
+            }
+        },
+        {
+            "id": 28,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "1": {
+                    "id": 1,
+                    "relativePositionX": -1545.6689453125,
+                    "relativePositionY": -509.350463867188
+                },
+                "18": {
+                    "id": 18,
+                    "relativePositionX": -657.99853515625,
+                    "relativePositionY": -526.997924804688
+                },
+                "19": {
+                    "id": 19,
+                    "relativePositionX": -293.853515625,
+                    "relativePositionY": -355.504150390625
+                },
+                "27": {
+                    "id": 27,
+                    "relativePositionX": -398.450073242188,
+                    "relativePositionY": 4.217529296875
+                }
+            }
+        },
+        {
+            "id": 29,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "19": {
+                    "id": 19,
+                    "relativePositionX": -489.692993164062,
+                    "relativePositionY": 88.736572265625
+                },
+                "32": {
+                    "id": 32,
+                    "relativePositionX": 295.245483398438,
+                    "relativePositionY": 308.310333251953
+                },
+                "33": {
+                    "id": 33,
+                    "relativePositionX": 349.623168945312,
+                    "relativePositionY": 193.280303955078
+                },
+                "34": {
+                    "id": 34,
+                    "relativePositionX": 565.043090820312,
+                    "relativePositionY": 51.0613708496094
+                },
+                "35": {
+                    "id": 35,
+                    "relativePositionX": 414.458374023438,
+                    "relativePositionY": -93.2489624023438
+                },
+                "36": {
+                    "id": 36,
+                    "relativePositionX": 209.495849609375,
+                    "relativePositionY": -172.724304199219
+                },
+                "37": {
+                    "id": 37,
+                    "relativePositionX": 8.7161865234375,
+                    "relativePositionY": -199.913146972656
+                },
+                "38": {
+                    "id": 38,
+                    "relativePositionX": 209.495849609375,
+                    "relativePositionY": -296.120056152344
+                },
+                "39": {
+                    "id": 39,
+                    "relativePositionX": 498.116577148438,
+                    "relativePositionY": -202.004577636719
+                },
+                "40": {
+                    "id": 40,
+                    "relativePositionX": 726.085327148438,
+                    "relativePositionY": -105.797668457031
+                },
+                "41": {
+                    "id": 41,
+                    "relativePositionX": 738.633666992188,
+                    "relativePositionY": 161.908477783203
+                },
+                "42": {
+                    "id": 42,
+                    "relativePositionX": 669.615600585938,
+                    "relativePositionY": 302.035919189453
+                },
+                "43": {
+                    "id": 43,
+                    "relativePositionX": 667.5244140625,
+                    "relativePositionY": 548.827514648438
+                },
+                "44": {
+                    "id": 44,
+                    "relativePositionX": 552.494384765625,
+                    "relativePositionY": 628.302856445312
+                },
+                "45": {
+                    "id": 45,
+                    "relativePositionX": 404.001098632812,
+                    "relativePositionY": 550.919067382812
+                },
+                "46": {
+                    "id": 46,
+                    "relativePositionX": 194.855712890625,
+                    "relativePositionY": 469.352325439453
+                },
+                "47": {
+                    "id": 47,
+                    "relativePositionX": 25.44775390625,
+                    "relativePositionY": 421.248809814453
+                },
+                "48": {
+                    "id": 48,
+                    "relativePositionX": 224.135986328125,
+                    "relativePositionY": 716.143920898438
+                },
+                "49": {
+                    "id": 49,
+                    "relativePositionX": -91.28466796875,
+                    "relativePositionY": 703.680908203125
+                },
+                "50": {
+                    "id": 50,
+                    "relativePositionX": 640.33544921875,
+                    "relativePositionY": 760.064453125
+                },
+                "51": {
+                    "id": 51,
+                    "relativePositionX": 912.224365234375,
+                    "relativePositionY": 440.071929931641
+                },
+                "52": {
+                    "id": 52,
+                    "relativePositionX": 1130.32971191406,
+                    "relativePositionY": 249.042205810547
+                },
+                "53": {
+                    "id": 53,
+                    "relativePositionX": 1120.76672363281,
+                    "relativePositionY": -5.974365234375
+                },
+                "54": {
+                    "id": 54,
+                    "relativePositionX": 948.630615234375,
+                    "relativePositionY": -257.803283691406
+                },
+                "55": {
+                    "id": 55,
+                    "relativePositionX": 722.303344726562,
+                    "relativePositionY": -353.434509277344
+                },
+                "56": {
+                    "id": 56,
+                    "relativePositionX": 476.849731445312,
+                    "relativePositionY": -407.625549316406
+                },
+                "57": {
+                    "id": 57,
+                    "relativePositionX": 288.775024414062,
+                    "relativePositionY": -538.321533203125
+                },
+                "58": {
+                    "id": 58,
+                    "relativePositionX": 49.697021484375,
+                    "relativePositionY": -531.946166992188
+                },
+                "59": {
+                    "id": 59,
+                    "relativePositionX": -151.128540039062,
+                    "relativePositionY": -292.868103027344
+                },
+                "60": {
+                    "id": 60,
+                    "relativePositionX": -320.077026367188,
+                    "relativePositionY": -385.311584472656
+                },
+                "61": {
+                    "id": 61,
+                    "relativePositionX": -294.575439453125,
+                    "relativePositionY": -120.731872558594
+                },
+                "62": {
+                    "id": 62,
+                    "relativePositionX": 1021.94787597656,
+                    "relativePositionY": -512.819946289062
+                },
+                "63": {
+                    "id": 63,
+                    "relativePositionX": 1283.33947753906,
+                    "relativePositionY": -232.301696777344
+                },
+                "64": {
+                    "id": 64,
+                    "relativePositionX": 1417.22326660156,
+                    "relativePositionY": 83.2814025878906
+                },
+                "65": {
+                    "id": 65,
+                    "relativePositionX": 1382.15881347656,
+                    "relativePositionY": 564.625244140625
+                },
+                "66": {
+                    "id": 66,
+                    "relativePositionX": 1076.13879394531,
+                    "relativePositionY": 669.819580078125
+                },
+                "67": {
+                    "id": 67,
+                    "relativePositionX": 926.316650390625,
+                    "relativePositionY": 905.7099609375
+                },
+                "68": {
+                    "id": 68,
+                    "relativePositionX": 467.286743164062,
+                    "relativePositionY": 934.399291992188
+                },
+                "69": {
+                    "id": 69,
+                    "relativePositionX": 291.962768554688,
+                    "relativePositionY": 947.150146484375
+                },
+                "70": {
+                    "id": 70,
+                    "relativePositionX": -326.452392578125,
+                    "relativePositionY": 835.580322265625
+                }
+            }
+        },
+        {
+            "id": 30,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "19": {
+                    "id": 19,
+                    "relativePositionX": -650.778930664062,
+                    "relativePositionY": -41.6260986328125
+                }
+            }
+        },
+        {
+            "id": 31,
+            "name": "node",
+            "nodeType": 2,
+            "relatedNodes": {
+                "19": {
+                    "id": 19,
+                    "relativePositionX": -761.026000976562,
+                    "relativePositionY": -362.622802734375
+                }
+            }
+        },
+        {
+            "id": 32,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -485.56787109375,
+                    "relativePositionY": -279.029937744141
+                }
+            }
+        },
+        {
+            "id": 33,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -479.29345703125,
+                    "relativePositionY": -214.194854736328
+                }
+            }
+        },
+        {
+            "id": 34,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -565.043090820312,
+                    "relativePositionY": -51.0613708496094
+                }
+            }
+        },
+        {
+            "id": 35,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -414.458374023438,
+                    "relativePositionY": 93.2489624023438
+                }
+            }
+        },
+        {
+            "id": 36,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -209.495849609375,
+                    "relativePositionY": 172.724273681641
+                }
+            }
+        },
+        {
+            "id": 37,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -8.7161865234375,
+                    "relativePositionY": 199.913116455078
+                }
+            }
+        },
+        {
+            "id": 38,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -209.495849609375,
+                    "relativePositionY": 296.120086669922
+                }
+            }
+        },
+        {
+            "id": 39,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -498.116577148438,
+                    "relativePositionY": 202.004608154297
+                }
+            }
+        },
+        {
+            "id": 40,
+            "name": "node",
+            "nodeType": 1,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -763.731323242188,
+                    "relativePositionY": 43.0540771484375
+                }
+            }
+        },
+        {
+            "id": 41,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -780.462768554688,
+                    "relativePositionY": -199.554656982422
+                }
+            }
+        },
+        {
+            "id": 42,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -816.017456054688,
+                    "relativePositionY": -243.475189208984
+                }
+            }
+        },
+        {
+            "id": 43,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -667.5244140625,
+                    "relativePositionY": -548.827514648438
+                }
+            }
+        },
+        {
+            "id": 44,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -552.494384765625,
+                    "relativePositionY": -628.302856445312
+                }
+            }
+        },
+        {
+            "id": 45,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -404.001098632812,
+                    "relativePositionY": -550.919067382812
+                }
+            }
+        },
+        {
+            "id": 46,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -257.599365234375,
+                    "relativePositionY": -513.272827148438
+                }
+            }
+        },
+        {
+            "id": 47,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -148.843627929688,
+                    "relativePositionY": -515.3642578125
+                }
+            }
+        },
+        {
+            "id": 48,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -224.135986328125,
+                    "relativePositionY": -716.143920898438
+                }
+            }
+        },
+        {
+            "id": 49,
+            "name": "node",
+            "nodeType": 1,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 49.844482421875,
+                    "relativePositionY": -764.247314453125
+                }
+            }
+        },
+        {
+            "id": 50,
+            "name": "node",
+            "nodeType": 1,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -640.33544921875,
+                    "relativePositionY": -760.064453125
+                }
+            }
+        },
+        {
+            "id": 51,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -912.224487304688,
+                    "relativePositionY": -440.071929931641
+                }
+            }
+        },
+        {
+            "id": 52,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1130.32971191406,
+                    "relativePositionY": -249.042205810547
+                }
+            }
+        },
+        {
+            "id": 53,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1120.76672363281,
+                    "relativePositionY": 5.97439575195312
+                }
+            }
+        },
+        {
+            "id": 54,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -948.630493164062,
+                    "relativePositionY": 257.803314208984
+                }
+            }
+        },
+        {
+            "id": 55,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -722.303344726562,
+                    "relativePositionY": 353.434539794922
+                }
+            }
+        },
+        {
+            "id": 56,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -476.849731445312,
+                    "relativePositionY": 407.625518798828
+                }
+            }
+        },
+        {
+            "id": 57,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -288.775024414062,
+                    "relativePositionY": 538.321533203125
+                }
+            }
+        },
+        {
+            "id": 58,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -49.697021484375,
+                    "relativePositionY": 531.946166992188
+                }
+            }
+        },
+        {
+            "id": 59,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 151.128540039062,
+                    "relativePositionY": 292.868072509766
+                }
+            }
+        },
+        {
+            "id": 60,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 320.077026367188,
+                    "relativePositionY": 385.311614990234
+                }
+            }
+        },
+        {
+            "id": 61,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 348.766479492188,
+                    "relativePositionY": 92.0425109863281
+                }
+            }
+        },
+        {
+            "id": 62,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1021.94787597656,
+                    "relativePositionY": 512.819946289062
+                }
+            }
+        },
+        {
+            "id": 63,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1283.33972167969,
+                    "relativePositionY": 232.301666259766
+                }
+            }
+        },
+        {
+            "id": 64,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1417.22351074219,
+                    "relativePositionY": -83.2814025878906
+                }
+            }
+        },
+        {
+            "id": 65,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1382.15881347656,
+                    "relativePositionY": -564.625244140625
+                }
+            }
+        },
+        {
+            "id": 66,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -1076.13879394531,
+                    "relativePositionY": -669.819580078125
+                }
+            }
+        },
+        {
+            "id": 67,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -926.316528320312,
+                    "relativePositionY": -905.7099609375
+                }
+            }
+        },
+        {
+            "id": 68,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -467.286743164062,
+                    "relativePositionY": -934.399291992188
+                }
+            }
+        },
+        {
+            "id": 69,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": -291.962768554688,
+                    "relativePositionY": -947.150146484375
+                }
+            }
+        },
+        {
+            "id": 70,
+            "name": "node",
+            "nodeType": 0,
+            "relatedNodes": {
+                "29": {
+                    "id": 29,
+                    "relativePositionX": 1.3062744140625,
+                    "relativePositionY": -943.96240234375
+                }
+            }
+        }
+    ],
+    "settings": {
+        "lastNodeId": 70,
+        "lastWireId": 77
+    },
+    "textData": [
+        {
+            "id": 3,
+            "nodeSizeX": 356.790100097656,
+            "nodeSizeY": 153.08642578125,
+            "nodeText": "This text has a purpose."
+        },
+        {
+            "id": 6,
+            "nodeSizeX": 235.671630859375,
+            "nodeSizeY": 110.50846862793,
+            "nodeText": "Course presentation notes for SEMINAR1"
+        },
+        {
+            "id": 7,
+            "nodeSizeX": 0,
+            "nodeSizeY": 137.899490356445,
+            "nodeText": "No name, for real tho.\n\nFull of files."
+        },
+        {
+            "id": 8,
+            "nodeSizeX": 1425.70556640625,
+            "nodeSizeY": 315.18408203125,
+            "nodeText": "How wide exactly?\t\t                                                                                                                                                                                                                                                                                         Exactly."
+        },
+        {
+            "id": 21,
+            "nodeSizeX": 177.394287109375,
+            "nodeSizeY": 46.9141845703125,
+            "nodeText": "Leon Karlsen Johannessen"
+        },
+        {
+            "id": 23,
+            "nodeSizeX": 196.453369140625,
+            "nodeSizeY": 74.76953125,
+            "nodeText": "Cameron Tonkinwise, "
+        },
+        {
+            "id": 24,
+            "nodeSizeX": 169.409057617188,
+            "nodeSizeY": 97.6773071289062,
+            "nodeText": "Anthony Dunne & Fiona Raby,"
+        },
+        {
+            "id": 25,
+            "nodeSizeX": 163.30419921875,
+            "nodeSizeY": 0,
+            "nodeText": "Ivica Mitrović, James Auger, Julian Hanna, Ingi Helgason (eds.), "
+        },
+        {
+            "id": 26,
+            "nodeSizeX": 0,
+            "nodeSizeY": 0,
+            "nodeText": "Outland,"
+        },
+        {
+            "id": 40,
+            "nodeSizeX": 0,
+            "nodeSizeY": 0,
+            "nodeText": ""
+        },
+        {
+            "id": 49,
+            "nodeSizeX": 0,
+            "nodeSizeY": 0,
+            "nodeText": ""
+        },
+        {
+            "id": 50,
+            "nodeSizeX": 0,
+            "nodeSizeY": 0,
+            "nodeText": ""
+        }
+    ],
+    "wires": [
+        {
+            "id": 1,
+            "sourceId": 1,
+            "targetId": 2
+        },
+        {
+            "id": 2,
+            "sourceId": 1,
+            "targetId": 3
+        },
+        {
+            "id": 3,
+            "sourceId": 3,
+            "targetId": 4
+        },
+        {
+            "id": 4,
+            "sourceId": 2,
+            "targetId": 3
+        },
+        {
+            "id": 5,
+            "sourceId": 2,
+            "targetId": 5
+        },
+        {
+            "id": 6,
+            "sourceId": 1,
+            "targetId": 6
+        },
+        {
+            "id": 7,
+            "sourceId": 1,
+            "targetId": 7
+        },
+        {
+            "id": 8,
+            "sourceId": 1,
+            "targetId": 8
+        },
+        {
+            "id": 9,
+            "sourceId": 7,
+            "targetId": 9
+        },
+        {
+            "id": 10,
+            "sourceId": 7,
+            "targetId": 10
+        },
+        {
+            "id": 11,
+            "sourceId": 7,
+            "targetId": 11
+        },
+        {
+            "id": 12,
+            "sourceId": 7,
+            "targetId": 12
+        },
+        {
+            "id": 13,
+            "sourceId": 7,
+            "targetId": 13
+        },
+        {
+            "id": 14,
+            "sourceId": 10,
+            "targetId": 12
+        },
+        {
+            "id": 15,
+            "sourceId": 1,
+            "targetId": 14
+        },
+        {
+            "id": 16,
+            "sourceId": 1,
+            "targetId": 15
+        },
+        {
+            "id": 17,
+            "sourceId": 1,
+            "targetId": 16
+        },
+        {
+            "id": 18,
+            "sourceId": 1,
+            "targetId": 17
+        },
+        {
+            "id": 19,
+            "sourceId": 1,
+            "targetId": 18
+        },
+        {
+            "id": 20,
+            "sourceId": 1,
+            "targetId": 19
+        },
+        {
+            "id": 21,
+            "sourceId": 1,
+            "targetId": 20
+        },
+        {
+            "id": 22,
+            "sourceId": 6,
+            "targetId": 21
+        },
+        {
+            "id": 23,
+            "sourceId": 6,
+            "targetId": 22
+        },
+        {
+            "id": 24,
+            "sourceId": 6,
+            "targetId": 23
+        },
+        {
+            "id": 25,
+            "sourceId": 6,
+            "targetId": 24
+        },
+        {
+            "id": 26,
+            "sourceId": 6,
+            "targetId": 25
+        },
+        {
+            "id": 27,
+            "sourceId": 6,
+            "targetId": 26
+        },
+        {
+            "id": 28,
+            "sourceId": 1,
+            "targetId": 27
+        },
+        {
+            "id": 29,
+            "sourceId": 1,
+            "targetId": 28
+        },
+        {
+            "id": 30,
+            "sourceId": 18,
+            "targetId": 19
+        },
+        {
+            "id": 31,
+            "sourceId": 18,
+            "targetId": 27
+        },
+        {
+            "id": 32,
+            "sourceId": 18,
+            "targetId": 28
+        },
+        {
+            "id": 33,
+            "sourceId": 27,
+            "targetId": 28
+        },
+        {
+            "id": 34,
+            "sourceId": 27,
+            "targetId": 19
+        },
+        {
+            "id": 35,
+            "sourceId": 28,
+            "targetId": 19
+        },
+        {
+            "id": 36,
+            "sourceId": 19,
+            "targetId": 29
+        },
+        {
+            "id": 37,
+            "sourceId": 19,
+            "targetId": 30
+        },
+        {
+            "id": 38,
+            "sourceId": 19,
+            "targetId": 31
+        },
+        {
+            "id": 39,
+            "sourceId": 29,
+            "targetId": 32
+        },
+        {
+            "id": 40,
+            "sourceId": 29,
+            "targetId": 33
+        },
+        {
+            "id": 41,
+            "sourceId": 29,
+            "targetId": 34
+        },
+        {
+            "id": 42,
+            "sourceId": 29,
+            "targetId": 35
+        },
+        {
+            "id": 43,
+            "sourceId": 29,
+            "targetId": 36
+        },
+        {
+            "id": 44,
+            "sourceId": 29,
+            "targetId": 37
+        },
+        {
+            "id": 45,
+            "sourceId": 29,
+            "targetId": 38
+        },
+        {
+            "id": 46,
+            "sourceId": 29,
+            "targetId": 39
+        },
+        {
+            "id": 47,
+            "sourceId": 29,
+            "targetId": 40
+        },
+        {
+            "id": 48,
+            "sourceId": 29,
+            "targetId": 41
+        },
+        {
+            "id": 49,
+            "sourceId": 29,
+            "targetId": 42
+        },
+        {
+            "id": 50,
+            "sourceId": 29,
+            "targetId": 43
+        },
+        {
+            "id": 51,
+            "sourceId": 29,
+            "targetId": 44
+        },
+        {
+            "id": 52,
+            "sourceId": 29,
+            "targetId": 45
+        },
+        {
+            "id": 53,
+            "sourceId": 29,
+            "targetId": 46
+        },
+        {
+            "id": 54,
+            "sourceId": 29,
+            "targetId": 47
+        },
+        {
+            "id": 55,
+            "sourceId": 29,
+            "targetId": 48
+        },
+        {
+            "id": 56,
+            "sourceId": 29,
+            "targetId": 49
+        },
+        {
+            "id": 57,
+            "sourceId": 29,
+            "targetId": 50
+        },
+        {
+            "id": 58,
+            "sourceId": 29,
+            "targetId": 51
+        },
+        {
+            "id": 59,
+            "sourceId": 29,
+            "targetId": 52
+        },
+        {
+            "id": 60,
+            "sourceId": 29,
+            "targetId": 53
+        },
+        {
+            "id": 61,
+            "sourceId": 29,
+            "targetId": 54
+        },
+        {
+            "id": 62,
+            "sourceId": 29,
+            "targetId": 55
+        },
+        {
+            "id": 63,
+            "sourceId": 29,
+            "targetId": 56
+        },
+        {
+            "id": 64,
+            "sourceId": 29,
+            "targetId": 57
+        },
+        {
+            "id": 65,
+            "sourceId": 29,
+            "targetId": 58
+        },
+        {
+            "id": 66,
+            "sourceId": 29,
+            "targetId": 59
+        },
+        {
+            "id": 67,
+            "sourceId": 29,
+            "targetId": 60
+        },
+        {
+            "id": 68,
+            "sourceId": 29,
+            "targetId": 61
+        },
+        {
+            "id": 69,
+            "sourceId": 29,
+            "targetId": 62
+        },
+        {
+            "id": 70,
+            "sourceId": 29,
+            "targetId": 63
+        },
+        {
+            "id": 71,
+            "sourceId": 29,
+            "targetId": 64
+        },
+        {
+            "id": 72,
+            "sourceId": 29,
+            "targetId": 65
+        },
+        {
+            "id": 73,
+            "sourceId": 29,
+            "targetId": 66
+        },
+        {
+            "id": 74,
+            "sourceId": 29,
+            "targetId": 67
+        },
+        {
+            "id": 75,
+            "sourceId": 29,
+            "targetId": 68
+        },
+        {
+            "id": 76,
+            "sourceId": 29,
+            "targetId": 69
+        },
+        {
+            "id": 77,
+            "sourceId": 29,
+            "targetId": 70
+        }
+    ]
+}
