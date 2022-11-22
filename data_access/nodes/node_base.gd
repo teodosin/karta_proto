@@ -4,14 +4,20 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 var id: int
 var name: String
-var relatedNodes = {} # id -> RelatedNode
+var relatedNodes: Dictionary # id -> RelatedNode
 var nodeType: String
 
 
 var assignedPositions: int = 0
 
 
-func _init(n_id: int, n_name: String, n_rel: Dictionary, n_type: String = "BASE"):
+func _init(
+	n_id: int, 
+	n_name: String = "node", 
+	n_rel: Dictionary = {}, 
+	n_type: String = "BASE"
+	):
+		
 	self.id = n_id
 	self.name = n_name
 	self.relatedNodes = n_rel

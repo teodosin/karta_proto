@@ -1,6 +1,7 @@
 extends PanelContainer
 
 var imageData: NodeImage
+var aspect: float = 1.0 # height / width
 
 var resizingRight: bool = false
 var resizingBottom: bool = false
@@ -15,10 +16,13 @@ func _ready():
 func _process(_delta):
 	if resizingRight:
 		custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
+		
+		custom_minimum_size.y = custom_minimum_size.x / aspect
 		imageData.nodeSize = custom_minimum_size
 		
 	if resizingBottom:
-		custom_minimum_size.y = previousSize.y + ( get_global_mouse_position().y - resizeClickPosition.y)
+		custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y - resizeClickPosition.y)
+		custom_minimum_size.x = custom_minimum_size.y * aspect
 		imageData.nodeSize = custom_minimum_size
 
 func _on_button_pressed():
@@ -41,10 +45,11 @@ func loadImage(path):
 	var texture = ImageTexture.new()
 	texture.set_image(image)
 	
+	if texture.get_size() > Vector2(1,1):
+		aspect = texture.get_size().x / texture.get_size().y
+	
 	$TextureRect.texture = texture
 
-
-	
 
 func _on_bottom_edge_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):

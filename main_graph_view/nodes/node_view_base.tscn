@@ -75,6 +75,8 @@ offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
+highlightColor = Color(0.556863, 0.278431, 0, 1)
+focalColor = Color(1, 0.615686, 0, 1)
 
 [node name="PinnedPanel" type="Panel" parent="VBoxContainer/Indicators"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
@@ -85,6 +87,8 @@ offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("4_r2n7k")
+highlightColor = Color(0.243137, 0.380392, 0.505882, 1)
+pinnedColor = Color(0.443137, 0.505882, 1, 1)
 
 [node name="BackgroundPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 25)

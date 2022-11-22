@@ -1,8 +1,8 @@
 extends Panel
 
-var unselectedColor: Color = Color("333333")
-var highlightColor: Color = Color("aa5500")
-var focalColor: Color = Color("ffcc33")
+@export var unselectedColor: Color = Color("000015")
+@export var highlightColor: Color = Color("aa5500")
+@export var focalColor: Color = Color("ffcc33")
 
 
 var currentColor: Color = unselectedColor

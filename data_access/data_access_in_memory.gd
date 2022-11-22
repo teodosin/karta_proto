@@ -282,8 +282,8 @@ func addWire(srcId: int, trgtId: int) -> WireBase:
 	return newWire
 	
 func getNode(id: int) -> NodeBase: 
-	print("LOOKING FOR " + str(id) + " NODE IN " + str(nodes.keys()) + "(claims "+ str(nodes.has(id)) + ")")
-	print(str(nodes[id]))
+	#print("LOOKING FOR " + str(id) + " NODE IN " + str(nodes.keys()) + "(claims "+ str(nodes.has(id)) + ")")
+	#print(str(nodes[id]))
 	assert(nodes.has(id), "ERROR node not found")
 	return nodes[id]
 	

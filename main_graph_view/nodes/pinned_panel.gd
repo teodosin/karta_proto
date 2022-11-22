@@ -1,8 +1,8 @@
 extends Panel
 
-var unselectedColor: Color = Color("334373")
-var highlightColor: Color = Color("aa0055")
-var pinnedColor: Color = Color("bbccff")
+@export var unselectedColor: Color = Color("000015")
+@export var highlightColor: Color = Color("aa0055")
+@export var pinnedColor: Color = Color("bbccff")
 
 
 var currentColor: Color = unselectedColor

@@ -33,11 +33,6 @@ signal nodeMoved
 
 func _ready():
 	match dataNode.nodeType:
-		"BASE":
-			$VBoxContainer/BackgroundPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			$VBoxContainer/BackgroundPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			$VBoxContainer/BackgroundPanel.gui_input.connect(self._on_background_panel_gui_input)
-			
 		"TEXT":
 			var basePanel = $VBoxContainer/BackgroundPanel
 			$VBoxContainer.remove_child(basePanel)
@@ -68,6 +63,11 @@ func _ready():
 			
 			$VBoxContainer.add_child(imagePanel)
 			
+		_: 
+			$VBoxContainer/BackgroundPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			$VBoxContainer/BackgroundPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			$VBoxContainer/BackgroundPanel.gui_input.connect(self._on_background_panel_gui_input)
+
 			
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)

@@ -33,12 +33,8 @@ func _input(event):
 
 func setZoom(mult: float, toMouse: bool):
 	
-	var tween = create_tween().set_parallel(true)
-	
 	self.zoom *= mult
-	for n in $PinnedNodes.get_children():
-		tween.tween_property(n, "scale", Vector2(1.0,1.0) / self.zoom, .0001) 
-	
+
 	if toMouse:
 				# Zoom is centered on mouse position
 		var adjustedPosition = (get_global_mouse_position() - self.position) * 0.1

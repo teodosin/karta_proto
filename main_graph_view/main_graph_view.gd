@@ -218,8 +218,6 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		if spawned.keys().has(nid):
 			continue
 		
-		print("ID IN QUESTION" + str(nid))	
-		
 		toBeSpawned.append(data.getNode(nid))
 		
 	return toBeSpawned
@@ -290,5 +288,4 @@ func _on_save_all_button_button_down():
 
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
-	print("NEWNODE IS OF TYPE " + str(Enums.NodeTypes.keys()[id]))
 	createNode(Enums.NodeTypes.keys()[id], true)
