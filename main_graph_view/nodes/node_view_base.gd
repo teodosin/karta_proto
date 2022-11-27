@@ -29,6 +29,7 @@ signal thisNodeAsFocal
 signal thisNodeAsPinned(nodeId, isTrue)
 
 signal nodeMoved
+signal nodeDeleteSelf
 
 
 func _ready():
@@ -143,6 +144,9 @@ func _on_background_panel_gui_input(event):
 		rightMousePressed.emit()
 	if event.is_action_released("mouseRight"):
 		pass
+		
+	if event.is_action_pressed("delete"):
+		nodeDeleteSelf.emit()
 
 
 func _on_background_panel_mouse_entered():

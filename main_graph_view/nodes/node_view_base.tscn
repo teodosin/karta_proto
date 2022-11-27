@@ -54,6 +54,7 @@ size_flags_vertical = 3
 theme_override_fonts/font = SubResource("SystemFont_kqvky")
 theme_override_styles/focus = SubResource("StyleBoxFlat_wwt55")
 expand_to_text_length = true
+middle_mouse_paste_enabled = false
 selecting_enabled = false
 flat = true
 caret_blink = true
@@ -64,7 +65,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Indicators" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 124.0
+offset_right = 100.0
 offset_bottom = 20.0
 
 [node name="FocalPanel" type="Panel" parent="VBoxContainer/Indicators"]
@@ -79,6 +80,7 @@ highlightColor = Color(0.556863, 0.278431, 0, 1)
 focalColor = Color(1, 0.615686, 0, 1)
 
 [node name="PinnedPanel" type="Panel" parent="VBoxContainer/Indicators"]
+visible = false
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
 offset_left = 64.0
@@ -93,7 +95,7 @@ pinnedColor = Color(0.443137, 0.505882, 1, 1)
 [node name="BackgroundPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 25)
 offset_top = 24.0
-offset_right = 124.0
+offset_right = 100.0
 offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2

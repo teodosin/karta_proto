@@ -39,13 +39,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="DeleteAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-layout_mode = 2
 offset_right = 97.0
 offset_bottom = 31.0
 text = "DELETE ALL"
 
 [node name="SaveAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-layout_mode = 2
 offset_top = 35.0
 offset_right = 97.0
 offset_bottom = 66.0

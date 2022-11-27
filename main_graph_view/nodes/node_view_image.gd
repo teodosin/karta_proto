@@ -33,8 +33,11 @@ func _process(_delta):
 		imageData.nodeSize = custom_minimum_size
 
 func _on_button_pressed():
-	$TextureRect.grab_focus()
-	$ImageFileDialog.position = get_viewport_rect().size / 2
+	$TextureRect.grab_focus()	
+	$ImageFileDialog.size.y = 400
+	
+	$ImageFileDialog.position = get_viewport_rect().size / 2 - Vector2($ImageFileDialog.size / 2)
+
 	$ImageFileDialog.popup()
 
 func _on_image_file_dialog_file_selected(path):

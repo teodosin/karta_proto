@@ -41,7 +41,6 @@ func _input(event):
 		$NewNodePopup.position = get_viewport().get_mouse_position()
 		$NewNodePopup.popup()
 
-	
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
 			createWire(nodeWireSource, nodeHovering)
@@ -91,6 +90,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
+	
+	newNode.nodeDeleteSelf.connect(self.handle_node_delete_self.bind(newNode))
 
 	newNode.set_position(spawnPos-newNode.size/2)	
 
@@ -263,18 +264,24 @@ func _draw():
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
 
-func handle_node_click(newNode):
-	nodeWireSource = newNode	
+func handle_node_click(node):
+	nodeWireSource = node	
 
-func handle_mouse_hover(newNode):
+func handle_mouse_hover(node):
 	if nodeWireSource:
-		nodeHovering = newNode
+		nodeHovering = node
 
 func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[newFocalId.id])
 		
 func handle_node_set_itself_pinned(node):
 	setAsPinned(node.id)
+	
+func handle_node_delete_self(node):
+	var idArray: Array = [node.id]
+	
+	despawnNodes(idArray)
+	dataAccess.deleteNode(node.id)
 
 # THE DELETE EVERYTHING BUTTON
 func _on_button_button_down():

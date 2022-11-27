@@ -154,7 +154,7 @@ func loadNode(loadedId: int, loadedName: String, loadedRelated, loadedType: Stri
 	
 	return loadedNode
 
-func loadWire(wid, srcWid, trgtWid) -> WireBase:
+func loadWire(wid: int, srcWid: int, trgtWid: int) -> WireBase:
 	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid)
 	wires[wid] = loadedWire
 	
@@ -278,7 +278,7 @@ func addNode(nodeType: String = "BASE") -> NodeBase:
 func addWire(srcId: int, trgtId: int) -> WireBase:
 	lastWireId += 1
 	var newWire: WireBase = WireBase.new(lastWireId, srcId, trgtId)
-	wires[str(lastWireId)] = newWire
+	wires[lastWireId] = newWire
 	return newWire
 	
 func getNode(id: int) -> NodeBase: 
@@ -310,6 +310,24 @@ func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 
 func getAllWires() -> Dictionary:
 	return wires 
+
+func deleteNode(nodeId: int):
+	nodes.erase(nodeId)
+	textData.erase(nodeId)
+	imageData.erase(nodeId)
+	for w in wires.values():
+		print("ID: " + str(w.id) + " | SRC: " + str(w.sourceId) + " | TRGT: " + str(w.targetId))
+		
+		print(str(wires))
+		
+		if w.sourceId == nodeId:
+			nodes[w.targetId].relatedNodes.erase(w.sourceId)
+			print(str(wires.erase(w.id)) + " was the result of deletion")
+		elif w.targetId == nodeId:
+			nodes[w.sourceId].relatedNodes.erase(w.targetId)
+			print(str(wires.erase(w.id)) + " was the result of deletion")
+			
+	saveData()
 
 func deleteAll():
 	nodes = {}
