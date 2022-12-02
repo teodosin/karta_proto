@@ -1,5 +1,7 @@
 extends Node2D
 
+const Enums = preload("res://data_access/enum_node_types.gd")
+
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
 @onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
 
@@ -7,13 +9,18 @@ var focalNode: NodeViewBase = null
 var nodeWireSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
 
+var debugView = false
+
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
+var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 
 func _ready():
+	
+	
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
@@ -31,26 +38,31 @@ func _process(_delta):
 func _input(event):
 	
 	if event.is_action_pressed("createNewNode"):
-		createNode(true)
-	
+		$NewNodePopup.position = get_viewport().get_mouse_position()
+		$NewNodePopup.popup()
+
 	if event.is_action_released("mouseRight"):
 		if nodeWireSource and nodeHovering:
 			createWire(nodeWireSource, nodeHovering)
 		nodeWireSource = null
 		nodeHovering = null
 
+	if event.is_action_pressed("debugView"):
+		debugView = !debugView
+		for n in get_tree().get_nodes_in_group("DEBUG"):
 
-func createNode(atMouse: bool = false) -> NodeViewBase:
+			n.visible = debugView
+
+func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
-	var dataNode: NodeBase = dataAccess.addNode()
+	var dataNode: NodeBase = dataAccess.addNode(nodeType)
 	
 	dataAccess.saveData()
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
-	# If there is no focalNode, the first node created will become that.
-
-			
+	# If there is a focal node, the new node will be automatically connected
+	# to it as its target.			
 	createWire(focalNode, newNode)	
 	
 	return newNode
@@ -68,23 +80,25 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
 	
-	print("DATANODE: " + str(newNode.dataNode.relatedNodes.values()))
+	newNode.typeData = dataAccess.getTypeData(newNode.id)
+	
+
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
-
-	newNode.set_position(spawnPos)	
+	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
 	
+	newNode.nodeDeleteSelf.connect(self.handle_node_delete_self.bind(newNode))
 
-		
-	# If there is a focal node, the new node will be automatically connected
-	# to it as its target.
+	newNode.set_position(spawnPos-newNode.size/2)	
+
 	add_child(newNode)
 	spawnedNodes[newNode.id] = newNode
 	
+	# If there is no focalNode, the first node created will become that.	
 	if not focalNode:
 		setAsFocal(newNode)
 		newNode.setAsFocal(focalNode.id)
@@ -92,32 +106,25 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	return newNode
 	
 
+
 func createWire(source, target) -> WireViewBase:
 	if source.id == target.id:
 		return
 	
 	var newWireData = dataAccess.addWire(source.id, target.id)
 	
- # Currently, the dataNode on each NodeViewBase and the NodeBase stored by 
- # dataAccess need to be updated separately. This is inefficient, no?
-
 	source.dataNode.addRelatedNode(target.id)
-	dataAccess.addRelatedNode(source.id, target.id, source.position, target.position)
-	
 	target.dataNode.addRelatedNode(source.id)
-	dataAccess.addRelatedNode(target.id, source.id, target.position, source.position)
-
 
 	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
-	dataAccess.updateRelatedNodePosition(source.id, target.id, source.position, target.position)
-		
 	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
-	dataAccess.updateRelatedNodePosition(target.id, source.id, target.position, source.position)
-		
+
 		
 	dataAccess.saveData()
 	var newWire = spawnWire(newWireData)
 	return newWire
+
+
 
 func spawnWire(newWireData: WireBase) -> WireViewBase:
 	if !spawnedNodes.keys().has(newWireData.sourceId) or !spawnedNodes.keys().has(newWireData.targetId):
@@ -133,15 +140,42 @@ func spawnWire(newWireData: WireBase) -> WireViewBase:
 	add_child(newWire)
 	return newWire
 
+
+
 func saveRelativePositions():
 	if focalNode != null:
 
 		for relatedId in focalNode.dataNode.relatedNodes.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			print(str(typeof(int(relatedId)) == TYPE_INT) + str(spawnedNodes.keys()))
+			if pinnedNodes.keys().has(relatedId):
+				return
+
 			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
-			dataAccess.updateRelatedNodePosition(focalNode.id, relatedId, focalNode.position, spawnedNodes[relatedId].position)				
+
 	
+func setAsPinned(nodeId):
+	print(str(nodeId))
+	if !spawnedNodes.keys().has(nodeId):
+		return
+
+	var node = spawnedNodes[nodeId]
+
+	
+	if spawnedNodes[nodeId].isPinned == true :
+		print("SETTING AS PINNED")
+
+		remove_child(node)
+		$GraphViewCamera/PinnedNodes.add_child(node)
+		print("CHILDREN Of PinLayer"+str($GraphViewCamera/PinnedNodes.get_children()))
+		pinnedNodes[node.id] = node
+		spawnedNodes.erase(node.id)
+	elif pinnedNodes[nodeId].isPinned == false:
+		$GraphViewCamera/PinnedNodes.remove_child(node)
+		add_child(node)
+		spawnedNodes[node.id] = node
+		pinnedNodes.erase(node.id)
+		print("NODESCALE" + str(node.scale))
+		
 func setAsFocal(node):
 	# Can't set focal node if it's already the focal
 	if focalNode == node:
@@ -174,6 +208,8 @@ func setAsFocal(node):
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
+	
+	
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 	var related = node.dataNode.relatedNodes
 	
@@ -183,11 +219,11 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		if spawned.keys().has(nid):
 			continue
 		
-		print("ID IN QUESTION" + str(nid))	
-		
 		toBeSpawned.append(data.getNode(nid))
 		
 	return toBeSpawned
+	
+	
 	
 func spawnNodes(toBeSpawned):
 	for n in toBeSpawned:
@@ -195,6 +231,8 @@ func spawnNodes(toBeSpawned):
 		
 	for w in dataAccess.wires.values():
 		spawnWire(w)
+	
+	
 	
 func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 	var toBeDeleted: Array = []
@@ -207,6 +245,8 @@ func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
+
+
 
 func despawnNodes(toBeDeleted: Array):
 	for nid in toBeDeleted:
@@ -224,21 +264,35 @@ func _draw():
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
 
-func _on_add_button_pressed():
-	createNode()
+func handle_node_click(node):
+	nodeWireSource = node	
 
-func handle_node_click(newNode):
-	nodeWireSource = newNode	
-
-func handle_mouse_hover(newNode):
+func handle_mouse_hover(node):
 	if nodeWireSource:
-		nodeHovering = newNode
+		nodeHovering = node
 
 func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[newFocalId.id])
 		
+func handle_node_set_itself_pinned(node):
+	setAsPinned(node.id)
+	
+func handle_node_delete_self(node):
+	var idArray: Array = [node.id]
+	
+	despawnNodes(idArray)
+	dataAccess.deleteNode(node.id)
 
 # THE DELETE EVERYTHING BUTTON
 func _on_button_button_down():
 	despawnNodes(spawnedNodes.keys())
 	dataAccess.deleteAll()
+
+# SAVE ALL
+func _on_save_all_button_button_down():
+	saveRelativePositions()
+	dataAccess.saveData()
+
+# CREATE NODE POPUP MENU
+func _on_new_node_popup_id_pressed(id):
+	createNode(Enums.NodeTypes.keys()[id], true)

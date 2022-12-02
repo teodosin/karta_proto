@@ -1,19 +1,19 @@
 class_name DataAccess
 
-func addNode() -> NodeBase:
+func addNode(_nodeType: String) -> NodeBase:
 	return null
 	
-func getNode(id: int) -> NodeBase: 
+func getNode(_id: int) -> NodeBase: 
 	return null
 	
-func updateRelatedNodePosition(id: int, relatedId: int, selfPosition: Vector2, relatedPosition: Vector2):
+func updateRelatedNodePosition(_id: int, _relatedId: int, _selfPosition: Vector2, _relatedPosition: Vector2):
 	pass
 	
-func addRelatedNode(id: int, relatedId: int, selfPosition, relatedPosition: Vector2):
+func addRelatedNode(_id: int, _relatedId: int, _selfPosition: Vector2, _relatedPosition: Vector2):
 	pass
 	
-func addWire(fromId: int, toId: int):
+func addWire(_fromId: int, _toId: int):
 	pass
 	
-func getAllRelatedWires(id: int) -> Array[WireBase]:
+func getAllRelatedWires(_id: int) -> Array[WireBase]:
 	return [] 

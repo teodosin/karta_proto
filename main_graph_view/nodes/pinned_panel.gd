@@ -1,8 +1,8 @@
 extends Panel
 
 @export var unselectedColor: Color = Color("000015")
-@export var highlightColor: Color = Color("aa5500")
-@export var focalColor: Color = Color("ffcc33")
+@export var highlightColor: Color = Color("aa0055")
+@export var pinnedColor: Color = Color("bbccff")
 
 
 var currentColor: Color = unselectedColor
@@ -11,9 +11,9 @@ var currentColor: Color = unselectedColor
 func _ready():
 	self.modulate = currentColor
 
-func setFocal(isTrue: bool):
+func setPinned(isTrue: bool):
 	if isTrue:
-		updateColor(focalColor)
+		updateColor(pinnedColor)
 	else:
 		updateColor(unselectedColor)
 	
@@ -22,12 +22,12 @@ func updateColor(col: Color):
 	self.modulate = currentColor
 
 func _on_mouse_entered():
-	if currentColor == focalColor:
+	if currentColor == pinnedColor:
 		return
 		
 	updateColor(highlightColor)
 func _on_mouse_exited():
-	if currentColor == focalColor:
+	if currentColor == pinnedColor:
 		return
 	
 	updateColor(unselectedColor)

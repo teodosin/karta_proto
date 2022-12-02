@@ -1,8 +1,12 @@
 class_name NodeViewBase
 extends Control
 
+var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
+var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
+
 var id: int
 var isFocal: bool = false
+var isPinned: bool = false
 
 var spawning = true
 var despawning = false
@@ -16,53 +20,74 @@ var nextPosition = null
 var animationStep: float = 0.0
 
 var dataNode: NodeBase = null
+var typeData = null
 
 signal rightMousePressed
 signal mouseHovering
+
 signal thisNodeAsFocal
+signal thisNodeAsPinned(nodeId, isTrue)
+
 signal nodeMoved
+signal nodeDeleteSelf
 
 
 func _ready():
+	match dataNode.nodeType:
+		"TEXT":
+			var basePanel = $VBoxContainer/BackgroundPanel
+			$VBoxContainer.remove_child(basePanel)
+			basePanel.queue_free()
+			
+			var textPanel = textNode.instantiate()
+			
+			textPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			textPanel.gui_input.connect(self._on_background_panel_gui_input)
+			
+			textPanel.textData = typeData
+			
+			$VBoxContainer.add_child(textPanel)
+		
+		"IMAGE":
+			var basePanel = $VBoxContainer/BackgroundPanel
+			$VBoxContainer.remove_child(basePanel)
+			basePanel.queue_free()
+			
+			var imagePanel = imageNode.instantiate()
+			
+			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
+			
+			imagePanel.imageData = typeData
+			
+			$VBoxContainer.add_child(imagePanel)
+			
+		_: 
+			$VBoxContainer/BackgroundPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			$VBoxContainer/BackgroundPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			$VBoxContainer/BackgroundPanel.gui_input.connect(self._on_background_panel_gui_input)
+
+			
+	# Fade in at spawn
+	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	var spawnTween = create_tween()
+	spawnTween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
 	
+	$DebugContainer/IdLabel.text = str(id)
+	$DebugContainer/TypeLabel.text = str(dataNode.nodeType)
+	$DebugContainer/TypeDataLabel.text = str(typeData)
 	
-	$BackgroundPanel/IdLabel.text = str(id)
+	$NodeName.text = str(dataNode.name)
 	
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
-	return self.position + ($BackgroundPanel.size / 2)
+	return self.global_position + $VBoxContainer.size / 2
 	
 
 func _process(delta):
-	# fade In when spawning
-	
-	if spawning:
-		fadeOut -= delta * 3
-		self.modulate = lerp(Color(1.0,1.0,1.0,1.0), Color(1.0,1.0,1.0,0.0), ease(fadeOut, -2.0))
-		if fadeOut <= 0.0:
-			spawning = false
-			fadeOut = 1.0
-	
-	# Fade-out when despawning
-	if despawning:
-		fadeOut -= delta * 3
-		self.modulate = lerp(Color(1.0,1.0,1.0,0.0), Color(1.0,1.0,1.0,1.0), ease(fadeOut, -2.0))
-		if fadeOut <= 0.0:
-			get_parent().remove_child(self)
-			self.queue_free()	
-	
-	
-	# Logic for smoothly moving the node to a new position
-	if nextPosition != null:
-		var difference = nextPosition - prevPosition
-		if self.position != nextPosition:
-			self.position = lerp(prevPosition, nextPosition, ease(animationStep, -2.0))
-			animationStep += delta * 2
-		else:
-			prevPosition = null
-			nextPosition = null
-			animationStep = 0.0
-	
+
 	# Logic for moving the node manually with the mouse
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
@@ -71,32 +96,45 @@ func _process(delta):
 		if !isFocal:
 			pass
 
+func setAsPinned():
+	return
+	
+	isPinned = !isPinned
+	thisNodeAsPinned.emit()
+	$VBoxContainer/Indicators/PinnedPanel.setPinned(isPinned)
+	
 
 
 func setAsFocal(newFocalId):
+	if isPinned:
+		return 
 	# If the id of the new Focal matches this node's id,
 	# mark it as the new focal
 	if self.id == newFocalId:	
 		self.isFocal = true		
 		thisNodeAsFocal.emit()
-		$BackgroundPanel/FocalPanel.setFocal(true)
+		$VBoxContainer/Indicators/FocalPanel.setFocal(true)
 	else:
-		$BackgroundPanel/FocalPanel.setFocal(false)
+		self.isFocal = false
+		$VBoxContainer/Indicators/FocalPanel.setFocal(false)
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition):
-	if newPosition == null:
-		return
+	var tween = create_tween()
+	tween.tween_property(self, "position", newPosition, 0.3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
 	
-	self.prevPosition = self.position
-	self.nextPosition = newPosition
 
 func despawn():
-	despawning = true
+	var despawnTween = create_tween()
+	despawnTween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.2).set_ease(Tween.EASE_IN)
+	despawnTween.tween_callback(deleteSelf)
 		# Also remove the node from the array of references
+func deleteSelf():
+	get_parent().remove_child(self)
+	self.queue_free()	
 
 func _on_background_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft"):
+	if event.is_action_pressed("mouseLeft") and $VBoxContainer.get_child(1).has_focus():
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
@@ -106,6 +144,9 @@ func _on_background_panel_gui_input(event):
 		rightMousePressed.emit()
 	if event.is_action_released("mouseRight"):
 		pass
+		
+	if event.is_action_pressed("delete"):
+		nodeDeleteSelf.emit()
 
 
 func _on_background_panel_mouse_entered():
@@ -121,3 +162,13 @@ func _on_focal_panel_gui_input(event):
 		setAsFocal(id)
 	else:
 		pass
+
+func _on_node_name_text_changed(new_text):
+	dataNode.name = new_text
+	
+	
+
+
+func _on_pinned_panel_gui_input(event):
+	if event.is_action_pressed("mouseLeft"):
+		setAsPinned()

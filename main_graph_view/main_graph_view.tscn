@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cun1l1kswppkw"]
+[gd_scene load_steps=4 format=3 uid="uid://cun1l1kswppkw"]
 
 [ext_resource type="Script" path="res://main_graph_view/GraphViewCamera.gd" id="1_bnjw7"]
 [ext_resource type="Script" path="res://main_graph_view/main_graph_view.gd" id="1_irfyb"]
+[ext_resource type="PackedScene" uid="uid://bkx345ns55b02" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_irfyb")
@@ -10,11 +11,46 @@ script = ExtResource("1_irfyb")
 current = true
 script = ExtResource("1_bnjw7")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="FocusGrabber" type="Control" parent="GraphViewCamera"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1479.0
+offset_top = -1234.0
+offset_right = -1145.0
+offset_bottom = 489.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(8.89264, 1.43098)
+size_flags_horizontal = 3
+focus_mode = 1
 
-[node name="Button" type="Button" parent="CanvasLayer"]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="PinnedNodes" type="Node2D" parent="GraphViewCamera"]
+z_index = 100
+
+[node name="PinnedLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD_Layer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD_Layer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DeleteAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
+offset_right = 97.0
+offset_bottom = 31.0
 text = "DELETE ALL"
 
-[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]
+[node name="SaveAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
+offset_top = 35.0
+offset_right = 97.0
+offset_bottom = 66.0
+text = "SAVE ALL"
+
+[node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]
+
+[connection signal="button_down" from="HUD_Layer/VBoxContainer/DeleteAllButton" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="HUD_Layer/VBoxContainer/SaveAllButton" to="." method="_on_save_all_button_button_down"]
+[connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]
