@@ -77,7 +77,7 @@ func _ready():
 	
 	$DebugContainer/IdLabel.text = str(id)
 	$DebugContainer/TypeLabel.text = str(dataNode.nodeType)
-	$DebugContainer/TypeDataLabel.text = str(typeData)
+	$DebugContainer/TimeLabel.text = str(dataNode.time)
 	
 	$NodeName.text = str(dataNode.name)
 	

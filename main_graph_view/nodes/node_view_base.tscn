@@ -43,6 +43,7 @@ script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="."]
 layout_direction = 1
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -61,18 +62,17 @@ caret_blink = true
 script = ExtResource("2_km87o")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Indicators" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 100.0
-offset_bottom = 20.0
+layout_mode = 2
 
 [node name="FocalPanel" type="Panel" parent="VBoxContainer/Indicators"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
-offset_right = 60.0
-offset_bottom = 20.0
+layout_mode = 2
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
@@ -83,9 +83,7 @@ focalColor = Color(1, 0.615686, 0, 1)
 visible = false
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
-offset_left = 64.0
-offset_right = 124.0
-offset_bottom = 20.0
+layout_mode = 2
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("4_r2n7k")
@@ -94,16 +92,13 @@ pinnedColor = Color(0.443137, 0.505882, 1, 1)
 
 [node name="BackgroundPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 25)
-offset_top = 24.0
-offset_right = 100.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 focus_mode = 1
 theme = SubResource("Theme_14gnd")
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
 visible = false
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -112,21 +107,17 @@ offset_bottom = 50.0
 grow_horizontal = 0
 
 [node name="IdLabel" type="Label" parent="DebugContainer"]
-offset_right = 1.0
-offset_bottom = 23.0
+layout_mode = 2
 size_flags_vertical = 0
 horizontal_alignment = 2
 
 [node name="TypeLabel" type="Label" parent="DebugContainer"]
-offset_top = 27.0
-offset_right = 1.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_vertical = 0
 horizontal_alignment = 2
 
-[node name="TypeDataLabel" type="Label" parent="DebugContainer"]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="TimeLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
 
 [connection signal="focus_exited" from="NodeName" to="NodeName" method="_on_focus_exited"]
 [connection signal="gui_input" from="NodeName" to="NodeName" method="_on_gui_input"]

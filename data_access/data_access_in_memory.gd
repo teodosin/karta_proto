@@ -96,20 +96,27 @@ func loadData():
 			break
 		
 		var loadedId: int
+		var loadedTime: float
 		var loadedName: String
 		var loadedRelated = {}
 		var loadedType: String
 		
-		if inode.has("id") and inode.has("name") and inode.has("relatedNodes") and inode.has("nodeType"):
+		if inode.has("id") \
+			#and inode.has("time") \
+			and inode.has("name") \
+			and inode.has("relatedNodes") \
+			and inode.has("nodeType"):
+				
 			assert(typeof(inode["relatedNodes"]) == TYPE_DICTIONARY, "ERROR: relatedNodes is not a dictionary.")
 			loadedId = inode["id"]
+			loadedTime = inode["time"]
 			loadedName = inode["name"]
 			loadedType = Enums.NodeTypes.keys()[inode["nodeType"]]
 			for rel in inode["relatedNodes"].values():
 				var loadedRel = RelatedNode.new(int(rel["id"]), Vector2(rel["relativePositionX"], rel["relativePositionY"]))
 				loadedRelated[int(rel["id"])] = loadedRel
 			
-			loadNode(loadedId, loadedName, loadedRelated, loadedType)
+			loadNode(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 			
 			
 	for iwire in foundWires:
@@ -156,8 +163,8 @@ func loadData():
 		
 		
 		
-func loadNode(loadedId: int, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
-	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedName, loadedRelated, loadedType)
+func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
+	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 	nodes[loadedId] = loadedNode
 	
 	return loadedNode
@@ -212,6 +219,7 @@ func saveData():
 			
 			var nodeDict = {
 				"id": c.id,
+				"time": c.time,
 				"name": c.name,
 				"relatedNodes": related,
 				"nodeType": Enums.NodeTypes[c.nodeType]
@@ -253,7 +261,7 @@ func saveData():
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 
-	print("NODE ARRAY SIZE:" + nodesToBeSaved.size())
+	print("NODE ARRAY SIZE:", nodesToBeSaved.size())
 	
 	var json = JSON.new()
 		
