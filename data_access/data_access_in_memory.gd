@@ -17,7 +17,8 @@ var imageData: Dictionary = {} # id --> NodeImage
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-var save_path := "res://data_access/node_data.json"
+var backup_save_path := "res://data_access/node_data_backup.json"
+var save_path := "user://node_data.json"
 
 var defaultSettings: Dictionary = {
 	"lastNodeId": 0,
@@ -25,8 +26,11 @@ var defaultSettings: Dictionary = {
 }
 
 func loadData():
-	if not FileAccess.file_exists(save_path):
-		print("File does not exist")
+
+	
+	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):
+		print("File does not exist.")
+
 		return {
 			"settings": defaultSettings, 
 			"nodes": {}, 
@@ -37,11 +41,15 @@ func loadData():
 			"imageData": {}
 #^^^^^^^^^^^^^^^^^ 
 		}
+	var file
+	
+	if not FileAccess.file_exists(save_path) and FileAccess.file_exists(backup_save_path):
+		print("File does not exist. Starting from defaults.")
+		file = FileAccess.open(backup_save_path, FileAccess.READ)
+	else:
+		file = FileAccess.open(save_path, FileAccess.READ)
+		print("file found")
 		
-	print("file found")
-		
-	var file = FileAccess.open(save_path, FileAccess.READ)
-
 	# This variable may be unnecessary
 	var _json = JSON.new()
 	
