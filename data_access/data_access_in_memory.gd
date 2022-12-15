@@ -5,8 +5,7 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 var nodes: Dictionary = {} # id -> NodeBase
 var wires: Dictionary = {} # id -> WireBase
-var lastNodeId: int = 0
-var lastWireId: int = 0
+var lastId: int = 0
 
 
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -17,12 +16,11 @@ var imageData: Dictionary = {} # id --> NodeImage
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-var backup_save_path := "res://data_access/node_data_backup.json"
+var backup_save_path := "res://data_access/node_data_backups.json"
 var save_path := "user://node_data.json"
 
 var defaultSettings: Dictionary = {
-	"lastNodeId": 0,
-	"lastWireId": 0
+	"lastId": 0
 }
 
 func loadData():
@@ -88,8 +86,8 @@ func loadData():
 		foundImages = []
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	lastNodeId = foundSettings["lastNodeId"]
-	lastWireId = foundSettings["lastWireId"]
+	lastId = foundSettings["lastId"]
+
 	
 	for inode in foundNodes:
 		if foundNodes.is_empty():
@@ -126,11 +124,19 @@ func loadData():
 		var loadedId: int
 		var loadedSource: int
 		var loadedTarget: int
-		if iwire.has("id") and iwire.has("sourceId") and iwire.has("targetId"):
+		var loadedType: String
+		var loadedGroup: String
+		if iwire.has("id") \
+		and iwire.has("sourceId") \
+		and iwire.has("targetId") \
+		and iwire.has("type") \
+		and iwire.has("group"):
 			loadedId = iwire["id"]
 			loadedSource = iwire["sourceId"]
 			loadedTarget = iwire["targetId"]
-			loadWire(loadedId, loadedSource, loadedTarget)
+			loadedType = iwire["type"]
+			loadedGroup = iwire["group"]
+			loadWire(loadedId, loadedSource, loadedTarget, loadedType, loadedGroup)
 	
 			
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -169,8 +175,8 @@ func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelate
 	
 	return loadedNode
 
-func loadWire(wid: int, srcWid: int, trgtWid: int) -> WireBase:
-	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid)
+func loadWire(wid: int, srcWid: int, trgtWid: int, type: String, group: String) -> WireBase:
+	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid, type, group)
 	wires[wid] = loadedWire
 	
 	return loadedWire
@@ -202,8 +208,7 @@ func saveData():
 	var imagesToBeSaved: Array[Dictionary] = []
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	settingsToBeSaved["lastNodeId"] = lastNodeId
-	settingsToBeSaved["lastWireId"] = lastWireId
+	settingsToBeSaved["lastId"] = lastId
 	
 	for c in nodes.values():
 		if (c is NodeBase):
@@ -232,7 +237,9 @@ func saveData():
 			var wireDict = {
 				"id": c.id,
 				"sourceId": c.sourceId,
-				"targetId": c.targetId
+				"targetId": c.targetId,
+				"type": c.wireType,
+				"group": c.wireGroup
 			}
 			
 			wiresToBeSaved.append(wireDict)
@@ -268,33 +275,36 @@ func saveData():
 	#var save_game = FileAccess.open(savePath, FileAccess.WRITE)
 	var file = FileAccess.open(save_path,FileAccess.WRITE)
 	var json_nodes = JSON.stringify({
-		"settings": settingsToBeSaved, "nodes": nodesToBeSaved, "wires": wiresToBeSaved,
+		"settings": settingsToBeSaved, 
+		"nodes": nodesToBeSaved, 
+		"wires": wiresToBeSaved,
 		
-		"textData": textToBeSaved, "imageData": imagesToBeSaved	
+		"textData": textToBeSaved, 
+		"imageData": imagesToBeSaved	
 	})
 
 	file.store_line(json_nodes)
 
 func addNode(nodeType: String = "BASE") -> NodeBase:
-	lastNodeId += 1
-	var newNode: NodeBase = NodeBase.new(lastNodeId, "node", {}, nodeType)
-	nodes[lastNodeId] = newNode
+	lastId += 1
+	var newNode: NodeBase = NodeBase.new(lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)
+	nodes[lastId] = newNode
 	
 	match nodeType:
 		"TEXT":
-			var newText: NodeText = NodeText.new(lastNodeId, Vector2(0.0,0.0), "")
-			textData[lastNodeId] = newText
+			var newText: NodeText = NodeText.new(lastId, Vector2(0.0,0.0), "")
+			textData[lastId] = newText
 		"IMAGE":
-			var newImage: NodeImage = NodeImage.new(lastNodeId, Vector2(0.0,0.0), "")
-			imageData[lastNodeId] = newImage
+			var newImage: NodeImage = NodeImage.new(lastId, Vector2(0.0,0.0), "")
+			imageData[lastId] = newImage
 			
 			
 	return newNode
 
-func addWire(srcId: int, trgtId: int) -> WireBase:
-	lastWireId += 1
-	var newWire: WireBase = WireBase.new(lastWireId, srcId, trgtId)
-	wires[lastWireId] = newWire
+func addWire(srcId: int, trgtId: int, type: String = "BASE", group: String = "none") -> WireBase:
+	lastId += 1
+	var newWire: WireBase = WireBase.new(lastId, srcId, trgtId, type, group)
+	wires[lastId] = newWire
 	return newWire
 	
 func getNode(id: int) -> NodeBase: 
