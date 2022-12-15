@@ -1,11 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://cun1l1kswppkw"]
+[gd_scene load_steps=7 format=3 uid="uid://cun1l1kswppkw"]
 
 [ext_resource type="Script" path="res://main_graph_view/GraphViewCamera.gd" id="1_bnjw7"]
 [ext_resource type="Script" path="res://main_graph_view/main_graph_view.gd" id="1_irfyb"]
+[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="2_lh44w"]
 [ext_resource type="PackedScene" uid="uid://bkx345ns55b02" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
+
+[sub_resource type="Environment" id="Environment_2g866"]
+ambient_light_color = Color(0.435294, 0.266667, 0.196078, 1)
+
+[sub_resource type="World3D" id="World3D_rg1n4"]
+environment = SubResource("Environment_2g866")
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_irfyb")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_rg1n4")
+size = Vector2i(40, 40)
+size_2d_override_stretch = true
+
+[node name="Sprite3D" type="Sprite3D" parent="SubViewportContainer/SubViewport"]
+texture = ExtResource("2_lh44w")
 
 [node name="GraphViewCamera" type="Camera2D" parent="."]
 current = true
@@ -39,14 +60,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="DeleteAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-offset_right = 97.0
-offset_bottom = 31.0
+layout_mode = 2
 text = "DELETE ALL"
 
 [node name="SaveAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-offset_top = 35.0
-offset_right = 97.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "SAVE ALL"
 
 [node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]

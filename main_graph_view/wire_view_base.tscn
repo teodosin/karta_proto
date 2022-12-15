@@ -11,6 +11,7 @@ z_index = -20
 script = ExtResource("1_308h3")
 
 [node name="WireGroupLabel" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = SubResource("SystemFont_wooev")

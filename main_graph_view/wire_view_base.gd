@@ -24,9 +24,11 @@ func _process(_delta):
 	if is_instance_valid(target):
 		targetPos = target.getPositionCenter()
 		
+
 	$WireGroupLabel.global_position = sourcePos + targetPos / 2
 	
 	queue_redraw()
+	#self.global_position = sourcePos + (targetPos / 2)
 	
 func deleteSelf():
 	get_parent().remove_child(self)
