@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://main_graph_view/nodes/pinned_panel.gd" id="4_r2n7k"]
 
 [sub_resource type="SystemFont" id="SystemFont_kqvky"]
-font_style = 1
 generate_mipmaps = true
 multichannel_signed_distance_field = true
 
@@ -65,14 +64,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Indicators" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 100.0
-offset_bottom = 20.0
 
 [node name="FocalPanel" type="Panel" parent="VBoxContainer/Indicators"]
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
-offset_right = 60.0
-offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("2_djlw1")
@@ -83,9 +78,6 @@ focalColor = Color(1, 0.615686, 0, 1)
 visible = false
 modulate = Color(0.466667, 0.447059, 0.454902, 1)
 custom_minimum_size = Vector2(60, 20)
-offset_left = 64.0
-offset_right = 124.0
-offset_bottom = 20.0
 size_flags_vertical = 0
 theme = SubResource("Theme_bolh2")
 script = ExtResource("4_r2n7k")
@@ -94,11 +86,6 @@ pinnedColor = Color(0.443137, 0.505882, 1, 1)
 
 [node name="BackgroundPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 25)
-offset_top = 24.0
-offset_right = 100.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
 focus_mode = 1
 theme = SubResource("Theme_14gnd")
 
@@ -112,21 +99,14 @@ offset_bottom = 50.0
 grow_horizontal = 0
 
 [node name="IdLabel" type="Label" parent="DebugContainer"]
-offset_right = 1.0
-offset_bottom = 23.0
 size_flags_vertical = 0
 horizontal_alignment = 2
 
 [node name="TypeLabel" type="Label" parent="DebugContainer"]
-offset_top = 27.0
-offset_right = 1.0
-offset_bottom = 50.0
 size_flags_vertical = 0
 horizontal_alignment = 2
 
-[node name="TypeDataLabel" type="Label" parent="DebugContainer"]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="TimeLabel" type="Label" parent="DebugContainer"]
 
 [connection signal="focus_exited" from="NodeName" to="NodeName" method="_on_focus_exited"]
 [connection signal="gui_input" from="NodeName" to="NodeName" method="_on_gui_input"]

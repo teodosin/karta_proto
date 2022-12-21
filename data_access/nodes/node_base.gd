@@ -3,6 +3,7 @@ class_name NodeBase
 const Enums = preload("res://data_access/enum_node_types.gd")
 
 var id: int
+var time: float
 var name: String
 var relatedNodes: Dictionary # id -> RelatedNode
 var nodeType: String
@@ -13,12 +14,14 @@ var assignedPositions: int = 0
 
 func _init(
 	n_id: int, 
+	n_time: float = Time.get_unix_time_from_system(),
 	n_name: String = "node", 
 	n_rel: Dictionary = {}, 
 	n_type: String = "BASE"
 	):
 		
 	self.id = n_id
+	self.time = n_time
 	self.name = n_name
 	self.relatedNodes = n_rel
 	self.nodeType = n_type

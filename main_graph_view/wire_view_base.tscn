@@ -1,7 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://meayqcvs4dg0"]
+[gd_scene load_steps=3 format=3 uid="uid://meayqcvs4dg0"]
 
 [ext_resource type="Script" path="res://main_graph_view/wire_view_base.gd" id="1_308h3"]
+
+[sub_resource type="SystemFont" id="SystemFont_wooev"]
+font_weight = 200
+multichannel_signed_distance_field = true
 
 [node name="WireViewBase" type="Node2D"]
 z_index = -20
 script = ExtResource("1_308h3")
+
+[node name="WireGroupLabel" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = SubResource("SystemFont_wooev")
+horizontal_alignment = 1
+vertical_alignment = 1

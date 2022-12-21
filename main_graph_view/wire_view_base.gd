@@ -8,6 +8,9 @@ var target: NodeViewBase
 var sourcePos: Vector2
 var targetPos: Vector2
 
+func _ready():
+	$WireGroupLabel.text = "Wier"
+
 func _process(_delta):
 	if !is_instance_valid(source) or !is_instance_valid(target):
 		var despawnTween = create_tween()
@@ -20,8 +23,12 @@ func _process(_delta):
 	
 	if is_instance_valid(target):
 		targetPos = target.getPositionCenter()
+		
+
+	$WireGroupLabel.global_position = sourcePos + targetPos / 2
 	
 	queue_redraw()
+	#self.global_position = sourcePos + (targetPos / 2)
 	
 func deleteSelf():
 	get_parent().remove_child(self)

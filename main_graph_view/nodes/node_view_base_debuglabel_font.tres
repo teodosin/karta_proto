@@ -1,0 +1,7 @@
+[gd_resource type="SystemFont" format=3 uid="uid://bpeb37wsyc46q"]
+
+[resource]
+font_names = PackedStringArray("\"Georgia\"")
+font_weight = 225
+generate_mipmaps = true
+multichannel_signed_distance_field = true
