@@ -3,17 +3,17 @@
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_view_text.gd" id="1_wjbmc"]
 [ext_resource type="Script" path="res://main_graph_view/nodes/view_text.gd" id="2_1xxp7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2v0s"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_covcx"]
 bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="Theme" id="Theme_xpckv"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_l2v0s")
+[sub_resource type="Theme" id="Theme_kryfs"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_covcx")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r03t"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75v5n"]
 content_margin_left = 10.0
 content_margin_top = 0.0
 content_margin_right = 0.0
@@ -28,7 +28,7 @@ offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 1
-theme = SubResource("Theme_xpckv")
+theme = SubResource("Theme_kryfs")
 script = ExtResource("1_wjbmc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -42,7 +42,7 @@ offset_bottom = 32.0
 size_flags_vertical = 3
 mouse_filter = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r03t")
+theme_override_styles/normal = SubResource("StyleBoxFlat_75v5n")
 context_menu_enabled = false
 selecting_enabled = false
 middle_mouse_paste_enabled = false

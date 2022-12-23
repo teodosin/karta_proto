@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" path="res://main_graph_view/nodes/node_view_image.gd" id="1_3ocrs"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6vhp4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btnsv"]
 bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="Theme" id="Theme_3k8lv"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_6vhp4")
+[sub_resource type="Theme" id="Theme_xfln3"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_btnsv")
 
 [node name="NodeViewImage" type="PanelContainer"]
 custom_minimum_size = Vector2(100, 25)
@@ -20,7 +20,7 @@ offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 1
-theme = SubResource("Theme_3k8lv")
+theme = SubResource("Theme_xfln3")
 script = ExtResource("1_3ocrs")
 
 [node name="TextureRect" type="TextureRect" parent="."]

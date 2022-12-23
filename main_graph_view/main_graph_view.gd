@@ -188,8 +188,15 @@ func setAsFocal(node):
 	
 	saveRelativePositions()	
 	
+	var previousPosition 
+	if focalNode != null:
+		previousPosition = focalNode.get_global_transform_with_canvas().origin
+	else:
+		previousPosition = node.position
+	
 	focalNode = node
 	
+
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
 	despawnNodes(toBeDespawned)
 	
@@ -207,6 +214,9 @@ func setAsFocal(node):
 		var newPosition = focalNode.dataNode.getRelatedNodePosition(n.id, focalNode.position)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
+	
+	var newCameraPos = focalNode.get_global_transform_with_canvas().origin.lerp(previousPosition, 0.5)
+	var moveCamera = create_tween().set_ease(Tween.EASE_IN_OUT).tween_property($GraphViewCamera, "position", newCameraPos, 0.5 )
 	
 	
 	
