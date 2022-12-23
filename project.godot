@@ -10,6 +10,16 @@ config_version=5
 
 _global_script_classes=[{
 "base": "RefCounted",
+"class": &"Command",
+"language": &"GDScript",
+"path": "res://main_graph_view/commands/command.gd"
+}, {
+"base": "Command",
+"class": &"CreateNodeCommand",
+"language": &"GDScript",
+"path": "res://main_graph_view/commands/create_node_command.gd"
+}, {
+"base": "RefCounted",
 "class": &"DataAccess",
 "language": &"GDScript",
 "path": "res://data_access/data_access.gd"
@@ -44,6 +54,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://data_access/nodes/related_node.gd"
 }, {
+"base": "Command",
+"class": &"SpawnNodeCommand",
+"language": &"GDScript",
+"path": "res://main_graph_view/commands/spawn_node_command.gd"
+}, {
+"base": "RefCounted",
+"class": &"Spawner",
+"language": &"GDScript",
+"path": "res://main_graph_view/spawner.gd"
+}, {
 "base": "RefCounted",
 "class": &"WireBase",
 "language": &"GDScript",
@@ -55,6 +75,8 @@ _global_script_classes=[{
 "path": "res://main_graph_view/wire_view_base.gd"
 }]
 _global_script_class_icons={
+"Command": "",
+"CreateNodeCommand": "",
 "DataAccess": "",
 "DataAccessInMemory": "",
 "NodeBase": "",
@@ -62,6 +84,8 @@ _global_script_class_icons={
 "NodeText": "",
 "NodeViewBase": "",
 "RelatedNode": "",
+"SpawnNodeCommand": "",
+"Spawner": "",
 "WireBase": "",
 "WireViewBase": ""
 }

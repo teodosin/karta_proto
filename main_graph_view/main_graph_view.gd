@@ -19,8 +19,6 @@ var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 
 func _ready():
-	
-	
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
