@@ -1,9 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dp7thy6v5k6ye"]
+[gd_scene load_steps=11 format=3]
 
-[ext_resource type="Script" path="res://main_graph_view/nodes/node_view_base.gd" id="1_jnnre"]
-[ext_resource type="Script" path="res://main_graph_view/nodes/focal_panel.gd" id="2_djlw1"]
-[ext_resource type="Script" path="res://main_graph_view/nodes/NodeName.gd" id="2_km87o"]
-[ext_resource type="Script" path="res://main_graph_view/nodes/pinned_panel.gd" id="4_r2n7k"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/scripts/node_view_base.gd" id="1_jnnre"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/scripts/focal_panel.gd" id="2_djlw1"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/scripts/NodeName.gd" id="2_km87o"]
+[ext_resource type="Script" path="res://main_graph_view/nodes/scripts/pinned_panel.gd" id="4_r2n7k"]
 
 [sub_resource type="SystemFont" id="SystemFont_kqvky"]
 generate_mipmaps = true

@@ -2,7 +2,7 @@ extends Node2D
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
-@onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
+@onready var nodeBaseTemplate = load("res://main_graph_view/nodes/scenes/node_view_base.tscn")
 @onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
 
 var focalNode: NodeViewBase = null

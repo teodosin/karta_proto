@@ -47,6 +47,8 @@ text = "SAVE ALL"
 
 [node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]
 
+[node name="Node" type="Node" parent="."]
+
 [connection signal="button_down" from="HUD_Layer/VBoxContainer/DeleteAllButton" to="." method="_on_button_button_down"]
 [connection signal="button_down" from="HUD_Layer/VBoxContainer/SaveAllButton" to="." method="_on_save_all_button_button_down"]
 [connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]

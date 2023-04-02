@@ -1,8 +1,8 @@
 class_name NodeViewBase
 extends Control
 
-var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
-var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
+var textNode = preload("res://main_graph_view/nodes/scenes/node_view_text.tscn")
+var imageNode = preload("res://main_graph_view/nodes/scenes/node_view_image.tscn")
 
 var id: int
 var isFocal: bool = false
