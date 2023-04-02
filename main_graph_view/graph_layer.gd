@@ -11,7 +11,7 @@ var nodeHovering: NodeViewBase = null
 
 var debugView = false
 
-var dataAccess: DataAccess = DataAccessInMemory.new()
+#var dataAccess: DataAccess = DataAccessor.new()
 
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
@@ -20,11 +20,10 @@ var spawnedWires: Dictionary = {} # id -> WireViewBase
 
 func _ready():
 	
+	DataAccessor.loadData()
 	
-	dataAccess.loadData()
-	
-	if not dataAccess.nodes.is_empty():	
-		for noob in dataAccess.nodes.values():
+	if not DataAccessor.nodes.is_empty():	
+		for noob in DataAccessor.nodes.values():
 			spawnNode(noob)
 			break
 
@@ -55,9 +54,9 @@ func _input(event):
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
-	var dataNode: NodeBase = dataAccess.addNode(nodeType)
+	var dataNode: NodeBase = DataAccessor.addNode(nodeType)
 	
-	dataAccess.saveData()
+	DataAccessor.saveData()
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
@@ -80,7 +79,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
 	
-	newNode.typeData = dataAccess.getTypeData(newNode.id)
+	newNode.typeData = DataAccessor.getTypeData(newNode.id)
 	
 
 	
@@ -111,7 +110,7 @@ func createWire(source, target) -> WireViewBase:
 	if source.id == target.id:
 		return
 	
-	var newWireData = dataAccess.addWire(source.id, target.id)
+	var newWireData = DataAccessor.addWire(source.id, target.id)
 	
 	source.dataNode.addRelatedNode(target.id)
 	target.dataNode.addRelatedNode(source.id)
@@ -120,7 +119,7 @@ func createWire(source, target) -> WireViewBase:
 	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
 
 		
-	dataAccess.saveData()
+	DataAccessor.saveData()
 	var newWire = spawnWire(newWireData)
 	return newWire
 
@@ -193,7 +192,7 @@ func setAsFocal(node):
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
 	despawnNodes(toBeDespawned)
 	
-	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
+	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes)
 	spawnNodes(toBeSpawned)
 	
 	# Reposition camera on new focal node:
@@ -210,7 +209,7 @@ func setAsFocal(node):
 	
 	
 	
-func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
+func findUnspawnedRelatedNodes(node: NodeViewBase, spawned):
 	var related = node.dataNode.relatedNodes
 	
 	var toBeSpawned: Array[NodeBase] = []
@@ -219,7 +218,7 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		if spawned.keys().has(nid):
 			continue
 		
-		toBeSpawned.append(data.getNode(nid))
+		toBeSpawned.append(DataAccessor.getNode(nid))
 		
 	return toBeSpawned
 	
@@ -229,7 +228,7 @@ func spawnNodes(toBeSpawned):
 	for n in toBeSpawned:
 		spawnNode(n)
 		
-	for w in dataAccess.wires.values():
+	for w in DataAccessor.wires.values():
 		spawnWire(w)
 	
 	
@@ -281,17 +280,17 @@ func handle_node_delete_self(node):
 	var idArray: Array = [node.id]
 	
 	despawnNodes(idArray)
-	dataAccess.deleteNode(node.id)
+	DataAccessor.deleteNode(node.id)
 
 # THE DELETE EVERYTHING BUTTON
 func _on_button_button_down():
 	despawnNodes(spawnedNodes.keys())
-	dataAccess.deleteAll()
+	DataAccessor.deleteAll()
 
 # SAVE ALL
 func _on_save_all_button_button_down():
 	saveRelativePositions()
-	dataAccess.saveData()
+	DataAccessor.saveData()
 
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
