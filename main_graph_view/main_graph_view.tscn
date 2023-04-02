@@ -22,14 +22,15 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 own_world_3d = true
 world_3d = SubResource("World3D_rg1n4")
+handle_input_locally = false
 size = Vector2i(40, 40)
 size_2d_override_stretch = true
+render_target_update_mode = 4
 
 [node name="Sprite3D" type="Sprite3D" parent="SubViewportContainer/SubViewport"]
 texture = ExtResource("2_lh44w")
 
 [node name="GraphViewCamera" type="Camera2D" parent="."]
-current = true
 script = ExtResource("1_bnjw7")
 
 [node name="FocusGrabber" type="Control" parent="GraphViewCamera"]
