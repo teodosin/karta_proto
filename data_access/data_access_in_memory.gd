@@ -58,12 +58,12 @@ func loadData():
 	var loaded = JSON.parse_string(file.get_as_text())
 	
 	var foundSettings: Dictionary
-	var foundNodes: Array[Dictionary]
-	var foundWires: Array[Dictionary]
+	var foundNodes: Array
+	var foundWires: Array
 	
 #vvvvvvvvvvvvvvvvvvvvvvv
-	var foundText: Array[Dictionary]
-	var foundImages: Array[Dictionary]
+	var foundText: Array
+	var foundImages: Array
 #^^^^^^^^^^^^^^^^^^^^^^^
 	
 	if typeof(loaded) == TYPE_DICTIONARY and "settings" in loaded and "nodes" in loaded and "wires" in loaded:
