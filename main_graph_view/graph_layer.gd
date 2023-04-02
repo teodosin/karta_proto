@@ -71,7 +71,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	if atMouse: 
 		spawnPos = get_global_mouse_position()
 	if focalNode == null:
-		spawnPos = $GraphViewCamera.position
+		spawnPos = Vector2.ZERO
 	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
 		spawnPos = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()

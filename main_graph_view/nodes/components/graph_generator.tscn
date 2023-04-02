@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dy32k2ye38y0a"]
+
+[node name="graph_generator" type="Node2D"]

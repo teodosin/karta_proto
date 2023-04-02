@@ -83,7 +83,7 @@ func _ready():
 	
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
-	return self.global_position + $VBoxContainer.size / 2
+	return self.position + $VBoxContainer.size / 2
 	
 
 func _process(delta):
