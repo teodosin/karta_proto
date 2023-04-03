@@ -7,7 +7,7 @@ var panPoint = Vector2(0.0, 0.0)
 func _physics_process(_delta):
 	
 	if panning:
-		$GraphLayer.position -= (panPoint - get_global_mouse_position()) * $GraphLayer.scale.x
+		$GraphLayer.position = panPoint + get_global_mouse_position()
 
 func animatePosition(newPosition):
 	pass
@@ -17,7 +17,7 @@ func _input(event):
 	
 	if event.is_action_pressed("panCamera"):
 		panning = true
-		panPoint = get_local_mouse_position()
+		panPoint = $GraphLayer.position - get_global_mouse_position()
 	if event.is_action_released("panCamera"):
 		panning = false
 
@@ -40,5 +40,5 @@ func setZoom(mult: float, toMouse: bool):
 
 	if toMouse:
 				# Zoom is centered on mouse position
-		var adjustedPosition = (get_global_mouse_position() - $GraphLayer.position) * 0.1
+		var adjustedPosition = (get_global_mouse_position() - $GraphLayer.position) * -0.1
 		$GraphLayer.position = $GraphLayer.position + adjustedPosition

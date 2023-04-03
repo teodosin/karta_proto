@@ -7,7 +7,7 @@ font_weight = 200
 multichannel_signed_distance_field = true
 
 [node name="WireViewBase" type="Node2D"]
-z_index = -20
+z_index = -5
 script = ExtResource("1_308h3")
 
 [node name="WireGroupLabel" type="Label" parent="."]
