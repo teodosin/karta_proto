@@ -14,7 +14,6 @@ func animatePosition(newPosition):
 	
 
 func _input(event):
-	
 	if event.is_action_pressed("panCamera"):
 		panning = true
 		panPoint = $GraphLayer.position - get_global_mouse_position()
@@ -25,14 +24,14 @@ func _input(event):
 	if event.is_action_pressed("zoomInCamera"):
 		if $GraphLayer.scale.x >= 1.0:
 			return
-			
-
 		setZoom(1.1, true)
+		
 	if event.is_action_pressed("zoomOutCamera"):
 		if $GraphLayer.scale.x <= 0.4:
 			return
-			
+	
 		setZoom(0.9, false)
+		$GraphLayer.position *= 0.9
 
 func setZoom(mult: float, toMouse: bool):
 	

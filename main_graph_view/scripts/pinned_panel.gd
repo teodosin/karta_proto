@@ -11,7 +11,7 @@ var currentColor: Color = unselectedColor
 func _ready():
 	self.modulate = currentColor
 
-func setPinned(isTrue: bool):
+func setPinnedToGraph(isTrue: bool):
 	if isTrue:
 		updateColor(pinnedColor)
 	else:

@@ -6,7 +6,8 @@ var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
 var id: int
 var isFocal: bool = false
-var isPinned: bool = false
+var isPinnedToGraph: bool = false
+var isPinnedToUI: bool = false
 
 var spawning = true
 var despawning = false
@@ -92,22 +93,22 @@ func _process(delta):
 	if nodeMoving:
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
-		self.set_position(newPosition)
+		self.set_global_position(newPosition)
 		if !isFocal:
 			pass
 
-func setAsPinned():
+func togglePinnedToGraph() -> void:
 	return
 	
-	isPinned = !isPinned
+	isPinnedToGraph = !isPinnedToGraph
 	thisNodeAsPinned.emit()
-	$VBoxContainer/Indicators/PinnedPanel.setPinned(isPinned)
+	$VBoxContainer/Indicators/PinnedPanel.setPinnedToGraph(isPinnedToGraph)
 	
-
+func togglePinnedToUI() -> void:
+	pass
 
 func setAsFocal(newFocalId):
-	if isPinned:
-		return 
+
 	# If the id of the new Focal matches this node's id,
 	# mark it as the new focal
 	if self.id == newFocalId:	
@@ -135,7 +136,7 @@ func deleteSelf():
 
 func _on_background_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft") and $VBoxContainer.get_child(1).has_focus():
-		clickOffset = get_global_mouse_position() - self.position
+		clickOffset = get_global_mouse_position() - self.global_position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
 		nodeMoving = false
@@ -171,4 +172,4 @@ func _on_node_name_text_changed(new_text):
 
 func _on_pinned_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):
-		setAsPinned()
+		togglePinnedToGraph()

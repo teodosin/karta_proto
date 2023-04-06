@@ -13,11 +13,11 @@ var assignedPositions: int = 0
 
 
 func _init(
-	n_id: int, 
-	n_time: float = Time.get_unix_time_from_system(),
-	n_name: String = "node", 
-	n_rel: Dictionary = {}, 
-	n_type: String = "BASE"
+		n_id: int, 
+		n_time: float = Time.get_unix_time_from_system(),
+		n_name: String = "node", 
+		n_rel: Dictionary = {}, 
+		n_type: String = "BASE"
 	):
 		
 	self.id = n_id
