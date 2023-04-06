@@ -1,4 +1,4 @@
-class_name NodeImage
+class_name NodeImageData
 
 var nodeId: int
 var nodeSize: Vector2

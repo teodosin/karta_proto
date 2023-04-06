@@ -1,13 +1,12 @@
 class_name NodeViewBase
 extends Control
 
-var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
-var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
 var id: int
-var isFocal: bool = false
-var isPinnedToGraph: bool = false
-var isPinnedToUI: bool = false
+var isFocal: bool = false # Nodes are spawned according to the context set by the focal
+var isPinnedToGraph: bool = false # Nodes are unaffected by the force-directed simulation
+var isPinnedToUI: bool = false # Nodes are moved to the UI Layer
+var isPinnedToPresence: bool = false # Nodes aren't despawned when out of scope
 
 var spawning = true
 var despawning = false
@@ -20,55 +19,14 @@ var prevPosition = null
 var nextPosition = null
 var animationStep: float = 0.0
 
-var dataNode: NodeBase = null
+var dataNode: NodeBaseData = null
 var typeData = null
 
-signal rightMousePressed
-signal mouseHovering
+@onready var nodeNameLabelScene = load("res://main_graph_view/components/node_name_label.tscn")
+@onready var pinPanelScene = load("res://main_graph_view/components/pin_indicator_panel.tscn")
+@onready var debugPanelScene = load("res://main_graph_view/components/debug_panel.tscn")
 
-signal thisNodeAsFocal
-signal thisNodeAsPinned(nodeId, isTrue)
-
-signal nodeMoved
-signal nodeDeleteSelf
-
-
-func _ready():
-	match dataNode.nodeType:
-		"TEXT":
-			var basePanel = $VBoxContainer/BackgroundPanel
-			$VBoxContainer.remove_child(basePanel)
-			basePanel.queue_free()
-			
-			var textPanel = textNode.instantiate()
-			
-			textPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			textPanel.gui_input.connect(self._on_background_panel_gui_input)
-			
-			textPanel.textData = typeData
-			
-			$VBoxContainer.add_child(textPanel)
-		
-		"IMAGE":
-			var basePanel = $VBoxContainer/BackgroundPanel
-			$VBoxContainer.remove_child(basePanel)
-			basePanel.queue_free()
-			
-			var imagePanel = imageNode.instantiate()
-			
-			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
-			
-			imagePanel.imageData = typeData
-			
-			$VBoxContainer.add_child(imagePanel)
-			
-		_: 
-			$VBoxContainer/BackgroundPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			$VBoxContainer/BackgroundPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			$VBoxContainer/BackgroundPanel.gui_input.connect(self._on_background_panel_gui_input)
+func spawnSelf():
 
 			
 	# Fade in at spawn
@@ -76,33 +34,25 @@ func _ready():
 	var spawnTween = create_tween()
 	spawnTween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
 	
-	$DebugContainer/IdLabel.text = str(id)
-	$DebugContainer/TypeLabel.text = str(dataNode.nodeType)
-	$DebugContainer/TimeLabel.text = str(dataNode.time)
 	
-	$NodeName.text = str(dataNode.name)
+	var nodeNameLabel = nodeNameLabelScene.instantiate()
+	nodeNameLabel.text = str(dataNode.name)
+	add_child(nodeNameLabel)
+	
+	var pinPanel = pinPanelScene.instantiate()
+	add_child(pinPanel)
 	
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
-	return self.position + $VBoxContainer.size / 2
+	return self.position + self.size / 2
 	
-
-func _process(delta):
-
-	# Logic for moving the node manually with the mouse
-	if nodeMoving:
-		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
-
-		self.set_global_position(newPosition)
-		if !isFocal:
-			pass
 
 func togglePinnedToGraph() -> void:
 	return
 	
 	isPinnedToGraph = !isPinnedToGraph
-	thisNodeAsPinned.emit()
-	$VBoxContainer/Indicators/PinnedPanel.setPinnedToGraph(isPinnedToGraph)
+	GraphManager.pinNodeToGraph()
+	#$VBoxContainer/Indicators/PinnedPanel.setPinnedToGraph(isPinnedToGraph)
 	
 func togglePinnedToUI() -> void:
 	pass
@@ -113,12 +63,10 @@ func setAsFocal(newFocalId):
 	# mark it as the new focal
 	if self.id == newFocalId:	
 		self.isFocal = true		
-		thisNodeAsFocal.emit()
-		$VBoxContainer/Indicators/FocalPanel.setFocal(true)
+		#$IndicatorPanel/FocalButton.setFocal(true)
 	else:
 		self.isFocal = false
-		$VBoxContainer/Indicators/FocalPanel.setFocal(false)
-	# Is it okay to use get_parent() here?
+		#$IndicatorPanel/FocalButton.setFocal(false)
 
 func animatePosition(newPosition):
 	var tween = create_tween()
@@ -134,24 +82,8 @@ func deleteSelf():
 	get_parent().remove_child(self)
 	self.queue_free()	
 
-func _on_background_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft") and $VBoxContainer.get_child(1).has_focus():
-		clickOffset = get_global_mouse_position() - self.global_position
-		nodeMoving = true
-	if event.is_action_released("mouseLeft"):
-		nodeMoving = false
-		
-	if event.is_action_pressed("mouseRight"):
-		rightMousePressed.emit()
-	if event.is_action_released("mouseRight"):
-		pass
-		
-	if event.is_action_pressed("delete"):
-		nodeDeleteSelf.emit()
-
-
 func _on_background_panel_mouse_entered():
-	mouseHovering.emit()
+	pass
 
 
 func _on_background_panel_mouse_exited():
@@ -160,7 +92,7 @@ func _on_background_panel_mouse_exited():
 
 func _on_focal_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft") and event.double_click:
-		setAsFocal(id)
+		GraphManager.setAsFocal(self)
 	else:
 		pass
 
@@ -173,3 +105,37 @@ func _on_node_name_text_changed(new_text):
 func _on_pinned_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):
 		togglePinnedToGraph()
+
+func baseProcess():
+	if nodeMoving:
+		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
+
+		self.set_global_position(newPosition)
+
+func on_self_input(event):
+	if event.is_action_pressed("mouseRight") and event.double_click:
+		GraphManager.setAsFocal(self)
+	else:
+		pass
+		
+	if event.is_action_pressed("mouseLeft"):
+
+		clickOffset = get_global_mouse_position() - self.global_position
+			
+		nodeMoving = true
+
+
+
+
+		
+	if event.is_action_released("mouseLeft"):
+		nodeMoving = false
+		
+	if event.is_action_pressed("mouseRight"):
+		pass
+		
+	if event.is_action_released("mouseRight"):
+		pass
+		
+	if event.is_action_pressed("delete"):
+		GraphManager.deleteNode(self.id)

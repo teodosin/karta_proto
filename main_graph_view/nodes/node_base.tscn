@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://45a7y0bdvi8r"]
+
+[ext_resource type="Theme" uid="uid://x0wluchd656c" path="res://themes/karta_default_theme.tres" id="1_x8tvr"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/node_view_base.gd" id="1_xnsmm"]
+[ext_resource type="PackedScene" uid="uid://cdo6i7s3gmhom" path="res://main_graph_view/components/node_name_label.tscn" id="3_l8ft5"]
+[ext_resource type="PackedScene" uid="uid://4uylgxtfy53f" path="res://main_graph_view/components/pin_indicator_panel.tscn" id="4_thy3y"]
+[ext_resource type="PackedScene" uid="uid://cy4v3jhj4fdkr" path="res://main_graph_view/components/debug_panel.tscn" id="5_nx53k"]
+
+[node name="NodeViewBase" type="Control"]
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme = ExtResource("1_x8tvr")
+script = ExtResource("1_xnsmm")
+
+[node name="NodeName" parent="." instance=ExtResource("3_l8ft5")]
+layout_mode = 0
+
+[node name="IndicatorPanel" parent="." instance=ExtResource("4_thy3y")]
+layout_mode = 0
+
+[node name="DebugPanel" parent="." instance=ExtResource("5_nx53k")]
+layout_mode = 0
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

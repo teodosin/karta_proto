@@ -9,3 +9,5 @@ func _ready():
 
 
 
+func _on_id_pressed(id):
+	GraphManager.createNode(Enums.NodeTypes.keys()[id], true)

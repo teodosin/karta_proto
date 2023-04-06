@@ -1,4 +1,4 @@
-class_name NodeText
+class_name NodeTextData
 
 var nodeId: int
 var nodeSize: Vector2

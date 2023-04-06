@@ -4,6 +4,9 @@ extends Node2D
 var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
+func _process(delta):
+	pass#queue_redraw()
+
 func _physics_process(_delta):
 	
 	if panning:
@@ -41,3 +44,10 @@ func setZoom(mult: float, toMouse: bool):
 				# Zoom is centered on mouse position
 		var adjustedPosition = (get_global_mouse_position() - $GraphLayer.position) * -0.1
 		$GraphLayer.position = $GraphLayer.position + adjustedPosition
+
+
+func _on_delete_all_button_button_down():
+	GraphManager.deleteAll()
+	
+func _on_save_all_button_button_down():
+	GraphManager.saveData()

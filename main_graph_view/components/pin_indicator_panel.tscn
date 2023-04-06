@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://4uylgxtfy53f"]
+
+[ext_resource type="Script" path="res://main_graph_view/scripts/pin_panel.gd" id="1_s7ap6"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/pinned_panel.gd" id="2_yxxsh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wi8g1"]
+bg_color = Color(1, 0.976471, 0.976471, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_bolh2"]
+Panel/styles/panel = SubResource("StyleBoxFlat_wi8g1")
+
+[node name="IndicatorPanel" type="VBoxContainer"]
+layout_direction = 1
+offset_left = -25.0
+offset_right = -5.0
+offset_bottom = 60.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="FocalButton" type="Panel" parent="."]
+modulate = Color(0.466667, 0.447059, 0.454902, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 0
+theme = SubResource("Theme_bolh2")
+script = ExtResource("1_s7ap6")
+highlightColor = Color(0.556863, 0.278431, 0, 1)
+focalColor = Color(1, 0.615686, 0, 1)
+
+[node name="PinnedToGraphButton" type="Panel" parent="."]
+visible = false
+modulate = Color(0.466667, 0.447059, 0.454902, 1)
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 2
+size_flags_vertical = 0
+theme = SubResource("Theme_bolh2")
+script = ExtResource("2_yxxsh")
+highlightColor = Color(0.243137, 0.380392, 0.505882, 1)
+pinnedColor = Color(0.443137, 0.505882, 1, 1)
+
+[connection signal="mouse_entered" from="FocalButton" to="FocalButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="FocalButton" to="FocalButton" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="PinnedToGraphButton" to="PinnedToGraphButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PinnedToGraphButton" to="PinnedToGraphButton" method="_on_mouse_exited"]

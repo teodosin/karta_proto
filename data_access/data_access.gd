@@ -168,27 +168,27 @@ func loadData():
 		
 		
 		
-func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
-	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
+func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBaseData:
+	var loadedNode: NodeBaseData = NodeBaseData.new(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 	nodes[loadedId] = loadedNode
 	
 	return loadedNode
 
-func loadWire(wid: int, srcWid: int, trgtWid: int, type: String, group: String) -> WireBase:
-	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid, type, group)
+func loadWire(wid: int, srcWid: int, trgtWid: int, type: String, group: String) -> WireBaseData:
+	var loadedWire: WireBaseData = WireBaseData.new(wid, srcWid, trgtWid, type, group)
 	wires[wid] = loadedWire
 	
 	return loadedWire
 	
 	
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-func loadText(tid, tsize, ttext) -> NodeText:
-	var loadedText: NodeText = NodeText.new(tid, tsize, ttext)
+func loadText(tid, tsize, ttext) -> NodeTextData:
+	var loadedText: NodeTextData = NodeTextData.new(tid, tsize, ttext)
 	textData[tid] = loadedText
 	
 	return loadedText
-func loadImage(iid, isize, ipath) -> NodeImage:
-	var loadedImage: NodeImage = NodeImage.new(iid, isize, ipath)
+func loadImage(iid, isize, ipath) -> NodeImageData:
+	var loadedImage: NodeImageData = NodeImageData.new(iid, isize, ipath)
 	imageData[iid] = loadedImage
 	
 	return loadedImage
@@ -210,7 +210,7 @@ func saveData():
 	settingsToBeSaved["lastId"] = lastId
 	
 	for c in nodes.values():
-		if (c is NodeBase):
+		if (c is NodeBaseData):
 			var related: Dictionary = {}
 			
 			for rel in c.relatedNodes.values():
@@ -232,7 +232,7 @@ func saveData():
 			nodesToBeSaved.append(nodeDict)
 			
 	for c in wires.values():
-		if (c is WireBase):
+		if (c is WireBaseData):
 			var wireDict = {
 				"id": c.id,
 				"sourceId": c.sourceId,
@@ -246,7 +246,7 @@ func saveData():
 			
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	for c in textData.values():
-		if c is NodeText:
+		if c is NodeTextData:
 			var textDict = {
 				"id": c.nodeId,
 				"nodeSizeX": c.nodeSize.x,
@@ -256,7 +256,7 @@ func saveData():
 			textToBeSaved.append(textDict)
 			
 	for c in imageData.values():
-		if c is NodeImage:
+		if c is NodeImageData:
 			var imageDict = {
 				"id": c.nodeId,
 				"nodeSizeX": c.nodeSize.x,
@@ -284,29 +284,28 @@ func saveData():
 
 	file.store_line(json_nodes)
 
-func addNode(nodeType: String = "BASE") -> NodeBase:
+func addNode(nodeType: String = "BASE") -> NodeBaseData:
 	lastId += 1
-	var newNode: NodeBase = NodeBase.new(lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)
+	var newNode: NodeBaseData = NodeBaseData.new(lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)
 	nodes[lastId] = newNode
 	
 	match nodeType:
 		"TEXT":
-			var newText: NodeText = NodeText.new(lastId, Vector2(0.0,0.0), "")
+			var newText: NodeTextData = NodeTextData.new(lastId, Vector2(0.0,0.0), "")
 			textData[lastId] = newText
 		"IMAGE":
-			var newImage: NodeImage = NodeImage.new(lastId, Vector2(0.0,0.0), "")
+			var newImage: NodeImageData = NodeImageData.new(lastId, Vector2(0.0,0.0), "")
 			imageData[lastId] = newImage
-			
-			
+	
 	return newNode
 
-func addWire(srcId: int, trgtId: int, type: String = "BASE", group: String = "none") -> WireBase:
+func addWire(srcId: int, trgtId: int, type: String = "BASE", group: String = "none") -> WireBaseData:
 	lastId += 1
-	var newWire: WireBase = WireBase.new(lastId, srcId, trgtId, type, group)
+	var newWire: WireBaseData = WireBaseData.new(lastId, srcId, trgtId, type, group)
 	wires[lastId] = newWire
 	return newWire
 	
-func getNode(id: int) -> NodeBase: 
+func getNode(id: int) -> NodeBaseData: 
 	#print("LOOKING FOR " + str(id) + " NODE IN " + str(nodes.keys()) + "(claims "+ str(nodes.has(id)) + ")")
 	#print(str(nodes[id]))
 	assert(nodes.has(id), "ERROR node not found")
@@ -323,13 +322,13 @@ func getTypeData(id: int):
 
 func updateRelatedNodePosition(id: int, relatedId: int, selfPos: Vector2, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
-	var node: NodeBase = nodes[id] 
+	var node: NodeBaseData = nodes[id] 
 	assert(node.relatedNodes.keys().has(relatedId), "ERROR related node not found")
 	node.setRelatedNodePosition(relatedId, selfPos, relatedPos)
 	
 func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 	assert(nodes.has(id), "ERROR node not found")
-	var node: NodeBase = nodes[id]
+	var node: NodeBaseData = nodes[id]
 
 	node.addRelatedNode(relatedId, selfPos - relatedPos)
 

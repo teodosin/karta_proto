@@ -1,4 +1,4 @@
-class_name WireBase
+class_name WireBaseData
 
 var id: int
 var sourceId: int

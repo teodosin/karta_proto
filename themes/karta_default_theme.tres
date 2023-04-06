@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://x0wluchd656c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bkpwy"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+/colors/BareNode = Color(0, 0, 0, 1)
+/styles/bare = SubResource("StyleBoxFlat_bkpwy")

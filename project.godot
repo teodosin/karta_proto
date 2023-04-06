@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DataAccessor="*res://data_access/data_access.gd"
+GraphManager="*res://main_graph_view/graph_manager.gd"
 
 [input]
 

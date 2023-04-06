@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckvaswepnj8x5"]
+
+[ext_resource type="Script" path="res://main_graph_view/scripts/node_view_image.gd" id="1_4i5hl"]
+[ext_resource type="PackedScene" uid="uid://c10vol4634qfn" path="res://main_graph_view/components/resize_component.tscn" id="2_345r1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6vhp4"]
+bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_3k8lv"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_6vhp4")
+
+[node name="NodeViewImage" type="PanelContainer"]
+custom_minimum_size = Vector2(100, 25)
+offset_right = 124.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+theme = SubResource("Theme_3k8lv")
+script = ExtResource("1_4i5hl")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+expand_mode = 1
+
+[node name="ImageFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="AddImageButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "+"
+flat = true
+
+[node name="ResizeComponent" parent="." instance=ExtResource("2_345r1")]
+layout_mode = 2
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="file_selected" from="ImageFileDialog" to="." method="_on_image_file_dialog_file_selected"]
+[connection signal="pressed" from="AddImageButton" to="." method="_on_button_pressed"]

@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://main_graph_view/new_node_popup.gd" id="1_itdj8"]
 
 [node name="NewNodePopup" type="PopupMenu"]
-size = Vector2i(111, 100)
+size = Vector2i(111, 30)
 visible = true
 script = ExtResource("1_itdj8")
+
+[connection signal="id_pressed" from="." to="." method="_on_id_pressed"]

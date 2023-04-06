@@ -1,4 +1,4 @@
-class_name NodeBase
+class_name NodeBaseData
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
