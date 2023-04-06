@@ -1,17 +1,39 @@
 extends Node
 
+#	nodename.json {
+#		id: 2023040515300059605 # this is also the time of creation
+#		nodeSize: #
+#		nodeRotation: #
+#		nodeType: Image # type of node, informs what Karta expects
+#		body: # a string, markdown string, or file/folder path (!)
+#		edges: [
+#			{
+#				edgeId: 20230405153440959430,
+#				targetId: 202304042309327082,
+#				targetSize: # probably not implementing this yet
+#				targetRotation: # this neither
+#				targetZDepth: # 
+#				edgeType: # 
+#				edgeGroup: # 
+#				expanded: # which types/groups to spawn along with this node 
+#			},
+#			{
+#			}
+#		]
+#	}
+
 const Enums = preload("res://data_access/enum_node_types.gd")
 
-var nodes: Dictionary = {} # id -> NodeBase
-var wires: Dictionary = {} # id -> WireBase
+var nodes: Dictionary = {} # id -> NodeBaseData
+var wires: Dictionary = {} # id -> WireBaseData
 var lastId: int = 0
 
 
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # The data of different node types is also loaded in this file.
 # Is this the proper way to go about this?
-var textData: Dictionary = {} # id -> NodeText
-var imageData: Dictionary = {} # id --> NodeImage
+var textData: Dictionary = {} # id -> NodeTextData
+var imageData: Dictionary = {} # id --> NodeImageData
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
