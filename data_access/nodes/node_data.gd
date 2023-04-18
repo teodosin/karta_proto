@@ -1,4 +1,5 @@
 class_name NodeBaseData
+extends Resource
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
@@ -45,13 +46,13 @@ func getRelatedNodePosition(nodeId: int, nodePosition: Vector2):
 		return nodePosition + Vector2(0, 150 * assignedPositions)	
 		
 func addRelatedNode(relatedId: int, relativePos: Vector2 = Vector2.ZERO):
-	relatedNodes[relatedId] = RelatedNode.new(relatedId, relativePos)
+	relatedNodes[relatedId] = RelatedNodeData.new(relatedId, relativePos)
 
 		
-func getRelatedNode(relatedId: int) -> RelatedNode: 
+func getRelatedNode(relatedId: int) -> RelatedNodeData: 
 	return relatedNodes[relatedId]
 	
 func updateRelatedNode(u_id: int, u_position: Vector2):
 	assert(relatedNodes.has(u_id), "ERROR related node not found")
-	var relatedNode: RelatedNode = relatedNodes[u_id]
+	var relatedNode: RelatedNodeData = relatedNodes[u_id]
 	relatedNode.relativePosition = u_position

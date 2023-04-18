@@ -132,7 +132,7 @@ func loadData():
 			loadedName = inode["name"]
 			loadedType = Enums.NodeTypes.keys()[inode["nodeType"]]
 			for rel in inode["relatedNodes"].values():
-				var loadedRel = RelatedNode.new(int(rel["id"]), Vector2(rel["relativePositionX"], rel["relativePositionY"]))
+				var loadedRel = RelatedNodeData.new(int(rel["id"]), Vector2(rel["relativePositionX"], rel["relativePositionY"]))
 				loadedRelated[int(rel["id"])] = loadedRel
 			
 			loadNode(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
