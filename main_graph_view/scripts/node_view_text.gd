@@ -1,16 +1,13 @@
 extends NodeViewBase
 
-
-var resizingRight: bool = false
-var resizingBottom: bool = false
-var previousSize: Vector2
-var resizeClickPosition: Vector2
-
 func _ready():
 	if nodeData.typeData:
 		assert(nodeData.typeData is NodeTextData)
+		
 		$VBoxContainer/TextEdit.text = nodeData.typeData.nodeText
 		custom_minimum_size = nodeData.typeData.nodeSize
+		
+	baseReady()
 
 func _process(_delta):
 	baseProcess()

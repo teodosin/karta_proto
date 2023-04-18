@@ -21,7 +21,7 @@ var nodeData: NodeBaseData
 @onready var pinPanelScene = load("res://main_graph_view/components/pin_indicator_panel.tscn")
 @onready var debugPanelScene = load("res://main_graph_view/components/debug_panel.tscn")
 
-func spawnSelf():
+func baseReady():
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	var spawnTween = create_tween()
@@ -30,10 +30,13 @@ func spawnSelf():
 	
 	var nodeNameLabel = nodeNameLabelScene.instantiate()
 	nodeNameLabel.text = str(nodeData.name)
-	add_child(nodeNameLabel)
+	#add_child(nodeNameLabel)
 	
 	var pinPanel = pinPanelScene.instantiate()
-	add_child(pinPanel)
+	#add_child(pinPanel)
+	
+func loadAdjacentNodes():
+	pass
 	
 func baseProcess():
 	if nodeMoving:

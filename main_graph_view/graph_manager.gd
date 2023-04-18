@@ -28,8 +28,10 @@ func _ready():
 	uiLayer = root.find_child("UILayer", true, false)
 	newNodePopup = root.find_child("NewNodePopup", true, false)
 	
-	DataAccessor.loadData()
+	DataAccessor.init_vault()
+	DataAccessor.loadFirstNode()
 	
+	print("Nodes loaded: " + str(DataAccessor.nodes.size()))
 	if not DataAccessor.nodes.is_empty():	
 		for noob in DataAccessor.nodes.values():
 			spawnNode(noob)
@@ -56,7 +58,7 @@ func _input(event):
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
-	var dataNode: NodeBaseData = NodeBaseData.new(DataAccessor.getNewId())
+	var dataNode: NodeBaseData = NodeBaseData.new(DataAccessor.getNewId(), nodeType)
 	
 	DataAccessor.saveNodeData(dataNode.id, dataNode)
 
@@ -69,15 +71,10 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	return newNode
 	
 func spawnNode(newNodeData: NodeBaseData, atMouse: bool = false):
-	var spawnPos: Vector2
-	if atMouse: 
-		spawnPos = get_viewport().get_mouse_position()
-	if focalNode == null:
-		spawnPos = Vector2.ZERO
-	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
-		spawnPos = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
-	
+
 	var newNode: NodeViewBase
+	
+	print(newNodeData.nodeType + "googa")
 	
 	match newNodeData.nodeType:
 		"IMAGE":
@@ -88,6 +85,19 @@ func spawnNode(newNodeData: NodeBaseData, atMouse: bool = false):
 			newNode = textNodeTemplate.instantiate()
 
 	newNode.nodeData = newNodeData
+	
+	var spawnPos: Vector2
+
+	
+	if atMouse: 
+		spawnPos = get_node("/root").get_global_mouse_position()
+	if focalNode == null:
+		spawnPos = Vector2.ZERO
+		
+		
+	elif focalNode.nodeData.edges.keys().has(newNodeData.id): 
+		spawnPos = focalNode.position \
+				+ focalNode.nodeData.edges[newNodeData.id].getConnection().relativePosition
 	
 	newNode.set_position(spawnPos)	
 
@@ -107,7 +117,9 @@ func createWire(source, target) -> WireViewBase:
 	if source.id == target.id:
 		return
 	
-	var newWireData = DataAccessor.addWire(source.id, target.id)
+	var newWireData: WireBaseData = WireBaseData.new(
+		DataAccessor.getNewId(), source.id, target.id
+	)
 	
 	source.dataNode.addRelatedNode(target.id)
 	target.dataNode.addRelatedNode(source.id)
@@ -138,15 +150,15 @@ func spawnWire(newWireData: WireBaseData) -> WireViewBase:
 
 
 
-func saveRelativePositions():
-	if focalNode != null:
-
-		for relatedId in focalNode.dataNode.relatedNodes.keys():
-			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			if pinnedNodes.keys().has(relatedId):
-				return
-
-			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
+#func saveRelativePositions():
+#	if focalNode != null:
+#
+#		for relatedId in focalNode.nodeData.edges.keys():
+#			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
+#			if pinnedNodes.keys().has(relatedId):
+#				return
+#
+#			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
 
 	
 func setAsPinned(nodeId):
@@ -161,8 +173,6 @@ func setAsFocal(node):
 	# Perhaps this requirement will change later.
 	if spawnedNodes.is_empty():
 		return
-	
-	saveRelativePositions()	
 	
 	focalNode = node
 	
@@ -253,6 +263,6 @@ func deleteAll():
 	#DataAccessor.deleteAll()
 
 # SAVE ALL
-func saveData():
-	saveRelativePositions()
-	#DataAccessor.saveData()
+#func saveData():
+#	saveRelativePositions()
+#	#DataAccessor.saveData()

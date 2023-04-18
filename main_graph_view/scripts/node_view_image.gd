@@ -4,13 +4,12 @@ var aspect: float = 1.0 # height / width
 
 var readyToLoad := false
 
-
 func _ready():
 	if nodeData.typeData:
-		assert(nodeData.typeData is NodeImageData)
+		#assert(nodeData.typeData is NodeImageData)
 		readyToLoad = true
 		
-	spawnSelf()
+	baseReady()
 
 
 func _process(_delta):

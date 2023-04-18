@@ -4,36 +4,72 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 var nodes: Dictionary = {} # id -> NodeBaseData
 var wires: Dictionary = {} # id -> WireBaseData
-var lastId: int = 0
 
 
-#vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-# The data of different node types is also loaded in this file.
-# Is this the proper way to go about this?
-var textData: Dictionary = {} # id -> NodeTextData
-var imageData: Dictionary = {} # id --> NodeImageData
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+var vault_path := "user://karta_vault/"
+var settings_path := "settings/"
 
+var nodes_path := "nodes/"
+var edges_path := "edges/"
 
-var vault_path := "user://karta_vault"
-var nodes_path := "/nodes"
-var edges_path := "/edges"
+var settings: Settings
 
-var defaultSettings: Dictionary = {
-	"lastId": 0
-}
-
+func init_vault():
+	if not DirAccess.dir_exists_absolute(vault_path):
+		DirAccess.make_dir_absolute(vault_path)
+	if not DirAccess.dir_exists_absolute(vault_path + settings_path):
+		DirAccess.make_dir_absolute(vault_path + settings_path)
+		
+	if not DirAccess.dir_exists_absolute(vault_path + nodes_path):
+		DirAccess.make_dir_absolute(vault_path + nodes_path)
+	if not DirAccess.dir_exists_absolute(vault_path + edges_path):
+		DirAccess.make_dir_absolute(vault_path + edges_path)
+		
+	init_settings()
+	
+func init_settings():
+	var settingsDir = DirAccess.open(vault_path+settings_path)
+	if not settingsDir.file_exists("settings.tres"):
+		print("Settings file does not exist.")
+		var newSettings: Settings = Settings.new()
+		settings = newSettings
+		save_settings()
+	else:
+		settings = load(vault_path+settings_path+"settings.tres") as Settings
+func save_settings():
+		ResourceSaver.save(settings, vault_path+settings_path+"settings.tres")
+	
+		
 func getNewId():
-	lastId += 1
-	return lastId
+	settings.incrementLastId()
+	print(settings.getLastId())
+	return settings.getLastId()
 
-func loadData():
-	pass
+func loadAllData():
+	loadAllNodes()
+
+func loadAllNodes():
+	var dir = DirAccess.open(vault_path + nodes_path)
+	for file in dir.get_files():
+		var loadedNode = load(vault_path + nodes_path + file) as NodeBaseData
+		nodes[loadedNode.id] = loadedNode
+	
+func loadFirstNode():
+	assert(DirAccess.dir_exists_absolute(vault_path + nodes_path))
+	var dir = DirAccess.open(vault_path + nodes_path)
+	
+	if dir.get_files().size() == 0:
+		print("No nodes found in directory.")
+		return
+		
+	print(dir.get_files()[0])
+	var loadedNode = load(vault_path + nodes_path + dir.get_files()[0]) as NodeBaseData
+	if loadedNode != null:
+		nodes[loadedNode.id] = loadedNode
 	
 func loadNodeDataById(nodeId: int):
-	ResourceLoader.load(vault_path + nodes_path + "/" + str(nodeId) + ".tres")
-			
-		
+	load(vault_path + nodes_path + str(nodeId) + ".tres") as NodeBaseData
+
 #func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBaseData:
 #	var loadedNode: NodeBaseData = NodeBaseData.new(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 #	nodes[loadedId] = loadedNode
@@ -68,7 +104,12 @@ func saveNodeData(nodeId: int, nodeData: NodeBaseData):
 	
 	ResourceSaver.save(nodeData, save_path)
 
-
+func saveEdgeData(edgeId: int, edgeData: WireBaseData):
+	var save_path: String = vault_path + edges_path + str(edgeId) + ".tres"
+	
+	ResourceSaver.save(edgeData, save_path)
+	
+	
 #func addNode(nodeType: String = "BASE") -> NodeBaseData:
 #	lastId += 1
 #	var newNode: NodeBaseData = NodeBaseData.new(lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)

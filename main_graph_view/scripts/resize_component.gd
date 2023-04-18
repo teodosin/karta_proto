@@ -8,15 +8,18 @@ var resizingBottom: bool = false
 var previousSize: Vector2 = Vector2.ZERO
 var resizeClickPosition: Vector2 = Vector2.ZERO
 
+func _ready():
+	assert(parent.nodeData.typeData.nodeSize)
 
 func _process(delta):
+	var mult = GraphManager.graphLayer.scale.x
 	
 	if resizingRight:
-		parent.custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
+		parent.custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x / mult - resizeClickPosition.x)
 		parent.nodeData.typeData.nodeSize = custom_minimum_size
 
 	if resizingBottom:
-		parent.custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y - resizeClickPosition.y)
+		parent.custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y / mult - resizeClickPosition.y)
 		parent.nodeData.typeData.nodeSize = custom_minimum_size
 
 func _on_right_edge_gui_input(event):
