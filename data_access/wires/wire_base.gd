@@ -1,16 +1,31 @@
 class_name WireBaseData
+extends Resource
 
-var id: int
+var edgeId: int
+
 var sourceId: int
+var sourceRelativeData: RelatedNodeData
+
 var targetId: int
-var wireType: String
-var wireGroup: String
+var targetRelativeData: RelatedNodeData
 
-	
+var edgeType: String
+var edgeGroup: String
 
-func _init(wireId: int, srcId: int, trgtId: int, type: String, group: String):
+func _init(
+		wireId: int, 
+		srcId: int, 
+		trgtId: int, 
+		type: String, 
+		group: String
+		):
 	self.id = wireId
+	
 	self.sourceId = srcId
+	self.sourceRelativeData = RelatedNodeData.new(srcId)
+	
 	self.targetId = trgtId
+	self.targetRelativeData = RelatedNodeData.new(trgtId)
+	
 	self.wireType = type
 	self.wireGroup = group

@@ -6,8 +6,8 @@ var readyToLoad := false
 
 
 func _ready():
-	if typeData:
-		assert(typeData is NodeImageData)
+	if nodeData.typeData:
+		assert(nodeData.typeData is NodeImageData)
 		readyToLoad = true
 		
 	spawnSelf()
@@ -17,8 +17,8 @@ func _process(_delta):
 	baseProcess()
 	
 	if readyToLoad:
-		loadImage(typeData.imagePath)
-		custom_minimum_size = typeData.nodeSize
+		loadImage(nodeData.typeData.imagePath)
+		custom_minimum_size = nodeData.typeData.nodeSize
 		readyToLoad = false		
 
 func _on_button_pressed():
@@ -37,10 +37,10 @@ func loadImage(path):
 	$AddImageButton.size_flags_horizontal = SIZE_SHRINK_BEGIN
 	$AddImageButton.size_flags_vertical = SIZE_SHRINK_BEGIN
 	
-	typeData.imagePath = path
+	nodeData.typeData.imagePath = path
 	
 	var image = Image.new()
-	image.load(typeData.imagePath)
+	image.load(nodeData.typeData.imagePath)
 	var texture = ImageTexture.new()
 	texture.set_image(image)
 	

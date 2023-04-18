@@ -4,9 +4,9 @@ extends Node
 @onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
 
 const Enums = preload("res://data_access/enum_node_types.gd")
+
 @onready var imageNodeTemplate = load("res://main_graph_view/nodes/node_image.tscn")
 @onready var textNodeTemplate = load("res://main_graph_view/nodes/node_text.tscn")
-
 
 var focalNode: NodeViewBase = null
 var nodeWireSource: NodeViewBase = null
@@ -17,7 +17,6 @@ var debugView = false
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedWires: Dictionary = {} # id -> WireViewBase
-
 
 var graphLayer
 var uiLayer
@@ -57,9 +56,9 @@ func _input(event):
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
-	var dataNode: NodeBaseData = DataAccessor.addNode(nodeType)
+	var dataNode: NodeBaseData = NodeBaseData.new(DataAccessor.getNewId())
 	
-	DataAccessor.saveData()
+	DataAccessor.saveNodeData(dataNode.id, dataNode)
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
@@ -85,11 +84,10 @@ func spawnNode(newNodeData: NodeBaseData, atMouse: bool = false):
 			newNode = imageNodeTemplate.instantiate()
 		"TEXT":
 			newNode = textNodeTemplate.instantiate()
+		_:
+			newNode = textNodeTemplate.instantiate()
 
-	newNode.id = newNodeData.id
-	newNode.dataNode = newNodeData
-	
-	newNode.typeData = DataAccessor.getTypeData(newNode.id)
+	newNode.nodeData = newNodeData
 	
 	newNode.set_position(spawnPos)	
 
@@ -118,7 +116,7 @@ func createWire(source, target) -> WireViewBase:
 	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
 
 		
-	DataAccessor.saveData()
+	#DataAccessor.saveData()
 	var newWire = spawnWire(newWireData)
 	return newWire
 
@@ -168,23 +166,20 @@ func setAsFocal(node):
 	
 	focalNode = node
 	
-	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
-	despawnNodes(toBeDespawned)
-	
-	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes)
-	spawnNodes(toBeSpawned)
-	
-	# Reposition camera on new focal node:
-	# $GraphViewCamera.animatePosition(focalNode.getPositionCenter())
+#	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
+#	despawnNodes(toBeDespawned)
+#
+#	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes)
+#	spawnNodes(toBeSpawned)
 	
 	# Move spawned related nodes to new positions and reset the counter at the end
-	for n in spawnedNodes.values():
-		if n.id == focalNode.id:
-			continue
-		n.setAsFocal(focalNode.id)
-		var newPosition = focalNode.dataNode.getRelatedNodePosition(n.id, focalNode.position)
-		n.animatePosition(newPosition)
-	focalNode.dataNode.assignedPositions = 0
+#	for n in spawnedNodes.values():
+#		if n.id == focalNode.id:
+#			continue
+#		n.setAsFocal(focalNode.id)
+#		var newPosition = focalNode.dataNode.getRelatedNodePosition(n.id, focalNode.position)
+#		n.animatePosition(newPosition)
+#	focalNode.dataNode.assignedPositions = 0
 	
 	
 	
@@ -250,14 +245,14 @@ func handle_node_delete_self(node):
 	var idArray: Array = [node.id]
 	
 	despawnNodes(idArray)
-	DataAccessor.deleteNode(node.id)
+	#DataAccessor.deleteNode(node.id)
 
 # THE DELETE EVERYTHING BUTTON
 func deleteAll():
 	despawnNodes(spawnedNodes.keys())
-	DataAccessor.deleteAll()
+	#DataAccessor.deleteAll()
 
 # SAVE ALL
 func saveData():
 	saveRelativePositions()
-	DataAccessor.saveData()
+	#DataAccessor.saveData()

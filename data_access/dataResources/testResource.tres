@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="NodeImageData" load_steps=2 format=3 uid="uid://bnga5y8pydcw5"]
-
-[ext_resource type="Script" path="res://data_access/nodes/image_data.gd" id="1_5a1tf"]
-
-[resource]
-script = ExtResource("1_5a1tf")
-imagePath = ""

@@ -13,11 +13,11 @@ func _process(delta):
 	
 	if resizingRight:
 		parent.custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
-		parent.typeData.nodeSize = custom_minimum_size
+		parent.nodeData.typeData.nodeSize = custom_minimum_size
 
 	if resizingBottom:
 		parent.custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y - resizeClickPosition.y)
-		parent.typeData.nodeSize = custom_minimum_size
+		parent.nodeData.typeData.nodeSize = custom_minimum_size
 
 func _on_right_edge_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):

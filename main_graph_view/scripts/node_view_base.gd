@@ -15,20 +15,13 @@ var fadeOut = 1.0
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
-var prevPosition = null
-var nextPosition = null
-var animationStep: float = 0.0
-
-var dataNode: NodeBaseData = null
-var typeData = null
+var nodeData: NodeBaseData
 
 @onready var nodeNameLabelScene = load("res://main_graph_view/components/node_name_label.tscn")
 @onready var pinPanelScene = load("res://main_graph_view/components/pin_indicator_panel.tscn")
 @onready var debugPanelScene = load("res://main_graph_view/components/debug_panel.tscn")
 
 func spawnSelf():
-
-			
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	var spawnTween = create_tween()
@@ -36,7 +29,7 @@ func spawnSelf():
 	
 	
 	var nodeNameLabel = nodeNameLabelScene.instantiate()
-	nodeNameLabel.text = str(dataNode.name)
+	nodeNameLabel.text = str(nodeData.name)
 	add_child(nodeNameLabel)
 	
 	var pinPanel = pinPanelScene.instantiate()
@@ -104,7 +97,7 @@ func _on_focal_panel_gui_input(event):
 		pass
 
 func _on_node_name_text_changed(new_text):
-	dataNode.name = new_text
+	nodeData.name = new_text
 	
 	
 
