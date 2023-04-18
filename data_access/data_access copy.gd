@@ -15,7 +15,7 @@ extends Node
 #				targetZDepth: # 
 #				edgeType: # 
 #				edgeGroup: # 
-#				expanded: # which types/groups to spawn along with this node 
+#				expandedTypes: [] # which types/groups to spawn along with this node 
 #			},
 #			{
 #			}

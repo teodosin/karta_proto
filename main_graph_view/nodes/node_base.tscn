@@ -17,11 +17,24 @@ script = ExtResource("1_xnsmm")
 
 [node name="NodeName" parent="." instance=ExtResource("3_l8ft5")]
 layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 31.0
+grow_vertical = 1
 
 [node name="IndicatorPanel" parent="." instance=ExtResource("4_thy3y")]
 layout_mode = 0
+offset_left = 0.0
+offset_right = 20.0
 
 [node name="DebugPanel" parent="." instance=ExtResource("5_nx53k")]
 layout_mode = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 0.0
+offset_right = 1.0
+grow_horizontal = 1
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

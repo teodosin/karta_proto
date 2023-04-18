@@ -42,6 +42,13 @@ func spawnSelf():
 	var pinPanel = pinPanelScene.instantiate()
 	add_child(pinPanel)
 	
+func baseProcess():
+	if nodeMoving:
+		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
+
+		self.set_global_position(newPosition)
+		
+		
 # Function to get the center of the node, for drawing wires for example
 func getPositionCenter() -> Vector2:
 	return self.position + self.size / 2
@@ -106,11 +113,7 @@ func _on_pinned_panel_gui_input(event):
 	if event.is_action_pressed("mouseLeft"):
 		togglePinnedToGraph()
 
-func baseProcess():
-	if nodeMoving:
-		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
-		self.set_global_position(newPosition)
 
 func on_self_input(event):
 	if event.is_action_pressed("mouseRight") and event.double_click:

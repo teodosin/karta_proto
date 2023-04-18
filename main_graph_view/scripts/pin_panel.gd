@@ -14,7 +14,7 @@ func _ready():
 func setFocal(isTrue: bool):
 	if isTrue:
 		updateColor(focalColor)
-	else:
+	else:	
 		updateColor(unselectedColor)
 	
 func updateColor(col: Color):

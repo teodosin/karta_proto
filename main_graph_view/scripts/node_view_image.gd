@@ -4,6 +4,7 @@ var aspect: float = 1.0 # height / width
 
 var readyToLoad := false
 
+
 func _ready():
 	if typeData:
 		assert(typeData is NodeImageData)
