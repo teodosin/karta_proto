@@ -90,7 +90,7 @@ func spawnNode(newNodeData: NodeBaseData, atMouse: bool = false):
 
 	
 	if atMouse: 
-		spawnPos = get_node("/root").get_global_mouse_position()
+		spawnPos = get_viewport().get_mouse_position()
 	if focalNode == null:
 		spawnPos = Vector2.ZERO
 		
