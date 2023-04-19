@@ -8,64 +8,6 @@
 
 config_version=5
 
-_global_script_classes=[{
-"base": "RefCounted",
-"class": &"DataAccess",
-"language": &"GDScript",
-"path": "res://data_access/data_access.gd"
-}, {
-"base": "DataAccess",
-"class": &"DataAccessInMemory",
-"language": &"GDScript",
-"path": "res://data_access/data_access_in_memory.gd"
-}, {
-"base": "RefCounted",
-"class": &"NodeBase",
-"language": &"GDScript",
-"path": "res://data_access/nodes/node_base.gd"
-}, {
-"base": "RefCounted",
-"class": &"NodeImage",
-"language": &"GDScript",
-"path": "res://data_access/nodes/node_image.gd"
-}, {
-"base": "RefCounted",
-"class": &"NodeText",
-"language": &"GDScript",
-"path": "res://data_access/nodes/node_text.gd"
-}, {
-"base": "Control",
-"class": &"NodeViewBase",
-"language": &"GDScript",
-"path": "res://main_graph_view/nodes/node_view_base.gd"
-}, {
-"base": "RefCounted",
-"class": &"RelatedNode",
-"language": &"GDScript",
-"path": "res://data_access/nodes/related_node.gd"
-}, {
-"base": "RefCounted",
-"class": &"WireBase",
-"language": &"GDScript",
-"path": "res://data_access/wires/wire_base.gd"
-}, {
-"base": "Node2D",
-"class": &"WireViewBase",
-"language": &"GDScript",
-"path": "res://main_graph_view/wire_view_base.gd"
-}]
-_global_script_class_icons={
-"DataAccess": "",
-"DataAccessInMemory": "",
-"NodeBase": "",
-"NodeImage": "",
-"NodeText": "",
-"NodeViewBase": "",
-"RelatedNode": "",
-"WireBase": "",
-"WireViewBase": ""
-}
-
 [application]
 
 config/name="Karta"
@@ -92,7 +34,7 @@ zoomOutCamera={
 }
 createNewNode={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 mouseLeft={
@@ -107,17 +49,17 @@ mouseRight={
 }
 saveChanges={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 debugView={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194336,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194336,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 delete={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 
