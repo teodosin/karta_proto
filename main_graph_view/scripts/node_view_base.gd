@@ -15,9 +15,9 @@ var fadeOut = 1.0
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
-var prevPosition = null
-var nextPosition = null
-var animationStep: float = 0.0
+#var prevPosition = null
+#var nextPosition = null
+#var animationStep: float = 0.0
 
 var dataNode: NodeBase = null
 var typeData = null

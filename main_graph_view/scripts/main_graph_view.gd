@@ -104,7 +104,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 		newNode.setAsFocal(focalNode.id)
 	
 	return newNode
-	
+
 
 
 func createEdge(source, target) -> EdgeViewBase:
