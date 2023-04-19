@@ -81,7 +81,7 @@ func _ready():
 	
 	$NodeName.text = str(dataNode.name)
 	
-# Function to get the center of the node, for drawing wires for example
+# Function to get the center of the node, for drawing edges for example
 func getPositionCenter() -> Vector2:
 	return self.global_position + $VBoxContainer.size / 2
 	

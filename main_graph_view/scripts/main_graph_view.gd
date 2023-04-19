@@ -3,10 +3,10 @@ extends Node2D
 const Enums = preload("res://data_access/enum_node_types.gd")
 
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
-@onready var wireBaseTemplate = load("res://main_graph_view/wire_view_base.tscn")
+@onready var edgeBaseTemplate = load("res://main_graph_view/edge_view_base.tscn")
 
 var focalNode: NodeViewBase = null
-var nodeWireSource: NodeViewBase = null
+var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
 
 var debugView = false
@@ -15,7 +15,7 @@ var dataAccess: DataAccess = DataAccessInMemory.new()
 
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
-var spawnedWires: Dictionary = {} # id -> WireViewBase
+var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
 
 func _ready():
@@ -42,9 +42,9 @@ func _input(event):
 		$NewNodePopup.popup()
 
 	if event.is_action_released("mouseRight"):
-		if nodeWireSource and nodeHovering:
-			createWire(nodeWireSource, nodeHovering)
-		nodeWireSource = null
+		if nodeEdgeSource and nodeHovering:
+			createEdge(nodeEdgeSource, nodeHovering)
+		nodeEdgeSource = null
 		nodeHovering = null
 
 	if event.is_action_pressed("debugView"):
@@ -63,7 +63,7 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
 	# If there is a focal node, the new node will be automatically connected
 	# to it as its target.			
-	createWire(focalNode, newNode)	
+	createEdge(focalNode, newNode)	
 	
 	return newNode
 	
@@ -107,11 +107,11 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	
 
 
-func createWire(source, target) -> WireViewBase:
+func createEdge(source, target) -> EdgeViewBase:
 	if source.id == target.id:
 		return
 	
-	var newWireData = dataAccess.addWire(source.id, target.id)
+	var newEdgeData = dataAccess.addEdge(source.id, target.id)
 	
 	source.dataNode.addRelatedNode(target.id)
 	target.dataNode.addRelatedNode(source.id)
@@ -121,24 +121,24 @@ func createWire(source, target) -> WireViewBase:
 
 		
 	dataAccess.saveData()
-	var newWire = spawnWire(newWireData)
-	return newWire
+	var newEdge = spawnEdge(newEdgeData)
+	return newEdge
 
 
 
-func spawnWire(newWireData: WireBase) -> WireViewBase:
-	if !spawnedNodes.keys().has(newWireData.sourceId) or !spawnedNodes.keys().has(newWireData.targetId):
+func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
+	if !spawnedNodes.keys().has(newEdgeData.sourceId) or !spawnedNodes.keys().has(newEdgeData.targetId):
 		return
 	
-	var newWire: WireViewBase = wireBaseTemplate.instantiate()
-	newWire.id = newWireData.id
-	newWire.source = spawnedNodes[newWireData.sourceId]
-	newWire.target = spawnedNodes[newWireData.targetId]
+	var newEdge: EdgeViewBase = edgeBaseTemplate.instantiate()
+	newEdge.id = newEdgeData.id
+	newEdge.source = spawnedNodes[newEdgeData.sourceId]
+	newEdge.target = spawnedNodes[newEdgeData.targetId]
 	
-	spawnedWires[str(newWire.id)] = newWire
+	spawnedEdges[str(newEdge.id)] = newEdge
 
-	add_child(newWire)
-	return newWire
+	add_child(newEdge)
+	return newEdge
 
 
 
@@ -229,8 +229,8 @@ func spawnNodes(toBeSpawned):
 	for n in toBeSpawned:
 		spawnNode(n)
 		
-	for w in dataAccess.wires.values():
-		spawnWire(w)
+	for w in dataAccess.edges.values():
+		spawnEdge(w)
 	
 	
 	
@@ -257,18 +257,18 @@ func despawnNodes(toBeDeleted: Array):
 func _draw():
 	if not focalNode: 
 		return 
-	if nodeWireSource:
-		draw_dashed_line(nodeWireSource.getPositionCenter(), get_global_mouse_position(), 
+	if nodeEdgeSource:
+		draw_dashed_line(nodeEdgeSource.getPositionCenter(), get_global_mouse_position(), 
 						Color.WHITE, 1.0, 2.0)
 
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
 
 func handle_node_click(node):
-	nodeWireSource = node	
+	nodeEdgeSource = node	
 
 func handle_mouse_hover(node):
-	if nodeWireSource:
+	if nodeEdgeSource:
 		nodeHovering = node
 
 func handle_node_set_itself_focal(newFocalId):

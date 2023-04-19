@@ -1,4 +1,4 @@
-class_name WireViewBase
+class_name EdgeViewBase
 extends Node2D
 
 var id: int 
@@ -9,7 +9,7 @@ var sourcePos: Vector2
 var targetPos: Vector2
 
 func _ready():
-	$WireGroupLabel.text = "Wier"
+	$EdgeGroupLabel.text = "Wier"
 
 func _process(_delta):
 	if !is_instance_valid(source) or !is_instance_valid(target):
@@ -25,7 +25,7 @@ func _process(_delta):
 		targetPos = target.getPositionCenter()
 		
 
-	$WireGroupLabel.global_position = sourcePos + targetPos / 2
+	$EdgeGroupLabel.global_position = sourcePos + targetPos / 2
 	
 	queue_redraw()
 	#self.global_position = sourcePos + (targetPos / 2)

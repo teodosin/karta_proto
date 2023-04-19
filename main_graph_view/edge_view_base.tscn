@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://bmq1q3a7uygi7"]
 
-[ext_resource type="Script" path="res://main_graph_view/scripts/wire_view_base.gd" id="1_308h3"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/edge_view_base.gd" id="1_6udkh"]
 
 [sub_resource type="SystemFont" id="SystemFont_wooev"]
 font_weight = 200
 multichannel_signed_distance_field = true
 
-[node name="WireViewBase" type="Node2D"]
+[node name="EdgeViewBase" type="Node2D"]
 z_index = -20
-script = ExtResource("1_308h3")
+script = ExtResource("1_6udkh")
 
-[node name="WireGroupLabel" type="Label" parent="."]
+[node name="EdgeGroupLabel" type="Label" parent="."]
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0

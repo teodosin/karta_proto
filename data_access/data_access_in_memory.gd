@@ -4,7 +4,7 @@ extends DataAccess
 const Enums = preload("res://data_access/enum_node_types.gd")
 
 var nodes: Dictionary = {} # id -> NodeBase
-var wires: Dictionary = {} # id -> WireBase
+var edges: Dictionary = {} # id -> EdgeBase
 var lastId: int = 0
 
 
@@ -30,7 +30,7 @@ func loadData():
 		return {
 			"settings": defaultSettings, 
 			"nodes": {}, 
-			"wires": {},
+			"edges": {},
 			
 #vvvvvvvvvvvvvvvvv
 			"textData": {},
@@ -57,22 +57,22 @@ func loadData():
 	
 	var foundSettings: Dictionary
 	var foundNodes: Array
-	var foundWires: Array
+	var foundEdges: Array
 	
 #vvvvvvvvvvvvvvvvvvvvvvv
 	var foundText: Array
 	var foundImages: Array
 #^^^^^^^^^^^^^^^^^^^^^^^
 	
-	if typeof(loaded) == TYPE_DICTIONARY and "settings" in loaded and "nodes" in loaded and "wires" in loaded:
+	if typeof(loaded) == TYPE_DICTIONARY and "settings" in loaded and "nodes" in loaded and "edges" in loaded:
 		print("IS DICTIONARY")
 		foundSettings = loaded["settings"]
 		foundNodes = loaded["nodes"]
-		foundWires = loaded["wires"]
+		foundEdges = loaded["edges"]
 	else:
 		foundSettings = defaultSettings
 		foundNodes = []
-		foundWires = []
+		foundEdges = []
 	
 	
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -115,8 +115,8 @@ func loadData():
 			loadNode(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 			
 			
-	for iwire in foundWires:
-		if foundWires.is_empty():
+	for iedge in foundEdges:
+		if foundEdges.is_empty():
 			break
 		
 		var loadedId: int
@@ -124,17 +124,17 @@ func loadData():
 		var loadedTarget: int
 		var loadedType: String
 		var loadedGroup: String
-		if iwire.has("id") \
-		and iwire.has("sourceId") \
-		and iwire.has("targetId") \
-		and iwire.has("type") \
-		and iwire.has("group"):
-			loadedId = iwire["id"]
-			loadedSource = iwire["sourceId"]
-			loadedTarget = iwire["targetId"]
-			loadedType = iwire["type"]
-			loadedGroup = iwire["group"]
-			loadWire(loadedId, loadedSource, loadedTarget, loadedType, loadedGroup)
+		if iedge.has("id") \
+		and iedge.has("sourceId") \
+		and iedge.has("targetId") \
+		and iedge.has("type") \
+		and iedge.has("group"):
+			loadedId = iedge["id"]
+			loadedSource = iedge["sourceId"]
+			loadedTarget = iedge["targetId"]
+			loadedType = iedge["type"]
+			loadedGroup = iedge["group"]
+			loadEdge(loadedId, loadedSource, loadedTarget, loadedType, loadedGroup)
 	
 			
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -173,11 +173,11 @@ func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelate
 	
 	return loadedNode
 
-func loadWire(wid: int, srcWid: int, trgtWid: int, type: String, group: String) -> WireBase:
-	var loadedWire: WireBase = WireBase.new(wid, srcWid, trgtWid, type, group)
-	wires[wid] = loadedWire
+func loadEdge(wid: int, srcWid: int, trgtWid: int, type: String, group: String) -> EdgeBase:
+	var loadedEdge: EdgeBase = EdgeBase.new(wid, srcWid, trgtWid, type, group)
+	edges[wid] = loadedEdge
 	
-	return loadedWire
+	return loadedEdge
 	
 	
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -199,7 +199,7 @@ func saveData():
 		
 	var settingsToBeSaved: Dictionary = {}
 	var nodesToBeSaved: Array[Dictionary] = []
-	var wiresToBeSaved: Array[Dictionary] = []
+	var edgesToBeSaved: Array[Dictionary] = []
 	
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	var textToBeSaved: Array[Dictionary] = []
@@ -230,17 +230,17 @@ func saveData():
 			
 			nodesToBeSaved.append(nodeDict)
 			
-	for c in wires.values():
-		if (c is WireBase):
-			var wireDict = {
+	for c in edges.values():
+		if (c is EdgeBase):
+			var edgeDict = {
 				"id": c.id,
 				"sourceId": c.sourceId,
 				"targetId": c.targetId,
-				"type": c.wireType,
-				"group": c.wireGroup
+				"type": c.edgeType,
+				"group": c.edgeGroup
 			}
 			
-			wiresToBeSaved.append(wireDict)
+			edgesToBeSaved.append(edgeDict)
 			
 			
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -275,7 +275,7 @@ func saveData():
 	var json_nodes = JSON.stringify({
 		"settings": settingsToBeSaved, 
 		"nodes": nodesToBeSaved, 
-		"wires": wiresToBeSaved,
+		"edges": edgesToBeSaved,
 		
 		"textData": textToBeSaved, 
 		"imageData": imagesToBeSaved	
@@ -299,11 +299,11 @@ func addNode(nodeType: String = "BASE") -> NodeBase:
 			
 	return newNode
 
-func addWire(srcId: int, trgtId: int, type: String = "BASE", group: String = "none") -> WireBase:
+func addEdge(srcId: int, trgtId: int, type: String = "BASE", group: String = "none") -> EdgeBase:
 	lastId += 1
-	var newWire: WireBase = WireBase.new(lastId, srcId, trgtId, type, group)
-	wires[lastId] = newWire
-	return newWire
+	var newEdge: EdgeBase = EdgeBase.new(lastId, srcId, trgtId, type, group)
+	edges[lastId] = newEdge
+	return newEdge
 	
 func getNode(id: int) -> NodeBase: 
 	#print("LOOKING FOR " + str(id) + " NODE IN " + str(nodes.keys()) + "(claims "+ str(nodes.has(id)) + ")")
@@ -332,28 +332,28 @@ func addRelatedNode(id: int, relatedId: int, selfPos, relatedPos: Vector2):
 
 	node.addRelatedNode(relatedId, selfPos - relatedPos)
 
-func getAllWires() -> Dictionary:
-	return wires 
+func getAllEdges() -> Dictionary:
+	return edges 
 
 func deleteNode(nodeId: int):
 	nodes.erase(nodeId)
 	textData.erase(nodeId)
 	imageData.erase(nodeId)
-	for w in wires.values():
+	for w in edges.values():
 		print("ID: " + str(w.id) + " | SRC: " + str(w.sourceId) + " | TRGT: " + str(w.targetId))
 		
-		print(str(wires))
+		print(str(edges))
 		
 		if w.sourceId == nodeId:
 			nodes[w.targetId].relatedNodes.erase(w.sourceId)
-			print(str(wires.erase(w.id)) + " was the result of deletion")
+			print(str(edges.erase(w.id)) + " was the result of deletion")
 		elif w.targetId == nodeId:
 			nodes[w.sourceId].relatedNodes.erase(w.targetId)
-			print(str(wires.erase(w.id)) + " was the result of deletion")
+			print(str(edges.erase(w.id)) + " was the result of deletion")
 			
 	saveData()
 
 func deleteAll():
 	nodes = {}
-	wires = {}
+	edges = {}
 	saveData()

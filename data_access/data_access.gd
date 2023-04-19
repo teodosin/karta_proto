@@ -12,8 +12,8 @@ func updateRelatedNodePosition(_id: int, _relatedId: int, _selfPosition: Vector2
 func addRelatedNode(_id: int, _relatedId: int, _selfPosition: Vector2, _relatedPosition: Vector2):
 	pass
 	
-func addWire(_fromId: int, _toId: int):
+func addEdge(_fromId: int, _toId: int):
 	pass
 	
-func getAllRelatedWires(_id: int) -> Array[WireBase]:
+func getAllRelatedEdges(_id: int) -> Array[EdgeBase]:
 	return [] 

@@ -1,16 +1,16 @@
-class_name WireBase
+class_name EdgeBase
 
 var id: int
 var sourceId: int
 var targetId: int
-var wireType: String
-var wireGroup: String
+var edgeType: String
+var edgeGroup: String
 
 	
 
-func _init(wireId: int, srcId: int, trgtId: int, type: String, group: String):
-	self.id = wireId
+func _init(edgeId: int, srcId: int, trgtId: int, type: String, group: String):
+	self.id = edgeId
 	self.sourceId = srcId
 	self.targetId = trgtId
-	self.wireType = type
-	self.wireGroup = group
+	self.edgeType = type
+	self.edgeGroup = group
