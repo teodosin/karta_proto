@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/node_view_base.gd" id="1_jnnre"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/focal_panel.gd" id="2_djlw1"]
-[ext_resource type="Script" path="res://main_graph_view/scripts/NodeName.gd" id="2_km87o"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/node_name.gd" id="2_km87o"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/pinned_panel.gd" id="4_r2n7k"]
 
 [sub_resource type="SystemFont" id="SystemFont_kqvky"]

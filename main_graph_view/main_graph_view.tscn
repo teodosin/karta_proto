@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsv1b4uxkepue"]
+[gd_scene load_steps=4 format=3 uid="uid://cidnv0wsgfnjt"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/main_graph_view.gd" id="1_ap4qj"]
-[ext_resource type="Script" path="res://main_graph_view/scripts/GraphViewCamera.gd" id="2_p5s46"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/graph_view_camera.gd" id="2_3cc77"]
 [ext_resource type="PackedScene" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_ap4qj")
 
 [node name="GraphViewCamera" type="Camera2D" parent="."]
-script = ExtResource("2_p5s46")
+script = ExtResource("2_3cc77")
 
 [node name="FocusGrabber" type="Control" parent="GraphViewCamera"]
 custom_minimum_size = Vector2(100, 0)

@@ -6,22 +6,32 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 var nodes: Dictionary = {} # id -> NodeBase
 var edges: Dictionary = {} # id -> EdgeBase
 var lastId: int = 0
-
-
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-# The data of different node types is also loaded in this file.
-# Is this the proper way to go about this?
 var textData: Dictionary = {} # id -> NodeText
 var imageData: Dictionary = {} # id --> NodeImage
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
+# Paths for JSON saving, will soon be deprecated
 var backup_save_path := "res://data_access/node_data_backups.json"
 var save_path := "user://node_data.json"
+
+#The following will be the paths for the resource saving
+var vault_path := "user://karta_vault/"
+var settings_path := "settings/"
+
+var nodes_path := "nodes/"
+var edges_path := "edges/"
+var texts_path := "texts/"
+var images_path := "images/"
 
 var defaultSettings: Dictionary = {
 	"lastId": 0
 }
+
+func saveNodesUsingResources():
+	pass
+func loadNodesUsingResources():
+	pass
 
 func loadData():
 	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):
