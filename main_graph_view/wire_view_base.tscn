@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://meayqcvs4dg0"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://main_graph_view/wire_view_base.gd" id="1_308h3"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/wire_view_base.gd" id="1_308h3"]
 
 [sub_resource type="SystemFont" id="SystemFont_wooev"]
 font_weight = 200

@@ -24,8 +24,6 @@ var defaultSettings: Dictionary = {
 }
 
 func loadData():
-
-	
 	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):
 		print("File does not exist.")
 

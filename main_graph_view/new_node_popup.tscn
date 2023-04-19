@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkx345ns55b02"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://main_graph_view/new_node_popup.gd" id="1_itdj8"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/new_node_popup.gd" id="1_itdj8"]
 
 [node name="NewNodePopup" type="PopupMenu"]
 size = Vector2i(111, 100)
