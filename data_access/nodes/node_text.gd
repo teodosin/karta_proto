@@ -1,4 +1,5 @@
 class_name NodeText
+extends Resource
 
 var nodeId: int
 var nodeSize: Vector2

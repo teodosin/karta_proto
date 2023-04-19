@@ -1,4 +1,5 @@
 class_name RelatedNode
+extends Resource
 
 var id: int
 var relativePosition: Vector2

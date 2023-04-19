@@ -1,4 +1,5 @@
 class_name NodeBase
+extends Resource
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 

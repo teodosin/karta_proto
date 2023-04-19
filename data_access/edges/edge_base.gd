@@ -1,4 +1,5 @@
 class_name EdgeBase
+extends Resource
 
 var id: int
 var sourceId: int
