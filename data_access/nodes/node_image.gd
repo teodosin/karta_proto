@@ -6,9 +6,9 @@ extends Resource
 @export var imagePath: String
 
 func _init(
-	tid: int, 
-	tsize: Vector2, 
-	tpath: String
+	tid: int = 0, 
+	tsize: Vector2 = Vector2.ZERO, 
+	tpath: String = ""
 	):
 		
 	self.nodeId = tid

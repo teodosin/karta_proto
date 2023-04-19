@@ -6,11 +6,11 @@ extends Resource
 @export var nodeText: String
 
 func _init(
-	tid: int, 
-	tsize: Vector2, 
-	ttext: String
+	nid: int = 0, 
+	tsize: Vector2 = Vector2.ZERO, 
+	ttext: String = ""
 	):
 		
-	self.nodeId = tid
+	self.nodeId = nid
 	self.nodeSize = tsize
 	self.nodeText = ttext
