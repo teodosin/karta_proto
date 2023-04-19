@@ -11,6 +11,8 @@ var textData: Dictionary = {} # id -> NodeText
 var imageData: Dictionary = {} # id --> NodeImage
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+var resnodes: Dictionary = {}
+
 # Paths for JSON saving, will soon be deprecated
 var backup_save_path := "res://data_access/node_data_backups.json"
 var save_path := "user://node_data.json"
@@ -33,28 +35,37 @@ func saveNodesUsingResources():
 		if (c is NodeBase):
 			var related: Dictionary = {}
 			
-			for rel in c.relatedNodes.values():
-				var relatedDict = {
-					"id": rel.id,
-					"relativePositionX": rel.relativePosition.x,
-					"relativePositionY": rel.relativePosition.y
-				}
-				related[rel.id] = relatedDict
-			
-			var nodeDict = {
-				"id": c.id,
-				"time": c.time,
-				"name": c.name,
-				"relatedNodes": related,
-				"nodeType": Enums.NodeTypes[c.nodeType]
-			}
+#			for rel in c.relatedNodes.values():
+#				var relatedDict = {
+#					"id": rel.id,
+#					"relativePositionX": rel.relativePosition.x,
+#					"relativePositionY": rel.relativePosition.y
+#				}
+#				related[rel.id] = relatedDict
+#
+#			var nodeDict = {
+#				"id": c.id,
+#				"time": c.time,
+#				"name": c.name,
+#				"relatedNodes": related,
+#				"nodeType": Enums.NodeTypes[c.nodeType]
+#			}
 			
 			var save_path: String = vault_path + nodes_path + str(c.id) + ".tres"
 	
 			ResourceSaver.save(c, save_path)
 			
 func loadNodesUsingResources():
-	pass
+	var dir = DirAccess.open(vault_path + nodes_path)
+	
+	var loadedNode: NodeBase
+	
+	for file in dir.get_files():
+		var filePath: String = vault_path + nodes_path + file
+		loadedNode = ResourceLoader.load(filePath, "NodeBase")
+		resnodes[loadedNode.id] = loadedNode
+		
+	print("Resnodes are" + str(resnodes))
 
 func loadData():
 	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):
@@ -119,23 +130,24 @@ func loadData():
 	
 	lastId = foundSettings["lastId"]
 
+	loadNodesUsingResources()
 	
 	for inode in foundNodes:
 		if foundNodes.is_empty():
 			break
-		
+
 		var loadedId: int
 		var loadedTime: float
 		var loadedName: String
 		var loadedRelated = {}
 		var loadedType: String
-		
+
 		if inode.has("id") \
 			#and inode.has("time") \
 			and inode.has("name") \
 			and inode.has("relatedNodes") \
 			and inode.has("nodeType"):
-				
+
 			assert(typeof(inode["relatedNodes"]) == TYPE_DICTIONARY, "ERROR: relatedNodes is not a dictionary.")
 			loadedId = inode["id"]
 			loadedTime = inode["time"]
@@ -144,10 +156,13 @@ func loadData():
 			for rel in inode["relatedNodes"].values():
 				var loadedRel = RelatedNode.new(int(rel["id"]), Vector2(rel["relativePositionX"], rel["relativePositionY"]))
 				loadedRelated[int(rel["id"])] = loadedRel
-			
+
 			loadNode(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
-			
-			
+
+
+	print("First in the JSON array:" + str(nodes[nodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
+#	print("First in the Resource array:" + str(resnodes[resnodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
+		
 	for iedge in foundEdges:
 		if foundEdges.is_empty():
 			break

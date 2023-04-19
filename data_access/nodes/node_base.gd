@@ -14,7 +14,7 @@ var assignedPositions: int = 0
 
 
 func _init(
-	n_id: int, 
+	n_id: int = 0, 
 	n_time: float = Time.get_unix_time_from_system(),
 	n_name: String = "node", 
 	n_rel: Dictionary = {}, 
