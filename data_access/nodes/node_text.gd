@@ -1,9 +1,9 @@
 class_name NodeText
 extends Resource
 
-var nodeId: int
-var nodeSize: Vector2
-var nodeText: String
+@export var nodeId: int
+@export var nodeSize: Vector2
+@export var nodeText: String
 
 func _init(
 	tid: int, 

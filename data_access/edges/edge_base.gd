@@ -1,11 +1,11 @@
 class_name EdgeBase
 extends Resource
 
-var id: int
-var sourceId: int
-var targetId: int
-var edgeType: String
-var edgeGroup: String
+@export var id: int
+@export var sourceId: int
+@export var targetId: int
+@export var edgeType: String
+@export var edgeGroup: String
 
 	
 

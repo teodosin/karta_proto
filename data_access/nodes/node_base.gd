@@ -3,11 +3,11 @@ extends Resource
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
-var id: int
-var time: float
-var name: String
-var relatedNodes: Dictionary # id -> RelatedNode
-var nodeType: String
+@export var id: int
+@export var time: float
+@export var name: String
+@export var relatedNodes: Dictionary # id -> RelatedNode
+@export var nodeType: String
 
 
 var assignedPositions: int = 0

@@ -1,9 +1,9 @@
 class_name RelatedNode
 extends Resource
 
-var id: int
-var relativePosition: Vector2
-var expanded: bool
+@export var id: int
+@export var relativePosition: Vector2
+@export var expanded: bool
 
 func _init(rid: int, rrelativePosition: Vector2, rexpanded: bool = false):
 	self.id = rid

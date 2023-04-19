@@ -1,9 +1,9 @@
 class_name NodeImage
 extends Resource
 
-var nodeId: int
-var nodeSize: Vector2
-var imagePath: String
+@export var nodeId: int
+@export var nodeSize: Vector2
+@export var imagePath: String
 
 func _init(
 	tid: int, 
