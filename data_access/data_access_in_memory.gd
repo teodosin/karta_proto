@@ -160,8 +160,8 @@ func loadData():
 			loadNode(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 
 
-	print("First in the JSON array:" + str(nodes[nodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
-#	print("First in the Resource array:" + str(resnodes[resnodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
+	print("First relatedNodes relativePosition in the JSON array:" + str(nodes[nodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
+	print("First relatedNodes in the Resource array:" + str(resnodes[resnodes.keys()[0]].relatedNodes[nodes[nodes.keys()[0]].relatedNodes.keys()[0]].relativePosition))
 		
 	for iedge in foundEdges:
 		if foundEdges.is_empty():
