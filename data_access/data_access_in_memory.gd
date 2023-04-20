@@ -12,6 +12,7 @@ var imageData: Dictionary = {} # id --> NodeImage
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 var resnodes: Dictionary = {}
+var resedges: Dictionary = {}
 
 # Paths for JSON saving, will soon be deprecated
 var backup_save_path := "res://data_access/node_data_backups.json"
@@ -27,6 +28,18 @@ var edges_path := "edges/"
 var defaultSettings: Dictionary = {
 	"lastId": 0
 }
+
+func init_vault():
+	if not DirAccess.dir_exists_absolute(vault_path):
+		DirAccess.make_dir_absolute(vault_path)
+	if not DirAccess.dir_exists_absolute(vault_path + settings_path):
+		DirAccess.make_dir_absolute(vault_path + settings_path)
+		
+	if not DirAccess.dir_exists_absolute(vault_path + nodes_path):
+		DirAccess.make_dir_absolute(vault_path + nodes_path)
+	if not DirAccess.dir_exists_absolute(vault_path + edges_path):
+		DirAccess.make_dir_absolute(vault_path + edges_path)
+
 
 func saveNodesUsingResources():
 	for c in nodes.values():
@@ -46,6 +59,24 @@ func saveEdgesUsingResources():
 	
 			ResourceSaver.save(c, save_path)
 			
+func loadEdgesUsingResources():
+	var dir = DirAccess.open(vault_path + edges_path)
+	
+	var loadedEdge: EdgeBase
+	
+	for file in dir.get_files():
+		var filePath: String = vault_path + edges_path + file
+		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
+		resedges[loadedEdge.id] = loadedEdge
+		
+	print("Resedges are" + str(resedges))
+	if resedges.size() != 0:
+		var firstRel = resedges[resedges.keys()[0]]
+		print(firstRel)
+		print(firstRel.get_property_list())
+		assert("sourceRelativeData" in firstRel)
+		assert("relativePosition" in firstRel.sourceRelativeData)
+		
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
 	
@@ -77,6 +108,9 @@ func loadData():
 			"imageData": {}
 #^^^^^^^^^^^^^^^^^ 
 		}
+		
+	init_vault()
+	
 	var file
 	
 	if not FileAccess.file_exists(save_path) and FileAccess.file_exists(backup_save_path):
@@ -127,6 +161,7 @@ func loadData():
 	lastId = foundSettings["lastId"]
 
 	loadNodesUsingResources()
+	loadEdgesUsingResources()
 	
 	for inode in foundNodes:
 		if foundNodes.is_empty():
