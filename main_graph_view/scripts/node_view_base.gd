@@ -73,6 +73,10 @@ func _ready():
 			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
 			basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
 			basePanel.gui_input.connect(self._on_background_panel_gui_input)
+			
+	# Rename the node if no name has been assigned
+	if dataNode.name == "node":
+		dataNode.name = dataNode.nodeType
 	
 	# Connect the indicators
 	indicatorPanel.focalIndicator.indicatorToggled.connect(self._on_focal_indicator_gui_input)

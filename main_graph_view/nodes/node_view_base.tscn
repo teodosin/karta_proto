@@ -29,7 +29,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_jnnre")
 
-[node name="NodeName" type="LineEdit" parent="."]
+[node name="NodeName" type="LineEdit" parent="." groups=["NodeNameLabel"]]
 layout_direction = 1
 layout_mode = 0
 anchor_top = 1.0
