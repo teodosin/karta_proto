@@ -52,11 +52,11 @@ func setSourcePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 
 func setTargetPosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
-		targetRelativeData.relativePosition
+		targetRelativeData.relativePosition = Vector2.ZERO
 	else:
 		targetRelativeData.relativePosition = relatedPos - selfPos
 	
-	print("targetRelative is in edge" + str(targetRelativeData.relativePosition))
+	print("targetRelative in edge is" + str(targetRelativeData.relativePosition))
 
 func getConnection(nodeId: int): 
 	if nodeId == sourceId:
