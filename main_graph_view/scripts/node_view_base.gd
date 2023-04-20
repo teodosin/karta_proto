@@ -81,6 +81,10 @@ func _ready():
 	# Connect the indicators
 	indicatorPanel.focalIndicator.indicatorToggled.connect(self._on_focal_indicator_gui_input)
 	
+	var themeOverride = basePanel.get_theme_stylebox("StyleBoxFlat")
+	print(themeOverride.border_color)
+	themeOverride.border_width_left = 10
+	
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	var spawnTween = create_tween()

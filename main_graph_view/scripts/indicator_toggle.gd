@@ -1,6 +1,6 @@
 extends Panel
 
-@export var unselectedColor: Color = Color("000015")
+@export var unselectedColor: Color = Color("353545")
 @export var highlightColor: Color = Color("aa5500")
 @export var activeColor: Color = Color("ffcc33")
 

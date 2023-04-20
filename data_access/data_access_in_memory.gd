@@ -35,22 +35,6 @@ func saveNodesUsingResources():
 		if (c is NodeBase):
 			var related: Dictionary = {}
 			
-#			for rel in c.relatedNodes.values():
-#				var relatedDict = {
-#					"id": rel.id,
-#					"relativePositionX": rel.relativePosition.x,
-#					"relativePositionY": rel.relativePosition.y
-#				}
-#				related[rel.id] = relatedDict
-#
-#			var nodeDict = {
-#				"id": c.id,
-#				"time": c.time,
-#				"name": c.name,
-#				"relatedNodes": related,
-#				"nodeType": Enums.NodeTypes[c.nodeType]
-#			}
-			
 			var save_path: String = vault_path + nodes_path + str(c.id) + ".tres"
 	
 			ResourceSaver.save(c, save_path)

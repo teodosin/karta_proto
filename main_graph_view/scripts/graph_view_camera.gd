@@ -23,12 +23,12 @@ func _input(event):
 		panning = false
 
 	if event.is_action_pressed("zoomInCamera"):
-		if zoom.x >= 1.0:
+		if zoom.x >= 2.0:
 			return
 
 		setZoom(1.1, true)
 	if event.is_action_pressed("zoomOutCamera"):
-		if zoom.x <= 0.4:
+		if zoom.x <= 0.1:
 			return
 			
 		setZoom(0.9, false)

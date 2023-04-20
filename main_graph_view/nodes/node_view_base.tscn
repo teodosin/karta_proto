@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1obf5f3mbeg4"]
+[gd_scene load_steps=7 format=3 uid="uid://b1obf5f3mbeg4"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/node_view_base.gd" id="1_jnnre"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/node_name.gd" id="2_km87o"]
 [ext_resource type="PackedScene" uid="uid://bi22vevyj61xj" path="res://main_graph_view/components/indicator_panel.tscn" id="3_71dym"]
+[ext_resource type="Theme" uid="uid://dhfikidhxl872" path="res://main_graph_view/karta_default_theme.tres" id="4_8xxui"]
 
 [sub_resource type="SystemFont" id="SystemFont_kqvky"]
 generate_mipmaps = true
@@ -10,16 +11,6 @@ multichannel_signed_distance_field = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwt55"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipxx"]
-bg_color = Color(0.392157, 0.372549, 0.423529, 0.980392)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="Theme" id="Theme_14gnd"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_xipxx")
 
 [node name="NodeViewBase" type="Control"]
 layout_mode = 3
@@ -61,7 +52,7 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 focus_mode = 1
-theme = SubResource("Theme_14gnd")
+theme = ExtResource("4_8xxui")
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
 visible = false

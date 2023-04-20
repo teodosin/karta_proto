@@ -39,10 +39,10 @@ func _draw():
 		if source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
 			draw_line(
 				sourcePos, 
-				targetPos, Color(0.0,0.1,0.1), 0.5, true
+				targetPos, Color(0.0,0.3,0.3), 0.5, true
 			)	
 		else:
 			draw_line(
 				sourcePos, 
-				targetPos, Color(0.0,0.1,0.1), 2.0, true
+				targetPos, Color(0.0,0.3,0.3), 2.0, true
 			)
