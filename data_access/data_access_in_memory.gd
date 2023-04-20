@@ -50,6 +50,11 @@ func loadNodesUsingResources():
 		resnodes[loadedNode.id] = loadedNode
 		
 	print("Resnodes are" + str(resnodes))
+	if resnodes.size() != 0:
+		var firstRel = resnodes[resnodes.keys()[0]].relatedNodes[resnodes[resnodes.keys()[0]].relatedNodes.keys()[0]]
+		print(firstRel)
+		print(firstRel.get_property_list())
+		assert("relativePosition" in firstRel)
 
 func loadData():
 	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):

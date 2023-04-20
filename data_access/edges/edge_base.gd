@@ -15,3 +15,4 @@ func _init(edgeId: int, srcId: int, trgtId: int, type: String, group: String):
 	self.targetId = trgtId
 	self.edgeType = type
 	self.edgeGroup = group	
+
