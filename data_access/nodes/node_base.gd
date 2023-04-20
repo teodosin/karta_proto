@@ -34,6 +34,8 @@ func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 		edges[nodeId].relativePosition = Vector2.ZERO
 	else:
 		edges[nodeId].relativePosition = relatedPos - selfPos
+		
+	print("relative in node is " + str(edges[nodeId].relativePosition))
 	
 func getRelatedNodePosition(nodeId: int, nodePosition: Vector2):
 	if !edges.keys().has(nodeId):

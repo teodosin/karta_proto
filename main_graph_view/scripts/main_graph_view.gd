@@ -115,6 +115,11 @@ func createEdge(source, target) -> EdgeViewBase:
 	
 	source.dataNode.addRelatedNode(target.id)
 	target.dataNode.addRelatedNode(source.id)
+	
+	newEdgeData.addSource(source.id, source.position)
+	newEdgeData.addTarget(target.id, target.position)
+	newEdgeData.setSourcePosition(target.id, source.position, target.position)
+	newEdgeData.setTargetPosition(source.id, target.position, source.position)	
 
 	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
 	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
@@ -196,9 +201,7 @@ func setAsFocal(node: NodeViewBase):
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned)
 	
-	# Reposition camera on new focal node:
-	# $GraphViewCamera.animatePosition(focalNode.getPositionCenter())
-	
+
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
 		if n.id == focalNode.id:

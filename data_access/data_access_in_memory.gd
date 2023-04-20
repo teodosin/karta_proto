@@ -69,11 +69,11 @@ func loadEdgesUsingResources():
 		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
 		resedges[loadedEdge.id] = loadedEdge
 		
-	print("Resedges are" + str(resedges))
+	#print("Resedges are" + str(resedges))
 	if resedges.size() != 0:
 		var firstRel = resedges[resedges.keys()[0]]
-		print(firstRel)
-		print(firstRel.get_property_list())
+		#print(firstRel)
+		#print(firstRel.get_property_list())
 		assert("sourceRelativeData" in firstRel)
 		assert("relativePosition" in firstRel.sourceRelativeData)
 		
@@ -87,11 +87,11 @@ func loadNodesUsingResources():
 		loadedNode = ResourceLoader.load(filePath, "NodeBase")
 		resnodes[loadedNode.id] = loadedNode
 		
-	print("Resnodes are" + str(resnodes))
+	#print("Resnodes are" + str(resnodes))
 	if resnodes.size() != 0:
 		var firstRel = resnodes[resnodes.keys()[0]].edges[resnodes[resnodes.keys()[0]].edges.keys()[0]]
-		print(firstRel)
-		print(firstRel.get_property_list())
+		#print(firstRel)
+		#print(firstRel.get_property_list())
 		assert("relativePosition" in firstRel)
 
 func loadData():
@@ -290,7 +290,7 @@ func saveData():
 		if (c is NodeBase):
 			var related: Dictionary = {}
 			
-			for rel in c.relatedNodes.values():
+			for rel in c.edges.values():
 				var relatedDict = {
 					"id": rel.id,
 					"relativePositionX": rel.relativePosition.x,
