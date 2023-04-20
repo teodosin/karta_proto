@@ -36,6 +36,15 @@ func saveNodesUsingResources():
 			var save_path: String = vault_path + nodes_path + str(c.id) + ".tres"
 	
 			ResourceSaver.save(c, save_path)
+
+func saveEdgesUsingResources():
+	for c in edges.values():
+		if (c is EdgeBase):
+			var related: Dictionary = {}
+			
+			var save_path: String = vault_path + edges_path + str(c.id) + ".tres"
+	
+			ResourceSaver.save(c, save_path)
 			
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
@@ -240,6 +249,7 @@ func saveData():
 	settingsToBeSaved["lastId"] = lastId
 	
 	saveNodesUsingResources()
+	saveEdgesUsingResources()
 	
 	for c in nodes.values():
 		if (c is NodeBase):
