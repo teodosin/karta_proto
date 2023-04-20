@@ -89,7 +89,7 @@ func loadNodesUsingResources():
 		
 	print("Resnodes are" + str(resnodes))
 	if resnodes.size() != 0:
-		var firstRel = resnodes[resnodes.keys()[0]].relatedNodes[resnodes[resnodes.keys()[0]].relatedNodes.keys()[0]]
+		var firstRel = resnodes[resnodes.keys()[0]].edges[resnodes[resnodes.keys()[0]].edges.keys()[0]]
 		print(firstRel)
 		print(firstRel.get_property_list())
 		assert("relativePosition" in firstRel)

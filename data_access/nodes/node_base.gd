@@ -6,7 +6,7 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 @export var id: int
 @export var time: float
 @export var name: String
-@export var relatedNodes: Dictionary # id -> RelatedNode
+@export var edges: Dictionary # id -> RelatedNode
 @export var nodeType: String
 
 
@@ -24,35 +24,35 @@ func _init(
 	self.id = n_id
 	self.time = n_time
 	self.name = n_name
-	self.relatedNodes = n_rel
+	self.edges = n_rel
 	self.nodeType = n_type
 	
 	
 func setRelatedNodePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
-	assert(relatedNodes.has(int(nodeId)), "ERROR related node not found")
+	assert(edges.has(int(nodeId)), "ERROR related node not found")
 	if relatedPos == Vector2.ZERO or relatedPos == null:
-		relatedNodes[nodeId].relativePosition = Vector2.ZERO
+		edges[nodeId].relativePosition = Vector2.ZERO
 	else:
-		relatedNodes[nodeId].relativePosition = relatedPos - selfPos
+		edges[nodeId].relativePosition = relatedPos - selfPos
 	
 func getRelatedNodePosition(nodeId: int, nodePosition: Vector2):
-	if !relatedNodes.keys().has(nodeId):
+	if !edges.keys().has(nodeId):
 		return
 	
-	if relatedNodes[nodeId].relativePosition != Vector2.ZERO:
-		return nodePosition + relatedNodes[nodeId].relativePosition
+	if edges[nodeId].relativePosition != Vector2.ZERO:
+		return nodePosition + edges[nodeId].relativePosition
 	else: 
 		assignedPositions += 1
 		return nodePosition + Vector2(0, 150 * assignedPositions)	
 		
 func addRelatedNode(relatedId: int, relativePos: Vector2 = Vector2.ZERO):
-	relatedNodes[relatedId] = RelatedNode.new(relatedId, relativePos)
+	edges[relatedId] = RelatedNode.new(relatedId, relativePos)
 
 		
 func getRelatedNode(relatedId: int) -> RelatedNode: 
-	return relatedNodes[relatedId]
+	return edges[relatedId]
 	
 func updateRelatedNode(u_id: int, u_position: Vector2):
-	assert(relatedNodes.has(u_id), "ERROR related node not found")
-	var relatedNode: RelatedNode = relatedNodes[u_id]
+	assert(edges.has(u_id), "ERROR related node not found")
+	var relatedNode: RelatedNode = edges[u_id]
 	relatedNode.relativePosition = u_position

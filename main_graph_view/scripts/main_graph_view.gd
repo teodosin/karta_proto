@@ -73,8 +73,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 		spawnPos = get_global_mouse_position()
 	if focalNode == null:
 		spawnPos = $GraphViewCamera.position
-	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
-		spawnPos = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
+	elif focalNode.dataNode.edges.keys().has(newNodeData.id): 
+		spawnPos = focalNode.position + focalNode.dataNode.edges[newNodeData.id].relativePosition
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -145,7 +145,7 @@ func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 func saveRelativePositions():
 	if focalNode != null:
 
-		for relatedId in focalNode.dataNode.relatedNodes.keys():
+		for relatedId in focalNode.dataNode.edges.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
 			if pinnedNodes.keys().has(relatedId):
 				return
@@ -190,7 +190,7 @@ func setAsFocal(node: NodeViewBase):
 	
 	focalNode = node
 	
-	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
+	var toBeDespawned = findSpawnedToDespawn(node.dataNode.edges, spawnedNodes)
 	despawnNodes(toBeDespawned)
 	
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
@@ -211,7 +211,7 @@ func setAsFocal(node: NodeViewBase):
 	
 	
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
-	var related = node.dataNode.relatedNodes
+	var related = node.dataNode.edges
 	
 	var toBeSpawned: Array[NodeBase] = []
 	
