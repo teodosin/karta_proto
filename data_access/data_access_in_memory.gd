@@ -23,8 +23,6 @@ var settings_path := "settings/"
 
 var nodes_path := "nodes/"
 var edges_path := "edges/"
-var texts_path := "texts/"
-var images_path := "images/"
 
 var defaultSettings: Dictionary = {
 	"lastId": 0
