@@ -176,7 +176,7 @@ func setAsPinned(nodeId):
 		pinnedNodes.erase(node.id)
 		print("NODESCALE" + str(node.scale))
 		
-func setAsFocal(node):
+func setAsFocal(node: NodeViewBase):
 	# Can't set focal node if it's already the focal
 	if focalNode == node:
 		return

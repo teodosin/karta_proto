@@ -2,18 +2,23 @@ extends Panel
 
 @export var unselectedColor: Color = Color("000015")
 @export var highlightColor: Color = Color("aa5500")
-@export var focalColor: Color = Color("ffcc33")
+@export var activeColor: Color = Color("ffcc33")
 
 
 var currentColor: Color = unselectedColor
-# Called when the node enters the scene tree for the first time.
+
+var isActive: bool = false
+var onlyOn: bool = false
+
+signal indicatorToggled
 
 func _ready():
 	self.modulate = currentColor
 
-func setFocal(isTrue: bool):
+func setActive(isTrue: bool):
+	isActive = isTrue
 	if isTrue:
-		updateColor(focalColor)
+		updateColor(activeColor)
 	else:
 		updateColor(unselectedColor)
 	
@@ -22,12 +27,23 @@ func updateColor(col: Color):
 	self.modulate = currentColor
 
 func _on_mouse_entered():
-	if currentColor == focalColor:
+	if currentColor == activeColor:
 		return
 		
 	updateColor(highlightColor)
 func _on_mouse_exited():
-	if currentColor == focalColor:
+	if currentColor == activeColor:
 		return
 	
 	updateColor(unselectedColor)
+
+
+func _on_gui_input(event):
+	if event.is_action_pressed("mouseLeft"):
+		indicatorToggled.emit()
+		if onlyOn:
+			setActive(true)
+		else:
+			setActive(!isActive)
+	else:
+		pass

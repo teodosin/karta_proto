@@ -14,4 +14,4 @@ func _init(edgeId: int, srcId: int, trgtId: int, type: String, group: String):
 	self.sourceId = srcId
 	self.targetId = trgtId
 	self.edgeType = type
-	self.edgeGroup = group
+	self.edgeGroup = group	

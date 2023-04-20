@@ -5,8 +5,15 @@ var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
 var id: int
-var isFocal: bool = false
-var isPinned: bool = false
+
+@onready var indicatorPanel = $IndicatorPanel
+@onready var elementContainer = get_node("NodeElementContainer")
+@onready var basePanel = $NodeElementContainer/BackgroundPanel #get_node("BackgroundPanel")
+
+var isPinnedToFocal: bool = false
+var isPinnedToPosition: bool = false
+var isPinnedToUi: bool = false
+var isPinnedToPresence = false
 
 var spawning = true
 var despawning = false
@@ -15,9 +22,7 @@ var fadeOut = 1.0
 var nodeMoving: bool = false
 var clickOffset: Vector2 = Vector2.ZERO
 
-#var prevPosition = null
-#var nextPosition = null
-#var animationStep: float = 0.0
+
 
 var dataNode: NodeBase = null
 var typeData = null
@@ -31,12 +36,10 @@ signal thisNodeAsPinned(nodeId, isTrue)
 signal nodeMoved
 signal nodeDeleteSelf
 
-
 func _ready():
 	match dataNode.nodeType:
 		"TEXT":
-			var basePanel = $VBoxContainer/BackgroundPanel
-			$VBoxContainer.remove_child(basePanel)
+			elementContainer.remove_child(basePanel)
 			basePanel.queue_free()
 			
 			var textPanel = textNode.instantiate()
@@ -47,11 +50,12 @@ func _ready():
 			
 			textPanel.textData = typeData
 			
-			$VBoxContainer.add_child(textPanel)
+			basePanel = textPanel
+			elementContainer.add_child(textPanel)
 		
 		"IMAGE":
-			var basePanel = $VBoxContainer/BackgroundPanel
-			$VBoxContainer.remove_child(basePanel)
+		
+			elementContainer.remove_child(basePanel)
 			basePanel.queue_free()
 			
 			var imagePanel = imageNode.instantiate()
@@ -62,14 +66,17 @@ func _ready():
 			
 			imagePanel.imageData = typeData
 			
-			$VBoxContainer.add_child(imagePanel)
+			basePanel = imagePanel
+			elementContainer.add_child(imagePanel)
 			
 		_: 
-			$VBoxContainer/BackgroundPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			$VBoxContainer/BackgroundPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			$VBoxContainer/BackgroundPanel.gui_input.connect(self._on_background_panel_gui_input)
-
-			
+			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			basePanel.gui_input.connect(self._on_background_panel_gui_input)
+	
+	# Connect the indicators
+	indicatorPanel.focalIndicator.indicatorToggled.connect(self._on_focal_indicator_gui_input)
+	
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	var spawnTween = create_tween()
@@ -83,7 +90,7 @@ func _ready():
 	
 # Function to get the center of the node, for drawing edges for example
 func getPositionCenter() -> Vector2:
-	return self.global_position + $VBoxContainer.size / 2
+	return self.global_position + elementContainer.size / 2
 	
 
 func _process(delta):
@@ -93,30 +100,22 @@ func _process(delta):
 		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
 
 		self.set_position(newPosition)
-		if !isFocal:
+		if !isPinnedToFocal:
 			pass
 
-func setAsPinned():
-	return
-	
-	isPinned = !isPinned
-	thisNodeAsPinned.emit()
-	$VBoxContainer/Indicators/PinnedPanel.setPinned(isPinned)
-	
 
 
 func setAsFocal(newFocalId):
-	if isPinned:
-		return 
+
 	# If the id of the new Focal matches this node's id,
 	# mark it as the new focal
 	if self.id == newFocalId:	
-		self.isFocal = true		
+		self.isPinnedToFocal = true		
 		thisNodeAsFocal.emit()
-		$VBoxContainer/Indicators/FocalPanel.setFocal(true)
+		$IndicatorPanel.focalIndicator.setActive(true)
 	else:
-		self.isFocal = false
-		$VBoxContainer/Indicators/FocalPanel.setFocal(false)
+		self.isPinnedToFocal = false
+		$IndicatorPanel.focalIndicator.setActive(false)
 	# Is it okay to use get_parent() here?
 
 func animatePosition(newPosition):
@@ -133,8 +132,22 @@ func deleteSelf():
 	get_parent().remove_child(self)
 	self.queue_free()	
 
+#getters
+func getIsPinnedToFocal():
+	return isPinnedToFocal
+	
+func getIsPinnedToPosition():
+	return isPinnedToPresence
+	
+func getIsPinnedToUi():
+	return isPinnedToUi 
+	
+func getIsPinnedToPresence():
+	return isPinnedToPresence
+
+#signal callback functions
 func _on_background_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft") and $VBoxContainer.get_child(1).has_focus():
+	if event.is_action_pressed("mouseLeft") and basePanel.has_focus():
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
 	if event.is_action_released("mouseLeft"):
@@ -152,23 +165,14 @@ func _on_background_panel_gui_input(event):
 func _on_background_panel_mouse_entered():
 	mouseHovering.emit()
 
-
 func _on_background_panel_mouse_exited():
 	pass # Replace with function body.
 
-
-func _on_focal_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft") and event.double_click:
-		setAsFocal(id)
-	else:
-		pass
+func _on_focal_indicator_gui_input():
+	print("Setting " +str(id)+ " as the focal.")
+	thisNodeAsFocal.emit()
+	setAsFocal(id)
 
 func _on_node_name_text_changed(new_text):
 	dataNode.name = new_text
-	
-	
 
-
-func _on_pinned_panel_gui_input(event):
-	if event.is_action_pressed("mouseLeft"):
-		setAsPinned()

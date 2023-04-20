@@ -36,7 +36,7 @@ func deleteSelf():
 
 func _draw():
 	if is_instance_valid(target) and is_instance_valid(source):
-		if source.isFocal or target.isFocal:
+		if source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
 			draw_line(
 				sourcePos, 
 				targetPos, Color(0.0,0.1,0.1), 0.5, true

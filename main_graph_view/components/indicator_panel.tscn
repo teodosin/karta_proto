@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi22vevyj61xj"]
+
+[ext_resource type="Script" path="res://main_graph_view/nodes/indicator_panel.gd" id="1_r2buu"]
+
+[node name="IndicatorPanel" type="VBoxContainer" groups=["IndicatorPanel"]]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 20.0
+grow_horizontal = 0
+script = ExtResource("1_r2buu")
