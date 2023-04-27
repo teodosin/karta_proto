@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://exm3mq0bnvk6"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/new_node_popup.gd" id="1_itdj8"]
 
