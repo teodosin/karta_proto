@@ -29,3 +29,6 @@ func _init(
 	relativeRotation = relrot
 	relativeZDepth = relz
 	self.expanded = r_expanded
+	
+func setRelativePosition(newPos: Vector2):
+	relativePosition = newPos

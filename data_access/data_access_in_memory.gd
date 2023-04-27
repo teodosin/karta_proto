@@ -40,60 +40,6 @@ func init_vault():
 	if not DirAccess.dir_exists_absolute(vault_path + edges_path):
 		DirAccess.make_dir_absolute(vault_path + edges_path)
 
-
-func saveNodesUsingResources():
-	for c in nodes.values():
-		if (c is NodeBase):
-			var related: Dictionary = {}
-			
-			var save_path: String = vault_path + nodes_path + str(c.id) + ".tres"
-	
-			ResourceSaver.save(c, save_path)
-
-func saveEdgesUsingResources():
-	for c in edges.values():
-		if (c is EdgeBase):
-			var related: Dictionary = {}
-			
-			var save_path: String = vault_path + edges_path + str(c.id) + ".tres"
-	
-			ResourceSaver.save(c, save_path)
-			
-func loadEdgesUsingResources():
-	var dir = DirAccess.open(vault_path + edges_path)
-	
-	var loadedEdge: EdgeBase
-	
-	for file in dir.get_files():
-		var filePath: String = vault_path + edges_path + file
-		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
-		resedges[loadedEdge.id] = loadedEdge
-		
-	#print("Resedges are" + str(resedges))
-	if resedges.size() != 0:
-		var firstRel = resedges[resedges.keys()[0]]
-		#print(firstRel)
-		#print(firstRel.get_property_list())
-		assert("sourceRelativeData" in firstRel)
-		assert("relativePosition" in firstRel.sourceRelativeData)
-		
-func loadNodesUsingResources():
-	var dir = DirAccess.open(vault_path + nodes_path)
-	
-	var loadedNode: NodeBase
-	
-	for file in dir.get_files():
-		var filePath: String = vault_path + nodes_path + file
-		loadedNode = ResourceLoader.load(filePath, "NodeBase")
-		resnodes[loadedNode.id] = loadedNode
-		
-	#print("Resnodes are" + str(resnodes))
-	if resnodes.size() != 0:
-		var firstRel = resnodes[resnodes.keys()[0]].edges[resnodes[resnodes.keys()[0]].edges.keys()[0]]
-		#print(firstRel)
-		#print(firstRel.get_property_list())
-		assert("relativePosition" in firstRel)
-
 func loadData():
 	if not FileAccess.file_exists(backup_save_path) and not FileAccess.file_exists(save_path):
 		print("File does not exist.")
@@ -240,6 +186,75 @@ func loadData():
 			loadImage(loadedId, loadedSize, loadedPath)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		
+func loadEdgesUsingResources():
+	var dir = DirAccess.open(vault_path + edges_path)
+	
+	var loadedEdge: EdgeBase
+	
+	for file in dir.get_files():
+		var filePath: String = vault_path + edges_path + file
+		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
+		resedges[loadedEdge.id] = loadedEdge
+		
+	#print("Resedges are" + str(resedges))
+	if resedges.size() != 0:
+		var firstRel = resedges[resedges.keys()[0]]
+		#print(firstRel)
+		#print(firstRel.get_property_list())
+		assert("sourceRelativeData" in firstRel)
+		assert("relativePosition" in firstRel.sourceRelativeData)
+		
+func loadNodesUsingResources():
+	var dir = DirAccess.open(vault_path + nodes_path)
+	
+	var loadedNode: NodeBase
+	
+	for file in dir.get_files():
+		var filePath: String = vault_path + nodes_path + file
+		loadedNode = ResourceLoader.load(filePath, "NodeBase")
+		resnodes[loadedNode.id] = loadedNode
+		
+	#print("Resnodes are" + str(resnodes))
+	if resnodes.size() != 0:
+		var firstRel = resnodes[resnodes.keys()[0]].edges[resnodes[resnodes.keys()[0]].edges.keys()[0]]
+		#print(firstRel)
+		#print(firstRel.get_property_list())
+		assert("relativePosition" in firstRel)
+
+func updateEdgeRelativePosition(edgeId: int, selfId: int, selfPos: Vector2, newPos: Vector2):
+	assert(resedges.has(edgeId))
+	
+	resedges[edgeId].setConnectionPosition(selfId, selfPos, newPos)
+	
+	#Autosave after edit edge
+	saveEdgeUsingResources(resedges[edgeId])
+	
+
+
+func saveAllNodesUsingResources():
+	for c in nodes.values():
+		if (c is NodeBase):
+			saveNodeUsingResources(c)
+			
+func saveNodeUsingResources(node: NodeBase):
+	var save_path: String = vault_path + nodes_path + str(node.id) + ".tres"
+	
+	ResourceSaver.save(node, save_path)
+
+
+func saveAllEdgesUsingResources():
+	for c in edges.values():
+		if (c is EdgeBase):
+			saveEdgeUsingResources(c)
+			
+func saveEdgeUsingResources(edge: EdgeBase):
+	var save_path: String = vault_path + edges_path + str(edge.id) + ".tres"
+	ResourceSaver.save(edge, save_path)
+	
+	
+			
+
+
 		
 		
 func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
@@ -283,8 +298,8 @@ func saveData():
 	
 	settingsToBeSaved["lastId"] = lastId
 	
-	saveNodesUsingResources()
-	saveEdgesUsingResources()
+	saveAllNodesUsingResources()
+	saveAllEdgesUsingResources()
 	
 	for c in nodes.values():
 		if (c is NodeBase):

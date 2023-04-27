@@ -44,17 +44,17 @@ func addTarget(trgtId: int, relPos: Vector2 = Vector2.ZERO):
 	
 func setSourcePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
-		sourceRelativeData.relativePosition = Vector2.ZERO
+		sourceRelativeData.setRelativePosition(Vector2.ZERO)
 	else:
-		sourceRelativeData.relativePosition = relatedPos - selfPos
+		sourceRelativeData.setRelativePosition(relatedPos - selfPos)
 		
 	print("sourceRelative in edge is " + str(sourceRelativeData.relativePosition))
 
 func setTargetPosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
-		targetRelativeData.relativePosition = Vector2.ZERO
+		targetRelativeData.setRelativePosition(Vector2.ZERO)
 	else:
-		targetRelativeData.relativePosition = relatedPos - selfPos
+		targetRelativeData.setRelativePosition(relatedPos - selfPos)
 	
 	print("targetRelative in edge is" + str(targetRelativeData.relativePosition))
 
@@ -63,3 +63,7 @@ func getConnection(nodeId: int):
 		return targetRelativeData
 	elif nodeId == targetId:
 		return sourceRelativeData
+		
+func setConnectionPosition(nodeId: int, selfPos: Vector2, newPos: Vector2):
+	var editData = getConnection(nodeId)
+	editData.setRelativePosition(newPos - selfPos)
