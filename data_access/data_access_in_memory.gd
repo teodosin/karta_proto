@@ -251,12 +251,28 @@ func saveEdgeUsingResources(edge: EdgeBase):
 	var save_path: String = vault_path + edges_path + str(edge.id) + ".tres"
 	ResourceSaver.save(edge, save_path)
 	
+func deleteAllNodeResources():
+	var del_path: String = vault_path + nodes_path
+	for file in DirAccess.get_files_at(del_path):
+		print(del_path + file)
+		DirAccess.remove_absolute(del_path + file)
 	
-			
-
-
-		
-		
+func deleteAllEdgeResources():
+	var del_path: String = vault_path + edges_path
+	for file in DirAccess.get_files_at(del_path):
+		DirAccess.remove_absolute(del_path + file)
+	
+	
+func deleteEdgeResource(edgeId: int):
+	var del_path: String = vault_path + edges_path + str(edgeId) + ".tres"
+	DirAccess.remove_absolute(del_path)
+	
+func deleteNodeResource(nodeId: int):
+	var del_path: String = vault_path + nodes_path + str(nodeId) + ".tres"
+	DirAccess.remove_absolute(del_path)
+	
+	
+	
 func loadNode(loadedId: int, loadedTime: float, loadedName: String, loadedRelated, loadedType: String) -> NodeBase:
 	var loadedNode: NodeBase = NodeBase.new(loadedId, loadedTime, loadedName, loadedRelated, loadedType)
 	nodes[loadedId] = loadedNode
@@ -432,21 +448,28 @@ func deleteNode(nodeId: int):
 	nodes.erase(nodeId)
 	textData.erase(nodeId)
 	imageData.erase(nodeId)
+	
+	deleteNodeResource(nodeId)
+	
 	for w in edges.values():
 		print("ID: " + str(w.id) + " | SRC: " + str(w.sourceId) + " | TRGT: " + str(w.targetId))
 		
 		print(str(edges))
 		
 		if w.sourceId == nodeId:
-			nodes[w.targetId].relatedNodes.erase(w.sourceId)
+			nodes[w.targetId].edges.erase(w.sourceId)
 			print(str(edges.erase(w.id)) + " was the result of deletion")
 		elif w.targetId == nodeId:
-			nodes[w.sourceId].relatedNodes.erase(w.targetId)
+			nodes[w.sourceId].edges.erase(w.targetId)
 			print(str(edges.erase(w.id)) + " was the result of deletion")
+			
+		deleteEdgeResource(w.id)
 			
 	saveData()
 
 func deleteAll():
 	nodes = {}
 	edges = {}
+	deleteAllNodeResources()
+	deleteAllEdgeResources()
 	saveData()

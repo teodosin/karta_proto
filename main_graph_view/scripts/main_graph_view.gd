@@ -86,6 +86,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.
+	newNode.nodeMoved.connect(self.handle_node_move.bind(newNode))
+	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
@@ -157,6 +159,7 @@ func saveRelativePositions():
 
 			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
 
+			#dataAccess.updateEdgeRelativePosition()
 	
 func setAsPinned(nodeId):
 	print(str(nodeId))
@@ -266,6 +269,12 @@ func _draw():
 
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
+
+func handle_node_move(node):
+	var edgeId
+#	if node != focalNode:
+#		edgeId: int = focalNode.edges
+#	dataAccess.updateEdgeRelativePosition(node.position)
 
 func handle_node_click(node):
 	nodeEdgeSource = node	
