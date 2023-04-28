@@ -25,7 +25,6 @@ var clickOffset: Vector2 = Vector2.ZERO
 
 
 var dataNode: NodeBase = null
-var typeData = null
 
 signal rightMousePressed
 signal mouseHovering
@@ -48,7 +47,7 @@ func _ready():
 			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
 			textPanel.gui_input.connect(self._on_background_panel_gui_input)
 			
-			textPanel.textData = typeData
+			textPanel.textData = dataNode.typeData
 			
 			basePanel = textPanel
 			elementContainer.add_child(textPanel)
@@ -64,7 +63,7 @@ func _ready():
 			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
 			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
 			
-			imagePanel.imageData = typeData
+			imagePanel.imageData = dataNode.typeData
 			
 			basePanel = imagePanel
 			elementContainer.add_child(imagePanel)

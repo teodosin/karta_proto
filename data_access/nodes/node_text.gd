@@ -1,5 +1,5 @@
 class_name NodeText
-extends Resource
+extends NodeTypeData
 
 @export var nodeId: int
 @export var nodeSize: Vector2
@@ -14,3 +14,9 @@ func _init(
 	self.nodeId = nid
 	self.nodeSize = tsize
 	self.nodeText = ttext
+
+func updateSize(newSize: Vector2):
+	nodeSize = newSize
+	
+func updateText(newText: String):
+	nodeText = newText

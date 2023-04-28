@@ -64,6 +64,10 @@ func getConnection(nodeId: int):
 	elif nodeId == targetId:
 		return sourceRelativeData
 		
-func setConnectionPosition(nodeId: int, selfPos: Vector2, newPos: Vector2):
+func setConnectionPosition(nodeId: int, selfPos: Vector2, relPos: Vector2):
 	var editData = getConnection(nodeId)
-	editData.setRelativePosition(newPos - selfPos)
+	editData.setRelativePosition(relPos - selfPos)
+
+func getConnectionPosition(nodeId: int):
+	var getData = getConnection(nodeId)
+	return getData.relativePosition

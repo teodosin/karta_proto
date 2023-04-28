@@ -25,12 +25,12 @@ func _process(_delta):
 		custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
 		
 		custom_minimum_size.y = custom_minimum_size.x / aspect
-		imageData.nodeSize = custom_minimum_size
+		imageData.updateSize(custom_minimum_size)
 		
 	if resizingBottom:
 		custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y - resizeClickPosition.y)
 		custom_minimum_size.x = custom_minimum_size.y * aspect
-		imageData.nodeSize = custom_minimum_size
+		imageData.updateSize(custom_minimum_size)
 
 func _on_button_pressed():
 	$TextureRect.grab_focus()	
@@ -48,7 +48,7 @@ func loadImage(path):
 	$AddImageButton.size_flags_horizontal = SIZE_SHRINK_BEGIN
 	$AddImageButton.size_flags_vertical = SIZE_SHRINK_BEGIN
 	
-	imageData.imagePath = path
+	imageData.updatePath(path)
 	
 	var image = Image.new()
 	image.load(imageData.imagePath)

@@ -1,5 +1,5 @@
 class_name NodeImage
-extends Resource
+extends NodeTypeData
 
 @export var nodeId: int
 @export var nodeSize: Vector2
@@ -14,3 +14,9 @@ func _init(
 	self.nodeId = tid
 	self.nodeSize = tsize
 	self.imagePath = tpath
+
+func updateSize(newSize: Vector2):
+	nodeSize = newSize
+	
+func updatePath(newPath: String):
+	imagePath = newPath
