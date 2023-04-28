@@ -74,7 +74,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	if focalNode == null:
 		spawnPos = $GraphViewCamera.position
 	elif focalNode.dataNode.edges.keys().has(newNodeData.id): 
-		spawnPos = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[newNodeData.id]].getConnectionPosition(focalNode.id)
+		spawnPos = focalNode.position + \
+			dataAccess.edges[focalNode.dataNode.edges[newNodeData.id]].getConnectionPosition(focalNode.id)
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -211,7 +212,7 @@ func setAsFocal(node: NodeViewBase):
 		if n.id == focalNode.id:
 			continue
 		n.setAsFocal(focalNode.id)
-		var newPosition = dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
+		var newPosition = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
