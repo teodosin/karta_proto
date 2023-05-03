@@ -57,7 +57,7 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
 	var dataNode: NodeBase = dataAccess.addNode(nodeType)
 	
-	dataAccess.saveData()
+	dataAccess.saveNodeUsingResources(dataNode)
 
 	var newNode = spawnNode(dataNode, atMouse)
 	
@@ -73,19 +73,19 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 		spawnPos = get_global_mouse_position()
 	if focalNode == null:
 		spawnPos = $GraphViewCamera.position
-	elif focalNode.dataNode.relatedNodes.keys().has(newNodeData.id): 
-		spawnPos = focalNode.position + focalNode.dataNode.relatedNodes[newNodeData.id].relativePosition
+	elif focalNode.dataNode.edges.keys().has(newNodeData.id): 
+		spawnPos = focalNode.position + \
+			dataAccess.edges[focalNode.dataNode.edges[newNodeData.id]].getConnectionPosition(focalNode.id)
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
 	
-	newNode.typeData = dataAccess.getTypeData(newNode.id)
-	
-
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.
+	newNode.nodeMoved.connect(self.handle_node_move.bind(newNode))
+	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
@@ -113,11 +113,18 @@ func createEdge(source, target) -> EdgeViewBase:
 	
 	var newEdgeData = dataAccess.addEdge(source.id, target.id)
 	
-	source.dataNode.addRelatedNode(target.id)
-	target.dataNode.addRelatedNode(source.id)
+	source.dataNode.addEdge(target.id, newEdgeData.id)
+	target.dataNode.addEdge(source.id, newEdgeData.id)
+	
+	newEdgeData.addSource(source.id, source.position)
+	newEdgeData.addTarget(target.id, target.position)
+	newEdgeData.setSourcePosition(target.id, source.position, target.position)
+	newEdgeData.setTargetPosition(source.id, target.position, source.position)	
 
-	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
-	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
+	dataAccess.saveEdgeUsingResources(newEdgeData)
+
+#	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
+#	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
 
 		
 	dataAccess.saveData()
@@ -145,13 +152,16 @@ func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 func saveRelativePositions():
 	if focalNode != null:
 
-		for relatedId in focalNode.dataNode.relatedNodes.keys():
+		for relatedId in focalNode.dataNode.edges.keys():
 			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
 			if pinnedNodes.keys().has(relatedId):
 				return
 
-			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
+#			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
+			dataAccess.edges[focalNode.dataNode.edges[relatedId]].setConnectionPosition( \
+				focalNode.id, focalNode.position, spawnedNodes[int(relatedId)].position)
 
+			#dataAccess.updateEdgeRelativePosition()
 	
 func setAsPinned(nodeId):
 	print(str(nodeId))
@@ -190,28 +200,26 @@ func setAsFocal(node: NodeViewBase):
 	
 	focalNode = node
 	
-	var toBeDespawned = findSpawnedToDespawn(node.dataNode.relatedNodes, spawnedNodes)
+	var toBeDespawned = findSpawnedToDespawn(node.dataNode.edges, spawnedNodes)
 	despawnNodes(toBeDespawned)
 	
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned)
 	
-	# Reposition camera on new focal node:
-	# $GraphViewCamera.animatePosition(focalNode.getPositionCenter())
-	
+
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
 		if n.id == focalNode.id:
 			continue
 		n.setAsFocal(focalNode.id)
-		var newPosition = focalNode.dataNode.getRelatedNodePosition(n.id, focalNode.position)
+		var newPosition = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
 	
 	
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
-	var related = node.dataNode.relatedNodes
+	var related = node.dataNode.edges
 	
 	var toBeSpawned: Array[NodeBase] = []
 	
@@ -260,9 +268,19 @@ func _draw():
 	if nodeEdgeSource:
 		draw_dashed_line(nodeEdgeSource.getPositionCenter(), get_global_mouse_position(), 
 						Color.WHITE, 1.0, 2.0)
+						
+func updateRelativePosition(node):
+	pass
 
 # -----------------------------------------------------------------------------
 # CONNECTED SIGNALS BELOW
+
+func handle_node_move(node):
+	var edgeId
+	if node != focalNode:
+		dataAccess.edges[node.edges[focalNode.id]].setConnectionPosition(focalNode.id, focalNode.position, node.position)
+	elif node == focalNode:
+		saveRelativePositions()
 
 func handle_node_click(node):
 	nodeEdgeSource = node	
