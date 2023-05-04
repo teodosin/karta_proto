@@ -4,6 +4,8 @@ extends Control
 var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
+var inputSocket = preload("res://main_graph_view/components/input_socket.tscn")
+
 var id: int
 
 @onready var indicatorPanel = $IndicatorPanel
@@ -67,6 +69,25 @@ func _ready():
 			
 			basePanel = imagePanel
 			elementContainer.add_child(imagePanel)
+			
+		"CROPIMAGE":
+		
+			elementContainer.remove_child(basePanel)
+			basePanel.queue_free()
+			
+			var imagePanel = imageNode.instantiate()
+			var socket = inputSocket.instantiate()
+			
+			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
+			
+			imagePanel.imageData = dataNode.typeData
+			
+			basePanel = imagePanel
+			elementContainer.add_child(imagePanel)
+			
+			elementContainer.add_child(socket)
 			
 		_: 
 			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)

@@ -119,7 +119,7 @@ func createEdge(source, target) -> EdgeViewBase:
 	newEdgeData.addSource(source.id, source.position)
 	newEdgeData.addTarget(target.id, target.position)
 	newEdgeData.setSourcePosition(target.id, source.position, target.position)
-	newEdgeData.setTargetPosition(source.id, target.position, source.position)	
+	newEdgeData.setTargetPosition(source.id, source.position, target.position)	
 
 	dataAccess.saveEdgeUsingResources(newEdgeData)
 

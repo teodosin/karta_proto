@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c62w746py5ano"]
+
+[node name="input_socket" type="Panel"]
+modulate = Color(0.858824, 1, 0, 1)
+custom_minimum_size = Vector2(20, 20)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0.457, 0)
+size_flags_horizontal = 0
+size_flags_vertical = 0

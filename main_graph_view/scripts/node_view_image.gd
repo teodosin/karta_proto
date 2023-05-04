@@ -50,10 +50,10 @@ func loadImage(path):
 	
 	imageData.updatePath(path)
 	
-	var image = Image.new()
-	image.load(imageData.imagePath)
+	imageData.loadImage()
+	
 	var texture = ImageTexture.new()
-	texture.set_image(image)
+	texture.set_image(imageData.imageResource)
 	
 	if texture.get_size() > Vector2(1,1):
 		aspect = texture.get_size().x / texture.get_size().y
