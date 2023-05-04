@@ -5,6 +5,8 @@ class_name InputSocket
 
 @export var connections: Array
 
+signal mouseHovering
+
 func _init(
 	maxCon: int = 1,
 	cons: Array = []
@@ -12,8 +14,8 @@ func _init(
 	maxConnections = maxCon
 	connections = cons
 
-func addConnection(nodeId: int):
+func addConnection(edgeId: int):
 	if connections.size() >= maxConnections:
 		return
 	else:
-		connections.append(nodeId)
+		connections.append(edgeId)

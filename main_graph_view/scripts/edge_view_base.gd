@@ -24,6 +24,9 @@ func _process(_delta):
 	if is_instance_valid(target):
 		targetPos = target.getPositionCenter()
 		
+		if target.dataNode.typeData.has_method("isEdgeInSockets"): 
+			if target.dataNode.typeData.isEdgeInSockets(id):
+				targetPos = target.socket.position
 
 	$EdgeGroupLabel.global_position = sourcePos + targetPos / 2
 	

@@ -5,9 +5,14 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
 @onready var edgeBaseTemplate = load("res://main_graph_view/edge_view_base.tscn")
 
+
 var focalNode: NodeViewBase = null
+var sceneLayerOutput: bool = true
+var sceneOutputSprite: Sprite2D
+
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
+var socketHovering: InputSocket = null
 
 var debugView = false
 
@@ -28,10 +33,16 @@ func _ready():
 			spawnNode(noob)
 			break
 
+	sceneOutputSprite = Sprite2D.new()
+	$SceneLayer.add_child(sceneOutputSprite)
 		
 
 
 func _process(_delta):
+	sceneOutputSprite.position = get_viewport_rect().size / 2
+	if focalNode and focalNode.dataNode.nodeType == "IMAGE":
+		sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
+	
 	queue_redraw()
 
 
@@ -41,11 +52,17 @@ func _input(event):
 		$NewNodePopup.position = get_viewport().get_mouse_position()
 		$NewNodePopup.popup()
 
-	if event.is_action_released("mouseRight"):
+	if event.is_action_released("dragEdge"):
 		if nodeEdgeSource and nodeHovering:
 			createEdge(nodeEdgeSource, nodeHovering)
+			nodeHovering = null
+		elif nodeEdgeSource and socketHovering:
+			var newEdge = createEdge(nodeEdgeSource, socketHovering.get_parent())
+			socketHovering.addConnection(newEdge.id)
+			socketHovering = null
+		
+		
 		nodeEdgeSource = null
-		nodeHovering = null
 
 	if event.is_action_pressed("debugView"):
 		debugView = !debugView
@@ -87,6 +104,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.nodeMoved.connect(self.handle_node_move.bind(newNode))
 	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
+	newNode.newEdgeDragging.connect(self.handle_new_edge_drag.bind(newNode))
 	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
@@ -283,7 +301,10 @@ func handle_node_move(node):
 		saveRelativePositions()
 
 func handle_node_click(node):
-	nodeEdgeSource = node	
+	pass
+	
+func handle_new_edge_drag(node):
+	nodeEdgeSource = node
 
 func handle_mouse_hover(node):
 	if nodeEdgeSource:

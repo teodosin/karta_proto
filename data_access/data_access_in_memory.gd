@@ -41,7 +41,7 @@ func loadData():
 	loadNodesUsingResources()
 	loadEdgesUsingResources()
 
-		
+
 func loadSettings():
 	var filePath: String = vault_path + settings_path + "settings.tres"
 	if not FileAccess.file_exists(filePath):
@@ -51,7 +51,8 @@ func loadSettings():
 	else:
 		var loadedSettings: KartaSettings = ResourceLoader.load(filePath, "KartaSettings")
 		settings = loadedSettings
-	
+
+
 func loadEdgesUsingResources():
 	var dir = DirAccess.open(vault_path + edges_path)
 	
@@ -69,7 +70,7 @@ func loadEdgesUsingResources():
 		#print(firstRel.get_property_list())
 		assert("sourceRelativeData" in firstRel)
 		assert("relativePosition" in firstRel.sourceRelativeData)
-		
+
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
 	
@@ -79,7 +80,7 @@ func loadNodesUsingResources():
 		var filePath: String = vault_path + nodes_path + file
 		loadedNode = ResourceLoader.load(filePath, "NodeBase")
 		nodes[loadedNode.id] = loadedNode
-		
+
 
 func updateEdgeRelativePosition(edgeId: int, selfId: int, selfPos: Vector2, newPos: Vector2):
 	assert(edges.has(edgeId))
@@ -88,7 +89,7 @@ func updateEdgeRelativePosition(edgeId: int, selfId: int, selfPos: Vector2, newP
 	
 	#Autosave after edit edge
 	saveEdgeUsingResources(edges[edgeId])
-	
+
 
 func saveSettings():
 	var savePath: String = vault_path + settings_path + "settings.tres"
@@ -119,6 +120,7 @@ func saveEdgeUsingResources(edge: EdgeBase):
 	var save_path: String = vault_path + edges_path + str(edge.id) + ".tres"
 	ResourceSaver.save(edge, save_path)
 	
+	
 func deleteAllNodeResources():
 	var del_path: String = vault_path + nodes_path
 	for file in DirAccess.get_files_at(del_path):
@@ -129,7 +131,6 @@ func deleteAllEdgeResources():
 	var del_path: String = vault_path + edges_path
 	for file in DirAccess.get_files_at(del_path):
 		DirAccess.remove_absolute(del_path + file)
-	
 	
 func deleteEdgeResource(edgeId: int):
 	var del_path: String = vault_path + edges_path + str(edgeId) + ".tres"
@@ -146,18 +147,27 @@ func saveData():
 	saveAllEdgesUsingResources()
 	saveSettings()
 
-func addNode(nodeType: String = "BASE") -> NodeBase:
+func addNode(dataType: String = "BASE") -> NodeBase:
 	settings.lastId += 1
-	var newNode: NodeBase = NodeBase.new(settings.lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)
+	var newNode: NodeBase = NodeBase.new(
+		settings.lastId, 
+		Time.get_unix_time_from_system(), 
+		"node", 
+		{}, 
+		dataType
+	)
 	nodes[settings.lastId] = newNode
 	
-	match nodeType:
+	match dataType:
 		"TEXT":
-			var newText: NodeTypeData = NodeText.new(settings.lastId, Vector2(0.0,0.0), "")
+			var newText: NodeTypeData = NodeText.new(settings.lastId)
 			newNode.typeData = newText
 		"IMAGE":
-			var newImage: NodeTypeData = NodeImage.new(settings.lastId, Vector2(0.0,0.0), "")
+			var newImage: NodeTypeData = NodeImage.new(settings.lastId)
 			newNode.typeData = newImage
+		"CROPIMAGE":
+			var newOperator: NodeTypeData = OperatorCrop.new(settings.lastId)
+			newNode.typeData = newOperator
 			
 	saveNodeUsingResources(newNode)
 	

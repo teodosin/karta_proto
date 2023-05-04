@@ -1,6 +1,11 @@
-[gd_scene format=3 uid="uid://c62w746py5ano"]
+[gd_scene load_steps=3 format=3 uid="uid://c62w746py5ano"]
 
-[node name="input_socket" type="Panel"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/input_socket_view.gd" id="1_0i6sn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yilfh"]
+bg_color = Color(0, 0.513726, 0.6, 1)
+
+[node name="inputSocketView" type="Panel"]
 modulate = Color(0.858824, 1, 0, 1)
 custom_minimum_size = Vector2(20, 20)
 anchors_preset = 8
@@ -15,5 +20,10 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(0.457, 0)
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yilfh")
+script = ExtResource("1_0i6sn")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

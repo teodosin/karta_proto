@@ -14,7 +14,16 @@ var imageResource: Image
 var socketsTemplate: Array = [
 	InputSocket.new()
 ]
+
+func getSockets():
+	pass
 	
+func isEdgeInSockets(edgeId: int) -> bool:
+	var result = sockets.find(edgeId)
+	if result == -1:
+		return false
+	else:
+		return true
 
 func _init(
 	tid: int = 0, 

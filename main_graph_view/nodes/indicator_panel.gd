@@ -21,6 +21,3 @@ func _ready():
 #	presenceIndicator = IndicatorToggle.instantiate()
 #	add_child(presenceIndicator)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
