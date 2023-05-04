@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/main_graph_view.gd" id="1_ap4qj"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/graph_view_camera.gd" id="2_3cc77"]
-[ext_resource type="PackedScene" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
+[ext_resource type="PackedScene" uid="uid://exm3mq0bnvk6" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_ap4qj")

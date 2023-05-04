@@ -46,7 +46,7 @@ func setSourcePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
 		sourceRelativeData.setRelativePosition(Vector2.ZERO)
 	else:
-		sourceRelativeData.setRelativePosition(relatedPos - selfPos)
+		sourceRelativeData.setRelativePosition(selfPos - relatedPos)
 		
 	print("sourceRelative in edge is " + str(sourceRelativeData.relativePosition))
 
