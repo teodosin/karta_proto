@@ -67,19 +67,19 @@ func _ready():
 func setViewType():
 	match dataNode.nodeType:
 		"TEXT":
-			elementContainer.remove_child(basePanel)
-			basePanel.queue_free()
+#			elementContainer.remove_child(basePanel)
+#			basePanel.queue_free()
 			
 			var textPanel = textNode.instantiate()
 			
-			textPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			textPanel.gui_input.connect(self._on_background_panel_gui_input)
+#			textPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+#			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+#			textPanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 			textPanel.textData = dataNode.typeData
 			
-			basePanel = textPanel
-			elementContainer.add_child(textPanel)
+#			basePanel = textPanel
+			basePanel.add_child(textPanel)
 		
 		"IMAGE":
 		
@@ -91,10 +91,6 @@ func setViewType():
 #			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
 #			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
 #			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
-
-			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			basePanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 			imagePanel.imageData = dataNode.typeData
 			
@@ -125,9 +121,10 @@ func setViewType():
 
 
 		_: 
-			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			basePanel.gui_input.connect(self._on_background_panel_gui_input)
+			pass
+	basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+	basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+	basePanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 	# Rename the node if no name has been assigned
 	if dataNode.name == "node":
@@ -143,11 +140,12 @@ func _process(delta):
 
 	# Logic for moving the node manually with the mouse
 	if nodeMoving:
-		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
-
-		self.set_position(newPosition)
-		if !isPinnedToFocal:
-			pass
+		pass
+#		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
+#
+#		self.set_position(newPosition)
+#		if !isPinnedToFocal:
+#			pass
 
 
 

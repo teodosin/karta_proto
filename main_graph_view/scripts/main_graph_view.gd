@@ -21,7 +21,7 @@ var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
 # CONTROLLER variables
-var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.FOCAL
+var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
 
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
@@ -97,7 +97,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
 	
-	newNode.nodeDeleteSelf.connect(self.handle_node_delete_self.bind(newNode))
 
 	newNode.set_position(spawnPos-newNode.size/2)	
 
@@ -303,16 +302,28 @@ func _input(event):
 # CONNECTED SIGNALS BELOW
 
 func handle_node_gui_input(event, node):
+
+	
+	if event is InputEventMouseMotion and node.nodeMoving:
+		node.position += event.relative
+	
+		
 	if event.is_action_pressed("mouseLeft"):
 		print(activeTool)
 		match activeTool:
 			ToolEnums.interactionModes.MOVE:
-				pass
+				node.nodeMoving = true
 			ToolEnums.interactionModes.FOCAL:
 				print("CLICKING SETS THE FOCAL")
 				setAsFocal(node)
 			_:
 				pass
+	
+	if event.is_action_released("mouseLeft"):
+		node.nodeMoving = false
+	
+	if event.is_action_pressed("delete"):
+		deleteNode(node)
 
 func handle_node_mouse_entered(node):
 	pass
@@ -343,7 +354,7 @@ func handle_node_set_itself_focal(newFocalId):
 func handle_node_set_itself_pinned(node):
 	setAsPinned(node.id)
 	
-func handle_node_delete_self(node):
+func deleteNode(node):
 	var idArray: Array = [node.id]
 	
 	despawnNodes(idArray)
