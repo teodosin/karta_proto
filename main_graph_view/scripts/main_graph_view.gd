@@ -21,7 +21,7 @@ var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
 # CONTROLLER variables
-var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
+var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.FOCAL
 
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
@@ -76,6 +76,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	elif focalNode.dataNode.edges.keys().has(newNodeData.id): 
 		spawnPos = focalNode.position + \
 			dataAccess.edges[focalNode.dataNode.edges[newNodeData.id]].getConnectionPosition(focalNode.id)
+			
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
@@ -84,6 +85,10 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	
 	# Signals from the instanced node must be connected right as the node is
 	# instanced.
+	newNode.gui_input.connect(self.handle_node_gui_input.bind(newNode))
+	newNode.mouse_entered.connect(self.handle_node_mouse_entered.bind(newNode))
+	newNode.mouse_exited.connect(self.handle_node_mouse_exited.bind(newNode))
+	
 	newNode.nodeMoved.connect(self.handle_node_move.bind(newNode))
 	
 	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
@@ -296,6 +301,24 @@ func _input(event):
 		setSceneLayerOutput(!sceneOutputSprite.visible)
 
 # CONNECTED SIGNALS BELOW
+
+func handle_node_gui_input(event, node):
+	if event.is_action_pressed("mouseLeft"):
+		print(activeTool)
+		match activeTool:
+			ToolEnums.interactionModes.MOVE:
+				pass
+			ToolEnums.interactionModes.FOCAL:
+				print("CLICKING SETS THE FOCAL")
+				setAsFocal(node)
+			_:
+				pass
+
+func handle_node_mouse_entered(node):
+	pass
+func handle_node_mouse_exited(node):
+	pass
+
 
 func handle_node_move(node):
 	var edgeId

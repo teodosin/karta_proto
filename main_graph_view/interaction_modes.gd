@@ -1,6 +1,6 @@
 enum interactionModes {
-	FOCAL,
 	MOVE,
+	FOCAL,
 	EDGES,
 	TRANSITION,
 }

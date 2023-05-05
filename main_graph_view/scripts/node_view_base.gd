@@ -32,6 +32,7 @@ var clickOffset: Vector2 = Vector2.ZERO
 
 var dataNode: NodeBase = null
 
+
 signal rightMousePressed
 signal newEdgeDragging
 
@@ -106,7 +107,6 @@ func setViewType():
 			basePanel.add_child(rszComp)
 		
 		"CROPIMAGE":
-			elementContainer.remove_child(basePanel)
 			basePanel.queue_free()
 			
 			var imagePanel = cropImageNode.instantiate()
@@ -194,6 +194,8 @@ func getIsPinnedToPresence():
 
 #signal callback functions
 func _on_background_panel_gui_input(event):
+	gui_input.emit(event)
+	
 	if event.is_action_pressed("mouseLeft") and basePanel.has_focus():
 		clickOffset = get_global_mouse_position() - self.position
 		nodeMoving = true
@@ -213,10 +215,10 @@ func _on_background_panel_gui_input(event):
 
 
 func _on_background_panel_mouse_entered():
-	mouseHovering.emit()
+	mouse_entered.emit()
 
 func _on_background_panel_mouse_exited():
-	pass # Replace with function body.
+	mouse_exited.emit()
 
 func _on_focal_indicator_gui_input():
 	print("Setting " +str(id)+ " as the focal.")
