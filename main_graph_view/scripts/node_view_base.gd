@@ -26,23 +26,12 @@ var despawning = false
 var fadeOut = 1.0
 
 var nodeMoving: bool = false
-var clickOffset: Vector2 = Vector2.ZERO
-
-
 
 var dataNode: NodeBase = null
-
-
-signal rightMousePressed
-signal newEdgeDragging
-
-signal mouseHovering
 
 signal thisNodeAsFocal
 signal thisNodeAsPinned(nodeId, isTrue)
 
-signal nodeMoved
-signal nodeDeleteSelf
 
 func _ready():
 	setViewType()
@@ -122,9 +111,6 @@ func setViewType():
 
 		_: 
 			pass
-	basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-	basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-	basePanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 	# Rename the node if no name has been assigned
 	if dataNode.name == "node":
@@ -134,20 +120,6 @@ func setViewType():
 func getPositionCenter() -> Vector2:
 	return self.global_position + basePanel.size / 2
 	
-
-func _process(delta):
-
-
-	# Logic for moving the node manually with the mouse
-	if nodeMoving:
-		pass
-#		var newPosition: Vector2 = get_global_mouse_position()-clickOffset
-#
-#		self.set_position(newPosition)
-#		if !isPinnedToFocal:
-#			pass
-
-
 
 func setAsFocal(newFocalId):
 
@@ -193,24 +165,6 @@ func getIsPinnedToPresence():
 #signal callback functions
 func _on_background_panel_gui_input(event):
 	gui_input.emit(event)
-	
-	if event.is_action_pressed("mouseLeft") and basePanel.has_focus():
-		clickOffset = get_global_mouse_position() - self.position
-		nodeMoving = true
-	if event.is_action_released("mouseLeft"):
-		nodeMoving = false
-		
-	if event.is_action_pressed("mouseRight"):
-		rightMousePressed.emit()
-	if event.is_action_released("mouseRight"):
-		pass
-		
-	if event.is_action_pressed("dragEdge"):
-		newEdgeDragging.emit()
-		
-	if event.is_action_pressed("delete"):
-		nodeDeleteSelf.emit()
-
 
 func _on_background_panel_mouse_entered():
 	mouse_entered.emit()

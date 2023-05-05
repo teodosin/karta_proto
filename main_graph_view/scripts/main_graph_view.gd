@@ -89,11 +89,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouse_entered.connect(self.handle_node_mouse_entered.bind(newNode))
 	newNode.mouse_exited.connect(self.handle_node_mouse_exited.bind(newNode))
 	
-	newNode.nodeMoved.connect(self.handle_node_move.bind(newNode))
-	
-	newNode.rightMousePressed.connect(self.handle_node_click.bind(newNode))
-	newNode.newEdgeDragging.connect(self.handle_new_edge_drag.bind(newNode))
-	newNode.mouseHovering.connect(self.handle_mouse_hover.bind(newNode))
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
 	
@@ -321,6 +316,7 @@ func handle_node_gui_input(event, node):
 	
 	if event.is_action_released("mouseLeft"):
 		node.nodeMoving = false
+		saveOnNodeMoved(node)
 	
 	if event.is_action_pressed("delete"):
 		deleteNode(node)
@@ -330,11 +326,11 @@ func handle_node_mouse_entered(node):
 func handle_node_mouse_exited(node):
 	pass
 
-
-func handle_node_move(node):
+func saveOnNodeMoved(node):
+	print(node)
 	var edgeId
 	if node != focalNode:
-		dataAccess.edges[node.edges[focalNode.id]].setConnectionPosition(focalNode.id, focalNode.position, node.position)
+		dataAccess.edges[node.dataNode.edges[focalNode.id]].setConnectionPosition(focalNode.id, focalNode.position, node.position)
 	elif node == focalNode:
 		saveRelativePositions()
 
