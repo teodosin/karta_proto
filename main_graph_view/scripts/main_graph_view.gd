@@ -7,8 +7,7 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 
 var focalNode: NodeViewBase = null
-var sceneLayerOutput: bool = false
-var sceneOutputSprite: Sprite2D
+@onready var sceneOutputSprite: TextureRect = $SceneLayer/SceneOutputTexture
 
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
@@ -22,9 +21,10 @@ var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
-
-func _ready():
+func setSceneLayerOutput(active: bool):
+	sceneOutputSprite.visible = active
 	
+func _ready():
 	
 	dataAccess.loadData()
 	
@@ -32,16 +32,11 @@ func _ready():
 		for noob in dataAccess.nodes.values():
 			spawnNode(noob)
 			break
-
-	if sceneLayerOutput:
-		sceneOutputSprite = Sprite2D.new()
-		$SceneLayer.add_child(sceneOutputSprite)
 		
 
-
 func _process(_delta):
-	if sceneLayerOutput:
-		sceneOutputSprite.position = get_viewport_rect().size / 2
+	if sceneOutputSprite.visible:
+		#sceneOutputSprite.position = get_viewport_rect().size / 2
 		if focalNode and focalNode.dataNode.nodeType == "IMAGE":
 			sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
 	
@@ -73,8 +68,10 @@ func _input(event):
 	if event.is_action_pressed("debugView"):
 		debugView = !debugView
 		for n in get_tree().get_nodes_in_group("DEBUG"):
-
 			n.visible = debugView
+			
+	if event.is_action_pressed("toggleOutputView"):
+		setSceneLayerOutput(!sceneOutputSprite.visible)
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	

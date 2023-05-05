@@ -8,12 +8,13 @@ var cropImageNode = preload("res://main_graph_view/nodes/node_view_crop_image.ts
 
 
 var inputSocket = preload("res://main_graph_view/components/input_socket.tscn")
+var resizer = preload("res://main_graph_view/components/resize_component.tscn")
 
 var id: int
 
 @onready var indicatorPanel = $IndicatorPanel
 @onready var elementContainer = get_node("NodeElementContainer")
-@onready var basePanel = $NodeElementContainer/BackgroundPanel #get_node("BackgroundPanel")
+@onready var basePanel = $BackgroundPanel #get_node("BackgroundPanel")
 
 var isPinnedToFocal: bool = false
 var isPinnedToPosition: bool = false
@@ -81,19 +82,28 @@ func setViewType():
 		
 		"IMAGE":
 		
-			elementContainer.remove_child(basePanel)
-			basePanel.queue_free()
+#			elementContainer.remove_child(basePanel)
+#			basePanel.queue_free()
 			
 			var imagePanel = imageNode.instantiate()
 			
-			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
+#			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+#			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+#			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
+
+			basePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
+			basePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
+			basePanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 			imagePanel.imageData = dataNode.typeData
 			
-			basePanel = imagePanel
-			elementContainer.add_child(imagePanel)
+			#basePanel = imagePanel
+			basePanel.add_child(imagePanel)
+			
+			var rszComp = resizer.instantiate()
+			rszComp.setSizeUpdater(dataNode.typeData.updateSize)
+			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
+			basePanel.add_child(rszComp)
 		
 		"CROPIMAGE":
 			elementContainer.remove_child(basePanel)
@@ -125,7 +135,7 @@ func setViewType():
 		
 # Function to get the center of the node, for drawing edges for example
 func getPositionCenter() -> Vector2:
-	return self.global_position + elementContainer.size / 2
+	return self.global_position + basePanel.size / 2
 	
 
 func _process(delta):
