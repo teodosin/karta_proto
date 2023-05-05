@@ -1,25 +1,31 @@
 extends Node2D
 
-const Enums = preload("res://data_access/enum_node_types.gd")
+const NodeEnums = preload("res://data_access/enum_node_types.gd")
+const ToolEnums = preload("res://main_graph_view/interaction_modes.gd")
 
 @onready var nodeBaseTemplate = load("res://main_graph_view/nodes/node_view_base.tscn")
 @onready var edgeBaseTemplate = load("res://main_graph_view/edge_view_base.tscn")
 
 
-var focalNode: NodeViewBase = null
 @onready var sceneOutputSprite: TextureRect = $SceneLayer/SceneOutputTexture
 
-var nodeEdgeSource: NodeViewBase = null
-var nodeHovering: NodeViewBase = null
-var socketHovering: InputSocket = null
 
+# VIEW variables
 var debugView = false
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
+var focalNode: NodeViewBase = null
 
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
+
+# CONTROLLER variables
+var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
+
+var nodeEdgeSource: NodeViewBase = null
+var nodeHovering: NodeViewBase = null
+var socketHovering: InputSocket = null
 
 func setSceneLayerOutput(active: bool):
 	sceneOutputSprite.visible = active
@@ -33,7 +39,6 @@ func _ready():
 			spawnNode(noob)
 			break
 		
-
 func _process(_delta):
 	if sceneOutputSprite.visible:
 		#sceneOutputSprite.position = get_viewport_rect().size / 2
@@ -47,31 +52,6 @@ func _process(_delta):
 	queue_redraw()
 
 
-func _input(event):
-	
-	if event.is_action_pressed("createNewNode"):
-		$NewNodePopup.position = get_viewport().get_mouse_position()
-		$NewNodePopup.popup()
-
-	if event.is_action_released("dragEdge"):
-		if nodeEdgeSource and nodeHovering:
-			createEdge(nodeEdgeSource, nodeHovering)
-			nodeHovering = null
-		elif nodeEdgeSource and socketHovering:
-			var newEdge = createEdge(nodeEdgeSource, socketHovering.get_parent())
-			socketHovering.addConnection(newEdge.id)
-			socketHovering = null
-		
-		
-		nodeEdgeSource = null
-
-	if event.is_action_pressed("debugView"):
-		debugView = !debugView
-		for n in get_tree().get_nodes_in_group("DEBUG"):
-			n.visible = debugView
-			
-	if event.is_action_pressed("toggleOutputView"):
-		setSceneLayerOutput(!sceneOutputSprite.visible)
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	
@@ -151,8 +131,6 @@ func createEdge(source, target) -> EdgeViewBase:
 	dataAccess.saveData()
 	var newEdge = spawnEdge(newEdgeData)
 	return newEdge
-
-
 
 func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 	if !spawnedNodes.keys().has(newEdgeData.sourceId) or !spawnedNodes.keys().has(newEdgeData.targetId):
@@ -252,15 +230,12 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		
 	return toBeSpawned
 	
-	
-	
 func spawnNodes(toBeSpawned):
 	for n in toBeSpawned:
 		spawnNode(n)
 		
 	for w in dataAccess.edges.values():
 		spawnEdge(w)
-	
 	
 	
 func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
@@ -274,7 +249,6 @@ func findSpawnedToDespawn(related: Dictionary, spawned: Dictionary):
 			toBeDeleted.append(n)
 			
 	return toBeDeleted
-
 
 
 func despawnNodes(toBeDeleted: Array):
@@ -294,6 +268,33 @@ func updateRelativePosition(node):
 	pass
 
 # -----------------------------------------------------------------------------
+
+func _input(event):
+	
+	if event.is_action_pressed("createNewNode"):
+		$NewNodePopup.position = get_viewport().get_mouse_position()
+		$NewNodePopup.popup()
+
+	if event.is_action_released("dragEdge"):
+		if nodeEdgeSource and nodeHovering:
+			createEdge(nodeEdgeSource, nodeHovering)
+			nodeHovering = null
+		elif nodeEdgeSource and socketHovering:
+			var newEdge = createEdge(nodeEdgeSource, socketHovering.get_parent())
+			socketHovering.addConnection(newEdge.id)
+			socketHovering = null
+		
+		
+		nodeEdgeSource = null
+
+	if event.is_action_pressed("debugView"):
+		debugView = !debugView
+		for n in get_tree().get_nodes_in_group("DEBUG"):
+			n.visible = debugView
+			
+	if event.is_action_pressed("toggleOutputView"):
+		setSceneLayerOutput(!sceneOutputSprite.visible)
+
 # CONNECTED SIGNALS BELOW
 
 func handle_node_move(node):
@@ -337,4 +338,4 @@ func _on_save_all_button_button_down():
 
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
-	createNode(Enums.NodeTypes.keys()[id], true)
+	createNode(NodeEnums.NodeTypes.keys()[id], true)
