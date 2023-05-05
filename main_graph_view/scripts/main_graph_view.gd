@@ -7,7 +7,7 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 
 var focalNode: NodeViewBase = null
-var sceneLayerOutput: bool = true
+var sceneLayerOutput: bool = false
 var sceneOutputSprite: Sprite2D
 
 var nodeEdgeSource: NodeViewBase = null
@@ -33,15 +33,21 @@ func _ready():
 			spawnNode(noob)
 			break
 
-	sceneOutputSprite = Sprite2D.new()
-	$SceneLayer.add_child(sceneOutputSprite)
+	if sceneLayerOutput:
+		sceneOutputSprite = Sprite2D.new()
+		$SceneLayer.add_child(sceneOutputSprite)
 		
 
 
 func _process(_delta):
-	sceneOutputSprite.position = get_viewport_rect().size / 2
-	if focalNode and focalNode.dataNode.nodeType == "IMAGE":
-		sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
+	if sceneLayerOutput:
+		sceneOutputSprite.position = get_viewport_rect().size / 2
+		if focalNode and focalNode.dataNode.nodeType == "IMAGE":
+			sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
+	
+	if focalNode == null:
+		setAsFocal(spawnedNodes[spawnedNodes.keys()[0]])
+		
 	
 	queue_redraw()
 

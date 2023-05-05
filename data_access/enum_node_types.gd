@@ -4,5 +4,5 @@ enum NodeTypes {
 	IMAGE,
 	FILE,
 	
-	CROPIMAGE,
+	#CROPIMAGE,
 }
