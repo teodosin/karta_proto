@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ubsia7qadyky"]
 
-[ext_resource type="Script" path="res://main_graph_view/nodes/resize_component.gd" id="1_7yyow"]
+[ext_resource type="Script" path="res://main_graph_view/scripts/resize_component.gd" id="1_7yyow"]
 
 [node name="ResizeComponent" type="Control"]
 layout_mode = 3

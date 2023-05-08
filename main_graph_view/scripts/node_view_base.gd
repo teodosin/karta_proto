@@ -90,24 +90,6 @@ func setViewType():
 			rszComp.setSizeUpdater(dataNode.typeData.updateSize)
 			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
 			basePanel.add_child(rszComp)
-		
-		"CROPIMAGE":
-			basePanel.queue_free()
-			
-			var imagePanel = cropImageNode.instantiate()
-			
-			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
-			
-			imagePanel.imageData = dataNode.typeData
-			
-			basePanel = imagePanel
-			elementContainer.add_child(imagePanel)
-			
-			var socket = inputSocket.instantiate()
-			elementContainer.add_child(socket)
-
 
 		_: 
 			pass

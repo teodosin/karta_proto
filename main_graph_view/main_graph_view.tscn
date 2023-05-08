@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cidnv0wsgfnjt"]
+[gd_scene load_steps=5 format=3 uid="uid://cidnv0wsgfnjt"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/main_graph_view.gd" id="1_ap4qj"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/graph_view_camera.gd" id="2_3cc77"]
+[ext_resource type="PackedScene" uid="uid://dsaxhd402q8a7" path="res://main_graph_view/nodes/editor_view_toolmodes.tscn" id="3_0vd50"]
 [ext_resource type="PackedScene" uid="uid://exm3mq0bnvk6" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 
 [node name="MainGraphView" type="Node2D"]
@@ -45,20 +46,9 @@ focus_mode = 1
 
 [node name="HUD_Layer" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD_Layer"]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DeleteAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-layout_mode = 2
-text = "DELETE ALL"
-
-[node name="SaveAllButton" type="Button" parent="HUD_Layer/VBoxContainer"]
-layout_mode = 2
-text = "SAVE ALL"
+[node name="EditorViewToolmodes" parent="HUD_Layer" instance=ExtResource("3_0vd50")]
+size_flags_vertical = 3
 
 [node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]
 
-[connection signal="button_down" from="HUD_Layer/VBoxContainer/DeleteAllButton" to="." method="_on_button_button_down"]
-[connection signal="button_down" from="HUD_Layer/VBoxContainer/SaveAllButton" to="." method="_on_save_all_button_button_down"]
 [connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]

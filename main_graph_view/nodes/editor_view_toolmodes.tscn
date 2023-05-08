@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsaxhd402q8a7"]
+
+[ext_resource type="Script" path="res://main_graph_view/scripts/editor_view_toolmodes.gd" id="1_jtqub"]
+
+[node name="EditorViewToolmodes" type="VBoxContainer"]
+size_flags_horizontal = 0
+alignment = 1
+script = ExtResource("1_jtqub")

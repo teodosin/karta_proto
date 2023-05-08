@@ -296,6 +296,7 @@ func _input(event):
 
 # CONNECTED SIGNALS BELOW
 
+#Handle the inputs forwarded from View Nodes
 func handle_node_gui_input(event, node):
 
 	
@@ -327,7 +328,6 @@ func handle_node_mouse_exited(node):
 	pass
 
 func saveOnNodeMoved(node):
-	print(node)
 	var edgeId
 	if node != focalNode:
 		dataAccess.edges[node.dataNode.edges[focalNode.id]].setConnectionPosition(focalNode.id, focalNode.position, node.position)
