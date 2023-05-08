@@ -14,12 +14,15 @@ var id: int
 
 @onready var indicatorPanel = $IndicatorPanel
 @onready var elementContainer = get_node("NodeElementContainer")
-@onready var basePanel = $BackgroundPanel #get_node("BackgroundPanel")
+@onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
+	
+var focalStylebox = StyleBoxFlat.new()
+
 
 var isPinnedToFocal: bool = false
 var isPinnedToPosition: bool = false
 var isPinnedToUi: bool = false
-var isPinnedToPresence = false
+var isPinnedToPresence: bool = false
 
 var spawning = true
 var despawning = false
@@ -54,6 +57,8 @@ func _ready():
 	$NodeName.text = str(dataNode.name)
 
 func setViewType():
+	if dataNode == null:
+		return
 	match dataNode.nodeType:
 		"TEXT":
 #			elementContainer.remove_child(basePanel)
@@ -101,7 +106,7 @@ func setViewType():
 # Function to get the center of the node, for drawing edges for example
 func getPositionCenter() -> Vector2:
 	return self.global_position + basePanel.size / 2
-	
+
 
 func setAsFocal(newFocalId):
 
@@ -109,12 +114,28 @@ func setAsFocal(newFocalId):
 	# mark it as the new focal
 	if self.id == newFocalId:	
 		self.isPinnedToFocal = true		
-		thisNodeAsFocal.emit()
+		#thisNodeAsFocal.emit()
 		$IndicatorPanel.focalIndicator.setActive(true)
+		
 	else:
 		self.isPinnedToFocal = false
 		$IndicatorPanel.focalIndicator.setActive(false)
 	# Is it okay to use get_parent() here?
+	
+	queue_redraw()
+
+func _draw():
+	if isPinnedToFocal:
+		var highlightColor = Color(0.8, 0.4, 0.2)
+		var weight: float = 5.0
+		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), highlightColor, weight, true)
+		draw_line(basePanel.position, basePanel.position +  Vector2(0, basePanel.size.y), highlightColor, weight, true)
+		draw_line(basePanel.position + Vector2(basePanel.size.x, 0), basePanel.position + basePanel.size, highlightColor, weight, true)
+		draw_line(basePanel.position + Vector2(0, basePanel.size.y), basePanel.position + basePanel.size, highlightColor, weight, true)
+		draw_circle(basePanel.position, weight/2, highlightColor)
+		draw_circle(Vector2(basePanel.size.x, 0), weight/2, highlightColor)
+		draw_circle(Vector2(0, basePanel.size.y), weight/2, highlightColor)
+		draw_circle(basePanel.position + basePanel.size, weight/2, highlightColor)
 
 
 func animatePosition(newPosition):

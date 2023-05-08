@@ -23,7 +23,6 @@ offset_right = 124.0
 offset_bottom = 32.0
 size_flags_horizontal = 8
 focus_mode = 1
-mouse_filter = 1
 mouse_default_cursor_shape = 10
 
 [node name="BottomEdge" type="Control" parent="."]
@@ -35,7 +34,6 @@ offset_right = 124.0
 offset_bottom = 32.0
 size_flags_vertical = 8
 focus_mode = 1
-mouse_filter = 1
 mouse_default_cursor_shape = 9
 
 [connection signal="gui_input" from="RightEdge" to="." method="_on_right_edge_gui_input"]

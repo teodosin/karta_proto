@@ -193,9 +193,12 @@ func setAsFocal(node: NodeViewBase):
 	# Perhaps this requirement will change later.
 	if spawnedNodes.is_empty():
 		return
+		
+	if focalNode != null:
+		focalNode.setAsFocal(node.id)
+		saveRelativePositions()
 	
-	saveRelativePositions()	
-	
+	node.setAsFocal(node.id)
 	focalNode = node
 	
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.edges, spawnedNodes)
@@ -209,7 +212,6 @@ func setAsFocal(node: NodeViewBase):
 	for n in spawnedNodes.values():
 		if n.id == focalNode.id:
 			continue
-		n.setAsFocal(focalNode.id)
 		var newPosition = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
@@ -298,20 +300,19 @@ func _input(event):
 
 #Handle the inputs forwarded from View Nodes
 func handle_node_gui_input(event, node):
-
-	
 	if event is InputEventMouseMotion and node.nodeMoving:
 		node.position += event.relative
 	
 		
 	if event.is_action_pressed("mouseLeft"):
-		print(activeTool)
+		
 		match activeTool:
 			ToolEnums.interactionModes.MOVE:
 				node.nodeMoving = true
 			ToolEnums.interactionModes.FOCAL:
 				print("CLICKING SETS THE FOCAL")
 				setAsFocal(node)
+				
 			_:
 				pass
 	
@@ -369,3 +370,7 @@ func _on_save_all_button_button_down():
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
 	createNode(NodeEnums.NodeTypes.keys()[id], true)
+
+
+func _on_editor_view_toolmodes_tool_changed(tool):
+	activeTool = tool

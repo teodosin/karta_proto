@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://corifsaxdt34t"]
+
+[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="1_ab75f"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s2n1q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ab75f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="NodeViewScenestate" type="SubViewportContainer"]
+custom_minimum_size = Vector2(200, 100)
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(200, 100)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewport"]
+sprite_frames = SubResource("SpriteFrames_s2n1q")
