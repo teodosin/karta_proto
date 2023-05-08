@@ -51,5 +51,6 @@ size_flags_vertical = 3
 
 [node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]
 
+[connection signal="zoomSet" from="GraphViewCamera" to="." method="_on_graph_view_camera_zoom_set"]
 [connection signal="toolChanged" from="HUD_Layer/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
 [connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]

@@ -10,12 +10,22 @@ const ToolEnums = preload("res://main_graph_view/interaction_modes.gd")
 @onready var sceneOutputSprite: TextureRect = $SceneLayer/SceneOutputTexture
 
 
-# VIEW variables
+# VIEW variables that nodes listen to 
 var debugView = false
+var showNodeNames = true
+@onready var graphZoom = $GraphViewCamera.zoom
+
+signal debugViewSet(debug: bool)
+signal showNodeNamesSet(names: bool)
+signal graphZoomSet(zoom: float)
+
+# Variable for disabling shortcuts when writing text
+var shortcutsDisabled: bool = false
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
-var focalNode: NodeViewBase = null
 
+var focalNode: NodeViewBase = null
+# Indexes for spawned nodes by their id
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
@@ -88,6 +98,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.gui_input.connect(self.handle_node_gui_input.bind(newNode))
 	newNode.mouse_entered.connect(self.handle_node_mouse_entered.bind(newNode))
 	newNode.mouse_exited.connect(self.handle_node_mouse_exited.bind(newNode))
+	
+	newNode.disableShortcuts.connect(self.handle_disable_shortcuts)
 	
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
@@ -271,7 +283,9 @@ func updateRelativePosition(node):
 # -----------------------------------------------------------------------------
 
 func _input(event):
-	
+	if shortcutsDisabled:
+		return
+		
 	if event.is_action_pressed("createNewNode"):
 		$NewNodePopup.position = get_viewport().get_mouse_position()
 		$NewNodePopup.popup()
@@ -290,8 +304,11 @@ func _input(event):
 
 	if event.is_action_pressed("debugView"):
 		debugView = !debugView
-		for n in get_tree().get_nodes_in_group("DEBUG"):
-			n.visible = debugView
+		debugViewSet.emit(debugView)
+
+	if event.is_action_pressed("toggleNodeNames"):
+		showNodeNames = !showNodeNames
+		showNodeNamesSet.emit(showNodeNames)
 			
 	if event.is_action_pressed("toggleOutputView"):
 		setSceneLayerOutput(!sceneOutputSprite.visible)
@@ -327,6 +344,9 @@ func handle_node_mouse_entered(node):
 	pass
 func handle_node_mouse_exited(node):
 	pass
+
+func handle_disable_shortcuts(disable: bool):
+	shortcutsDisabled = disable
 
 func saveOnNodeMoved(node):
 	var edgeId
@@ -374,3 +394,8 @@ func _on_new_node_popup_id_pressed(id):
 
 func _on_editor_view_toolmodes_tool_changed(tool):
 	activeTool = tool
+
+
+func _on_graph_view_camera_zoom_set(zoomLvl):
+	self.graphZoom = zoomLvl
+	graphZoomSet.emit(zoomLvl)

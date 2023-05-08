@@ -3,7 +3,7 @@ extends Camera2D
 var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
-
+signal zoomSet(zoomLvl: float)
 
 
 func _physics_process(_delta):
@@ -36,6 +36,7 @@ func _input(event):
 func setZoom(mult: float, toMouse: bool):
 	
 	self.zoom *= mult
+	zoomSet.emit(mult)
 
 	if toMouse:
 				# Zoom is centered on mouse position

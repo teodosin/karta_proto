@@ -15,9 +15,10 @@ var id: int
 @onready var indicatorPanel = $IndicatorPanel
 @onready var elementContainer = get_node("NodeElementContainer")
 @onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
-	
-var focalStylebox = StyleBoxFlat.new()
 
+# Highlighting variables for when the node is focal 
+var focalHighlightColor = Color(0.8, 0.4, 0.2)
+var weight: float = 8.0
 
 var isPinnedToFocal: bool = false
 var isPinnedToPosition: bool = false
@@ -35,6 +36,8 @@ var dataNode: NodeBase = null
 signal thisNodeAsFocal
 signal thisNodeAsPinned(nodeId, isTrue)
 
+signal disableShortcuts(disable: bool)
+
 
 func _ready():
 	setViewType()
@@ -42,53 +45,51 @@ func _ready():
 	# Connect the indicators
 	indicatorPanel.focalIndicator.indicatorToggled.connect(self._on_focal_indicator_gui_input)
 	
-	var themeOverride = basePanel.get_theme_stylebox("StyleBoxFlat")
-	themeOverride.border_width_left = 10
-	
 	# Fade in at spawn
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	var spawnTween = create_tween()
 	spawnTween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
 	
+	#Set debugging data to labels
 	$DebugContainer/IdLabel.text = str(id)
 	$DebugContainer/TypeLabel.text = str(dataNode.nodeType)
 	$DebugContainer/TimeLabel.text = str(dataNode.time)
 	
+	#Initialise node name
 	$NodeName.text = str(dataNode.name)
+	
+	#Connect signals for reacting to changes in VIEW settings
+	get_parent().debugViewSet.connect(self.handle_debug_view_set)
+	get_parent().showNodeNamesSet.connect(self.handle_node_name_set)
+	get_parent().graphZoomSet.connect(self.handle_graph_zoom_set)
+	
+func handle_debug_view_set(debug: bool):
+	$DebugContainer.visible = debug
+func handle_node_name_set(namen: bool):
+	$NodeName.visible = namen
+func handle_graph_zoom_set(zoom: float):
+	weight /= zoom
 
 func setViewType():
 	if dataNode == null:
 		return
 	match dataNode.nodeType:
 		"TEXT":
-#			elementContainer.remove_child(basePanel)
-#			basePanel.queue_free()
-			
 			var textPanel = textNode.instantiate()
-			
-#			textPanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-#			textPanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-#			textPanel.gui_input.connect(self._on_background_panel_gui_input)
 			
 			textPanel.textData = dataNode.typeData
 			
-#			basePanel = textPanel
 			basePanel.add_child(textPanel)
+			
+			var rszComp = resizer.instantiate()
+			rszComp.setSizeUpdater(dataNode.typeData.updateSize)
+			basePanel.add_child(rszComp)
 		
 		"IMAGE":
-		
-#			elementContainer.remove_child(basePanel)
-#			basePanel.queue_free()
-			
 			var imagePanel = imageNode.instantiate()
-			
-#			imagePanel.mouse_entered.connect(self._on_background_panel_mouse_entered)
-#			imagePanel.mouse_exited.connect(self._on_background_panel_mouse_exited)
-#			imagePanel.gui_input.connect(self._on_background_panel_gui_input)
-			
+
 			imagePanel.imageData = dataNode.typeData
 			
-			#basePanel = imagePanel
 			basePanel.add_child(imagePanel)
 			
 			var rszComp = resizer.instantiate()
@@ -121,21 +122,21 @@ func setAsFocal(newFocalId):
 		self.isPinnedToFocal = false
 		$IndicatorPanel.focalIndicator.setActive(false)
 	# Is it okay to use get_parent() here?
-	
+
+func _process(delta):
 	queue_redraw()
 
 func _draw():
 	if isPinnedToFocal:
-		var highlightColor = Color(0.8, 0.4, 0.2)
-		var weight: float = 5.0
-		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), highlightColor, weight, true)
-		draw_line(basePanel.position, basePanel.position +  Vector2(0, basePanel.size.y), highlightColor, weight, true)
-		draw_line(basePanel.position + Vector2(basePanel.size.x, 0), basePanel.position + basePanel.size, highlightColor, weight, true)
-		draw_line(basePanel.position + Vector2(0, basePanel.size.y), basePanel.position + basePanel.size, highlightColor, weight, true)
-		draw_circle(basePanel.position, weight/2, highlightColor)
-		draw_circle(Vector2(basePanel.size.x, 0), weight/2, highlightColor)
-		draw_circle(Vector2(0, basePanel.size.y), weight/2, highlightColor)
-		draw_circle(basePanel.position + basePanel.size, weight/2, highlightColor)
+
+		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), focalHighlightColor, weight, true)
+		draw_line(basePanel.position, basePanel.position +  Vector2(0, basePanel.size.y), focalHighlightColor, weight, true)
+		draw_line(basePanel.position + Vector2(basePanel.size.x, 0), basePanel.position + basePanel.size, focalHighlightColor, weight, true)
+		draw_line(basePanel.position + Vector2(0, basePanel.size.y), basePanel.position + basePanel.size, focalHighlightColor, weight, true)
+		draw_circle(basePanel.position, weight/2, focalHighlightColor)
+		draw_circle(Vector2(basePanel.size.x, 0), weight/2, focalHighlightColor)
+		draw_circle(Vector2(0, basePanel.size.y), weight/2, focalHighlightColor)
+		draw_circle(basePanel.position + basePanel.size, weight/2, focalHighlightColor)
 
 
 func animatePosition(newPosition):
