@@ -3,6 +3,9 @@ extends Camera2D
 var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
+var maxZoom: float = 5.0
+var minZoom: float = 0.05
+
 signal zoomSet(zoomLvl: float)
 
 
@@ -23,12 +26,12 @@ func _input(event):
 		panning = false
 
 	if event.is_action_pressed("zoomInCamera"):
-		if zoom.x >= 2.0:
+		if zoom.x >= maxZoom:
 			return
 
 		setZoom(1.1, true)
 	if event.is_action_pressed("zoomOutCamera"):
-		if zoom.x <= 0.1:
+		if zoom.x <= minZoom:
 			return
 			
 		setZoom(0.9, false)

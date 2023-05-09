@@ -428,3 +428,7 @@ func _on_editor_view_toolmodes_tool_changed(tool):
 func _on_graph_view_camera_zoom_set(zoomLvl):
 	self.graphZoom = zoomLvl
 	graphZoomSet.emit(zoomLvl)
+
+#Enable shortcuts when the focus grabber gains focus
+func _on_focus_grabber_focus_entered():
+	shortcutsDisabled = false
