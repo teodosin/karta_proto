@@ -55,7 +55,7 @@ func _process(_delta):
 		if focalNode and focalNode.dataNode.nodeType == "IMAGE":
 			sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
 	
-	if focalNode == null:
+	if focalNode == null and !spawnedNodes.is_empty():
 		setAsFocal(spawnedNodes[spawnedNodes.keys()[0]])
 		
 	
