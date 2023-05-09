@@ -1,13 +1,11 @@
 class_name NodeViewBase
 extends Control
 
+# Load ViewNode types 
 var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
-var cropImageNode = preload("res://main_graph_view/nodes/node_view_crop_image.tscn")
-
-
-var inputSocket = preload("res://main_graph_view/components/input_socket.tscn")
+# Load components
 var resizer = preload("res://main_graph_view/components/resize_component.tscn")
 
 var id: int
@@ -18,7 +16,7 @@ var id: int
 
 # Highlighting variables for when the node is focal 
 var focalHighlightColor = Color(0.8, 0.4, 0.2)
-var weight: float = 8.0
+var weight: float = 9.0
 
 var isPinnedToFocal: bool = false
 var isPinnedToPosition: bool = false
@@ -35,6 +33,8 @@ var dataNode: NodeBase = null
 
 signal thisNodeAsFocal
 signal thisNodeAsPinned(nodeId, isTrue)
+
+signal nodeDataEdited
 
 signal disableShortcuts(disable: bool)
 
@@ -94,6 +94,7 @@ func setViewType():
 			
 			var rszComp = resizer.instantiate()
 			rszComp.setSizeUpdater(dataNode.typeData.updateSize)
+			rszComp.enforceAspect = true
 			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
 			basePanel.add_child(rszComp)
 
@@ -128,16 +129,20 @@ func _process(delta):
 
 func _draw():
 	if isPinnedToFocal:
+		drawFrame(focalHighlightColor, weight)
+		
+	if basePanel.has_focus():
+		drawFrame(Color(1.0,1.0,1.0), weight/4)
 
-		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), focalHighlightColor, weight, true)
-		draw_line(basePanel.position, basePanel.position +  Vector2(0, basePanel.size.y), focalHighlightColor, weight, true)
-		draw_line(basePanel.position + Vector2(basePanel.size.x, 0), basePanel.position + basePanel.size, focalHighlightColor, weight, true)
-		draw_line(basePanel.position + Vector2(0, basePanel.size.y), basePanel.position + basePanel.size, focalHighlightColor, weight, true)
-		draw_circle(basePanel.position, weight/2, focalHighlightColor)
-		draw_circle(Vector2(basePanel.size.x, 0), weight/2, focalHighlightColor)
-		draw_circle(Vector2(0, basePanel.size.y), weight/2, focalHighlightColor)
-		draw_circle(basePanel.position + basePanel.size, weight/2, focalHighlightColor)
-
+func drawFrame(frameColor: Color, wgt: float):
+		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), frameColor, wgt, true)
+		draw_line(basePanel.position, basePanel.position +  Vector2(0, basePanel.size.y), frameColor, wgt, true)
+		draw_line(basePanel.position + Vector2(basePanel.size.x, 0), basePanel.position + basePanel.size, frameColor, wgt, true)
+		draw_line(basePanel.position + Vector2(0, basePanel.size.y), basePanel.position + basePanel.size, frameColor, wgt, true)
+		draw_circle(basePanel.position, wgt/2, frameColor)
+		draw_circle(Vector2(basePanel.size.x, 0), wgt/2, frameColor)
+		draw_circle(Vector2(0, basePanel.size.y), wgt/2, frameColor)
+		draw_circle(basePanel.position + basePanel.size, wgt/2, frameColor)
 
 func animatePosition(newPosition):
 	var tween = create_tween()

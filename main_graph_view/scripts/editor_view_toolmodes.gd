@@ -15,11 +15,29 @@ func _ready():
 		set_item_tooltip_enabled(int(tool), true)
 		
 	set_item_tooltip(tools.interactionModes.MOVE, 
-		"Clicking and dragging nodes will move them.")
+		"Shortcut - (G) \n
+		Clicking and dragging nodes will move them."
+	)
 
 	set_item_tooltip(tools.interactionModes.FOCAL, 
-		"Clicking on a node will set it as the Focal node. \n
-		Relevant nodes will be loaded and spawned in.")
+		"Shortcut - (F) \n
+		Clicking on a node will move you into its Context. Relevant nodes will be loaded and spawned in."
+	)
+		
+	set_item_tooltip(tools.interactionModes.TRANSITION,
+		"Shortcut - (T) \n
+		(Not implemented)"
+	)
+	
+	set_item_tooltip(tools.interactionModes.SELECT,
+		"Shortcut - (S) \n
+		(Not implemented)"
+	)
+
+	set_item_tooltip(tools.interactionModes.EDGES,
+		"Shortcut - (E) \n
+		(Not implemented)"
+	)
 
 func _on_item_clicked(index, at_position, mouse_button_index):
 	toolChanged.emit(index)

@@ -19,7 +19,9 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
+handle_input_locally = false
 size = Vector2i(200, 100)
+render_target_update_mode = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewport"]
 sprite_frames = SubResource("SpriteFrames_s2n1q")

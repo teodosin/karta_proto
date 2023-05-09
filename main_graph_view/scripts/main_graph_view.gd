@@ -100,6 +100,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.mouse_exited.connect(self.handle_node_mouse_exited.bind(newNode))
 	
 	newNode.disableShortcuts.connect(self.handle_disable_shortcuts)
+	newNode.nodeDataEdited.connect(self.handle_node_data_edited.bind(newNode))
 	
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
 	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
@@ -282,6 +283,10 @@ func updateRelativePosition(node):
 
 # -----------------------------------------------------------------------------
 
+func activeToolSet(tool):
+	activeTool = tool
+	$HUD_Layer/EditorViewToolmodes.select(tool)
+	
 func _input(event):
 	if shortcutsDisabled:
 		return
@@ -301,7 +306,21 @@ func _input(event):
 		
 		
 		nodeEdgeSource = null
+		
+	# Tool shortcuts
+	if event.is_action_pressed("tool_MOVE"):
+		activeToolSet(ToolEnums.interactionModes.MOVE)
+	if event.is_action_pressed("tool_FOCAL"):
+		activeToolSet(ToolEnums.interactionModes.FOCAL)
+	if event.is_action_pressed("tool_SELECT"):
+		activeToolSet(ToolEnums.interactionModes.SELECT)
+	if event.is_action_pressed("tool_TRANSITION"):
+		activeToolSet(ToolEnums.interactionModes.TRANSITION)
+	if event.is_action_pressed("tool_EDGES"):
+		activeToolSet(ToolEnums.interactionModes.EDGES)
 
+
+	# Global VIEW settings toggle shortcuts
 	if event.is_action_pressed("debugView"):
 		debugView = !debugView
 		debugViewSet.emit(debugView)
@@ -339,6 +358,7 @@ func handle_node_gui_input(event, node):
 	
 	if event.is_action_pressed("delete"):
 		deleteNode(node)
+		
 
 func handle_node_mouse_entered(node):
 	pass
@@ -347,6 +367,9 @@ func handle_node_mouse_exited(node):
 
 func handle_disable_shortcuts(disable: bool):
 	shortcutsDisabled = disable
+func handle_node_data_edited(node: NodeViewBase):
+	print("Node edited, trying to save")
+	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
 	var edgeId

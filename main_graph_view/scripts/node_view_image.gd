@@ -53,6 +53,8 @@ func loadImage(path):
 			aspectUpdater.call(aspect)
 	
 	self.texture = newTexture
+	
+	get_parent().owner.nodeDataEdited.emit()
 
 
 

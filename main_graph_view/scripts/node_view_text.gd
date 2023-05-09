@@ -2,20 +2,19 @@ extends TextEdit
 
 var textData: NodeText
 
-var resizingRight: bool = false
-var resizingBottom: bool = false
-var previousSize: Vector2
-var resizeClickPosition: Vector2
 
 func _ready():
 	if textData:
 		text = textData.nodeText
+		get_parent().custom_minimum_size = textData.nodeSize
 		
 	set_focus_mode(Control.FOCUS_NONE)
 
 
 func _on_text_changed():
 	textData.updateText(text)
+	
+	get_parent().owner.nodeDataEdited.emit()
 
 
 func _on_focus_exited():

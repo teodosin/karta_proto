@@ -1,5 +1,6 @@
 extends Control
 
+var enforceAspect: bool = false
 var aspect: float = 1.0 # height / width
 
 var resizingRight: bool = false
@@ -19,14 +20,21 @@ func _process(_delta):
 	if resizingRight:
 		get_parent().custom_minimum_size.x = previousSize.x + (get_global_mouse_position().x - resizeClickPosition.x)
 		
-		get_parent().custom_minimum_size.y = get_parent().custom_minimum_size.x / aspect
+		if enforceAspect:
+			get_parent().custom_minimum_size.y = get_parent().custom_minimum_size.x / aspect
+
 		sizeUpdater.call(get_parent().custom_minimum_size)
 		
 	if resizingBottom:
 		get_parent().custom_minimum_size.y = previousSize.y + (get_global_mouse_position().y - resizeClickPosition.y)
 		
-		get_parent().custom_minimum_size.x = get_parent().custom_minimum_size.y * aspect
+		if enforceAspect:
+			get_parent().custom_minimum_size.x = get_parent().custom_minimum_size.y * aspect
+
 		sizeUpdater.call(get_parent().custom_minimum_size)
+		
+	if resizingBottom or resizingRight:
+		get_parent().owner.nodeDataEdited.emit()
 
 
 func _on_bottom_edge_gui_input(event):
