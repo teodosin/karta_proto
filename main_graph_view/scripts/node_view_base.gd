@@ -14,7 +14,7 @@ var id: int
 @onready var elementContainer = get_node("NodeElementContainer")
 @onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
 
-# Highlighting variables for when the node is focal 
+# Variables for highlighting
 var focalHighlightColor = Color(0.8, 0.4, 0.2)
 var weight: float = 9.0
 
@@ -28,6 +28,7 @@ var despawning = false
 var fadeOut = 1.0
 
 var nodeMoving: bool = false
+var mouseHovering: bool = false
 
 var dataNode: NodeBase = null
 
@@ -176,9 +177,11 @@ func _on_background_panel_gui_input(event):
 	gui_input.emit(event)
 
 func _on_background_panel_mouse_entered():
+	mouseHovering = true
 	mouse_entered.emit()
 
 func _on_background_panel_mouse_exited():
+	mouseHovering = false
 	mouse_exited.emit()
 
 func _on_focal_indicator_gui_input():

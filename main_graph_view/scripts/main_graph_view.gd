@@ -285,9 +285,10 @@ func updateRelativePosition(node):
 
 func activeToolSet(tool):
 	activeTool = tool
-	$HUD_Layer/EditorViewToolmodes.select(tool)
+	$HUD_Layer/SideUI/EditorViewToolmodes.select(tool)
 	
 func _input(event):
+	# When editing names or text, the following is true.
 	if shortcutsDisabled:
 		return
 		

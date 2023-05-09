@@ -37,9 +37,38 @@ func deleteSelf():
 	get_parent().remove_child(self)
 	self.queue_free()	
 
+func getDistanceToEdge(mouse_position: Vector2, A: Vector2, B: Vector2) -> float:
+	var AB = B - A
+	var BE = mouse_position - B
+	var AE = mouse_position - A
+
+	var AB_BE = AB.dot(BE)
+	var AB_AE = AB.dot(AE)
+
+	var reqAns = 0.0
+
+	if AB_BE > 0:
+		reqAns = B.distance_to(mouse_position)
+	elif AB_AE < 0:
+		reqAns = A.distance_to(mouse_position)
+	else:
+		reqAns = abs(AB.x * AE.y - AB.y * AE.x) / AB.length()
+
+	return reqAns
+
 func _draw():
+
+		
+	
 	if is_instance_valid(target) and is_instance_valid(source):
-		if source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
+
+		if source.mouseHovering == false and target.mouseHovering == false and getDistanceToEdge(get_global_mouse_position(), source.getPositionCenter(), target.getPositionCenter()) < 10.0:
+			draw_line(
+				sourcePos, 
+				targetPos, Color(0.5,0.5,0.5), 1.5, true
+			)	
+		
+		elif source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
 			draw_line(
 				sourcePos, 
 				targetPos, Color(0.4,0.2,0.3), 0.05, true

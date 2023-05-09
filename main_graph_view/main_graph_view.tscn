@@ -46,11 +46,34 @@ focus_mode = 1
 
 [node name="HUD_Layer" type="CanvasLayer" parent="."]
 
-[node name="EditorViewToolmodes" parent="HUD_Layer" instance=ExtResource("3_0vd50")]
-size_flags_vertical = 3
+[node name="SideUI" type="VBoxContainer" parent="HUD_Layer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 187.0
+grow_vertical = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+alignment = 1
+
+[node name="EditorViewToolmodes" parent="HUD_Layer/SideUI" instance=ExtResource("3_0vd50")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 4
+
+[node name="NewEdgeData" type="VBoxContainer" parent="HUD_Layer/SideUI"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="EdgeType" type="Label" parent="HUD_Layer/SideUI/NewEdgeData"]
+layout_mode = 2
+
+[node name="EdgeGroupEdit" type="LineEdit" parent="HUD_Layer/SideUI/NewEdgeData"]
+layout_mode = 2
+
+[node name="EdgeTypeSelector" type="PopupMenu" parent="HUD_Layer/SideUI/NewEdgeData"]
 
 [node name="NewNodePopup" parent="." instance=ExtResource("3_qpdql")]
 
 [connection signal="zoomSet" from="GraphViewCamera" to="." method="_on_graph_view_camera_zoom_set"]
-[connection signal="toolChanged" from="HUD_Layer/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
+[connection signal="toolChanged" from="HUD_Layer/SideUI/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
 [connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]

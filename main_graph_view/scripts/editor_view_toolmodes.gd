@@ -11,6 +11,8 @@ func _ready():
 	if owner.activeTool:
 		select(owner.activeTool)
 	
+	
+	# Tooltips! They're ugly as hell but useful. Would love a custom one for Karta. 
 	for tool in tools.interactionModes:
 		set_item_tooltip_enabled(int(tool), true)
 		
