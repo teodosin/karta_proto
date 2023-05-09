@@ -319,6 +319,11 @@ func _input(event):
 		activeToolSet(ToolEnums.interactionModes.TRANSITION)
 	if event.is_action_pressed("tool_EDGES"):
 		activeToolSet(ToolEnums.interactionModes.EDGES)
+		
+	if activeTool == ToolEnums.interactionModes.EDGES:
+		$HUD_Layer/SideUI/NewEdgeData.visible = true
+	else:
+		$HUD_Layer/SideUI/NewEdgeData.visible = false
 
 
 	# Global VIEW settings toggle shortcuts

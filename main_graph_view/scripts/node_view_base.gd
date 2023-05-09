@@ -192,3 +192,9 @@ func _on_focal_indicator_gui_input():
 func _on_node_name_text_changed(new_text):
 	dataNode.name = new_text
 
+
+# Move node in front of others when on focus. Ugly solution, but works for now. 
+func _on_background_panel_focus_entered():
+	self.z_index = 1
+func _on_background_panel_focus_exited():
+	self.z_index = 0

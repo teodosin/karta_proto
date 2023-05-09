@@ -6,3 +6,10 @@ enum NodeTypes {
 	
 	#CROPIMAGE,
 }
+
+enum EdgeTypes {
+	BASE,
+	PARENT,
+	TRANSITION,
+	SEQUENCE
+}
