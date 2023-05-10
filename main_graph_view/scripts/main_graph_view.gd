@@ -35,7 +35,6 @@ var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
 
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
-var socketHovering: InputSocket = null
 
 func setSceneLayerOutput(active: bool):
 	sceneOutputSprite.visible = active
@@ -149,6 +148,7 @@ func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 		return
 	
 	var newEdge: EdgeViewBase = edgeBaseTemplate.instantiate()
+	newEdge.edgeData = newEdgeData
 	newEdge.id = newEdgeData.id
 	newEdge.source = spawnedNodes[newEdgeData.sourceId]
 	newEdge.target = spawnedNodes[newEdgeData.targetId]
@@ -296,17 +296,6 @@ func _input(event):
 		$NewNodePopup.position = get_viewport().get_mouse_position()
 		$NewNodePopup.popup()
 
-	if event.is_action_released("dragEdge"):
-		if nodeEdgeSource and nodeHovering:
-			createEdge(nodeEdgeSource, nodeHovering)
-			nodeHovering = null
-		elif nodeEdgeSource and socketHovering:
-			var newEdge = createEdge(nodeEdgeSource, socketHovering.get_parent())
-			socketHovering.addConnection(newEdge.id)
-			socketHovering = null
-		
-		
-		nodeEdgeSource = null
 		
 	# Tool shortcuts
 	if event.is_action_pressed("tool_MOVE"):
@@ -354,25 +343,40 @@ func handle_node_gui_input(event, node):
 			ToolEnums.interactionModes.FOCAL:
 				print("CLICKING SETS THE FOCAL")
 				setAsFocal(node)
+			ToolEnums.interactionModes.EDGES:
+				nodeEdgeSource = node
 				
 			_:
 				pass
 	
 	if event.is_action_released("mouseLeft"):
+		#Releasing the MOVE action
 		node.nodeMoving = false
 		saveOnNodeMoved(node)
+		
+		#Releasing the EDGES action, creating a new edge
+		if nodeHovering != null and nodeEdgeSource != null and nodeEdgeSource != nodeHovering:
+			createEdge(nodeEdgeSource, nodeHovering)
+			nodeEdgeSource = null
+		
 	
 	if event.is_action_pressed("delete"):
 		deleteNode(node)
 		
 
 func handle_node_mouse_entered(node):
-	pass
+	nodeHovering = node
 func handle_node_mouse_exited(node):
-	pass
+	nodeHovering = null
 
 func handle_disable_shortcuts(disable: bool):
 	shortcutsDisabled = disable
+	match disable:
+		false:
+			$HUD_Layer/TopLeftContainer/AreShortcutsEnabled.text = "Shortcuts enabled"
+		true: 
+			$HUD_Layer/TopLeftContainer/AreShortcutsEnabled.text = "Shortcuts disabled"
+		
 func handle_node_data_edited(node: NodeViewBase):
 	print("Node edited, trying to save")
 	dataAccess.saveNodeUsingResources(node.dataNode)
@@ -424,11 +428,10 @@ func _on_new_node_popup_id_pressed(id):
 func _on_editor_view_toolmodes_tool_changed(tool):
 	activeTool = tool
 
-
 func _on_graph_view_camera_zoom_set(zoomLvl):
 	self.graphZoom = zoomLvl
 	graphZoomSet.emit(zoomLvl)
 
 #Enable shortcuts when the focus grabber gains focus
 func _on_focus_grabber_focus_entered():
-	shortcutsDisabled = false
+	handle_disable_shortcuts(false)

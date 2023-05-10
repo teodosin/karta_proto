@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cidnv0wsgfnjt"]
+[gd_scene load_steps=7 format=3 uid="uid://cidnv0wsgfnjt"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/main_graph_view.gd" id="1_ap4qj"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/graph_view_camera.gd" id="2_3cc77"]
 [ext_resource type="PackedScene" uid="uid://dsaxhd402q8a7" path="res://main_graph_view/nodes/editor_view_toolmodes.tscn" id="3_0vd50"]
 [ext_resource type="PackedScene" uid="uid://exm3mq0bnvk6" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/new_edge_data_ui.gd" id="4_e4k00"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ah7hw"]
 
 [node name="MainGraphView" type="Node2D"]
 script = ExtResource("1_ap4qj")
@@ -47,6 +49,15 @@ focus_mode = 1
 
 [node name="HUD_Layer" type="CanvasLayer" parent="."]
 
+[node name="TopLeftContainer" type="VBoxContainer" parent="HUD_Layer"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 188.0
+offset_bottom = 135.0
+
+[node name="AreShortcutsEnabled" type="Label" parent="HUD_Layer/TopLeftContainer"]
+layout_mode = 2
+
 [node name="SideUI" type="VBoxContainer" parent="HUD_Layer"]
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -74,9 +85,12 @@ text = "New Edge Type"
 
 [node name="EdgeType" type="Button" parent="HUD_Layer/SideUI/NewEdgeData"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ah7hw")
 
 [node name="EdgeGroupEdit" type="LineEdit" parent="HUD_Layer/SideUI/NewEdgeData"]
 layout_mode = 2
+placeholder_text = "Edge Group"
+alignment = 1
 
 [node name="EdgeTypeSelector" type="PopupMenu" parent="HUD_Layer/SideUI/NewEdgeData"]
 

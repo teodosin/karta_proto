@@ -1,6 +1,10 @@
 class_name EdgeViewBase
 extends Node2D
 
+var typeEnums = preload("res://data_access/enum_node_types.gd")
+
+var edgeData: EdgeBase
+
 var id: int 
 var source: NodeViewBase
 var target: NodeViewBase
@@ -9,7 +13,7 @@ var sourcePos: Vector2
 var targetPos: Vector2
 
 func _ready():
-	$EdgeGroupLabel.text = "Wier"
+	$EdgeGroupLabel.text = "BASE"
 
 func _process(_delta):
 	if !is_instance_valid(source) or !is_instance_valid(target):

@@ -10,6 +10,6 @@ enum NodeTypes {
 enum EdgeTypes {
 	BASE,
 	PARENT,
-	TRANSITION,
-	SEQUENCE
+	#TRANSITION,
+	#SEQUENCE
 }

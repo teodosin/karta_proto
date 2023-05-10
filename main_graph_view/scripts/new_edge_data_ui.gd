@@ -25,10 +25,10 @@ func _on_edge_type_selector_index_pressed(index):
 	typeBtn.text = edgeType
 
 func _on_edge_group_edit_focus_entered():
-	owner.shortcutsDisabled = true
+	owner.handle_disable_shortcuts(true)
 
 func _on_edge_group_edit_focus_exited():
-	owner.shortcutsDisabled = false
+	owner.handle_disable_shortcuts(false)
 
 func _on_edge_group_edit_text_changed(new_text):
 	edgeGroup = new_text
