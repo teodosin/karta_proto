@@ -77,18 +77,16 @@ func loadNodesUsingResources():
 	var loadedNode: NodeBase
 	
 	for file in dir.get_files():
-		var filePath: String = vault_path + nodes_path + file
-		loadedNode = ResourceLoader.load(filePath, "NodeBase")
-		nodes[loadedNode.id] = loadedNode
+		loadNodeUsingResources(int(file))
+#		var filePath: String = vault_path + nodes_path + file
+#		loadedNode = ResourceLoader.load(filePath, "NodeBase")
+#		nodes[loadedNode.id] = loadedNode
 
-
-func updateEdgeRelativePosition(edgeId: int, selfId: int, selfPos: Vector2, newPos: Vector2):
-	assert(edges.has(edgeId))
-	
-	edges[edgeId].setConnectionPosition(selfId, selfPos, newPos)
-	
-	#Autosave after edit edge
-	saveEdgeUsingResources(edges[edgeId])
+func loadNodeUsingResources(nodeId: int) -> NodeBase:
+	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"
+	var loadedNode: NodeBase = ResourceLoader.load(filePath, "NodeBase")
+	nodes[loadedNode.id] = loadedNode
+	return loadedNode
 
 
 func saveSettings():

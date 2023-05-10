@@ -9,7 +9,7 @@ var minZoom: float = 0.05
 signal zoomSet(zoomLvl: float)
 
 
-func _physics_process(_delta):
+func _process(_delta):
 	
 	if panning:
 		self.position += panPoint - get_global_mouse_position()

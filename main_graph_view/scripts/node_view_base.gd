@@ -23,9 +23,6 @@ var isPinnedToPosition: bool = false
 var isPinnedToUi: bool = false
 var isPinnedToPresence: bool = false
 
-var spawning = true
-var despawning = false
-var fadeOut = 1.0
 
 var nodeMoving: bool = false
 var mouseHovering: bool = false
@@ -58,6 +55,12 @@ func _ready():
 	
 	#Initialise node name
 	$NodeName.text = str(dataNode.name)
+	
+	#Hide it according to the setting 
+	if get_parent().showNodeNames:
+		$NodeName.visible = true
+	else:
+		$NodeName.visible = false
 	
 	#Connect signals for reacting to changes in VIEW settings
 	get_parent().debugViewSet.connect(self.handle_debug_view_set)
@@ -133,7 +136,10 @@ func _draw():
 		drawFrame(focalHighlightColor, weight)
 		
 	if basePanel.has_focus():
-		drawFrame(Color(1.0,1.0,1.0), weight/4)
+		drawFrame(Color(1.0, 1.0, 1.0), weight/4)
+		
+	if mouseHovering:
+		drawFrame(Color(0.7, 0.7, 0.7), weight/6)
 
 func drawFrame(frameColor: Color, wgt: float):
 		draw_line(basePanel.position, basePanel.position + Vector2(basePanel.size.x, 0), frameColor, wgt, true)
@@ -191,6 +197,7 @@ func _on_focal_indicator_gui_input():
 
 func _on_node_name_text_changed(new_text):
 	dataNode.name = new_text
+	nodeDataEdited.emit()
 
 
 # Move node in front of others when on focus. Ugly solution, but works for now. 

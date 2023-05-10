@@ -61,24 +61,35 @@ func getDistanceToEdge(mouse_position: Vector2, A: Vector2, B: Vector2) -> float
 	return reqAns
 
 func _draw():
-
-		
-	
 	if is_instance_valid(target) and is_instance_valid(source):
+		match edgeData.edgeType:
+			"PARENT":
+				draw_line(
+					sourcePos, 
+					targetPos, Color(0.6,0.6,0.9), 1.0, true
+				)
+				draw_line(
+					sourcePos + ((targetPos-sourcePos)/2), 
+					targetPos, Color(0.6,0.6,0.9), 4.0, true
+				)
+			"BASE":
+				if source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
+					draw_line(
+						sourcePos, 
+						targetPos, Color(0.6, 0.3, 0.3), 0.25, true
+					)
+					draw_line(
+						sourcePos + ((targetPos-sourcePos)/2), 
+						targetPos, Color(0.6,0.3,0.3), 1.0, true
+					)
+				else:
+					draw_line(
+						sourcePos, 
+						targetPos, Color(0.4,0.2,0.3), 2.0, true
+					)
 
 		if source.mouseHovering == false and target.mouseHovering == false and getDistanceToEdge(get_global_mouse_position(), source.getPositionCenter(), target.getPositionCenter()) < 10.0:
 			draw_line(
 				sourcePos, 
 				targetPos, Color(0.5,0.5,0.5), 1.5, true
 			)	
-		
-		elif source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
-			draw_line(
-				sourcePos, 
-				targetPos, Color(0.4,0.2,0.3), 0.05, true
-			)	
-		else:
-			draw_line(
-				sourcePos, 
-				targetPos, Color(0.4,0.2,0.3), 2.0, true
-			)

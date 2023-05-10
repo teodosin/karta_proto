@@ -30,6 +30,8 @@ var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
+@onready var newEdgeMenu = $HUD_Layer/SideUI/NewEdgeData
+
 # CONTROLLER variables
 var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
 
@@ -44,9 +46,12 @@ func _ready():
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
-		for noob in dataAccess.nodes.values():
-			spawnNode(noob)
-			break
+		if dataAccess.settings.lastFocalId != 0:
+			spawnNode(dataAccess.nodes[dataAccess.settings.lastFocalId])
+		else:
+			for noob in dataAccess.nodes.values():
+				spawnNode(noob)
+				break
 		
 func _process(_delta):
 	if sceneOutputSprite.visible:
@@ -102,8 +107,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	newNode.nodeDataEdited.connect(self.handle_node_data_edited.bind(newNode))
 	
 	newNode.thisNodeAsFocal.connect(self.handle_node_set_itself_focal.bind(newNode))
-	newNode.thisNodeAsPinned.connect(self.handle_node_set_itself_pinned.bind(newNode))
-	
+
 
 	newNode.set_position(spawnPos-newNode.size/2)	
 
@@ -119,10 +123,23 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 
 
 
-func createEdge(source, target) -> EdgeViewBase:
-	if source.id == target.id:
+func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
+	if source.id == target.id: # Don't connect node to itself
 		return
 	
+	# TODO
+	# I think that currently, adding a new edge between two nodes that already
+	# have an edge will overwrite the old one. This behavior is implicit and 
+	# it's possible that the old edge still remains in the file system. This
+	# should be handled explicitly in some way. Duplicate edges of the same
+	# EdgeType and EdgeGroup shouldn't be allowed, but multiple edges of 
+	# different types and groups should be allowed to exist in parallel. If 
+	# there are a massive amount, bundle them visually and make a menu for 
+	# selecting individual ones.
+	
+#	for edge in source.dataNode.edges: # Don't connect an edge that already exists
+#		if dataAccess.edges[edge].
+		
 	var newEdgeData = dataAccess.addEdge(source.id, target.id)
 	
 	source.dataNode.addEdge(target.id, newEdgeData.id)
@@ -132,6 +149,11 @@ func createEdge(source, target) -> EdgeViewBase:
 	newEdgeData.addTarget(target.id, target.position)
 	newEdgeData.setSourcePosition(target.id, source.position, target.position)
 	newEdgeData.setTargetPosition(source.id, source.position, target.position)	
+	
+	# If an edge is created upon node creation, don't set the type and group.
+	if !fromFocal: 
+		newEdgeData.edgeType = newEdgeMenu.edgeType
+		newEdgeData.edgeGroup = newEdgeMenu.edgeGroup
 
 	dataAccess.saveEdgeUsingResources(newEdgeData)
 
@@ -164,38 +186,14 @@ func saveRelativePositions():
 	if focalNode != null:
 
 		for relatedId in focalNode.dataNode.edges.keys():
-			#var relatedDataNode: NodeBase = spawnedNodes[related].dataNode
-			if pinnedNodes.keys().has(relatedId):
-				return
 
-#			focalNode.dataNode.setRelatedNodePosition(relatedId, focalNode.position, spawnedNodes[int(relatedId)].position)
-			dataAccess.edges[focalNode.dataNode.edges[relatedId]].setConnectionPosition( \
+			var thisEdge = dataAccess.edges[focalNode.dataNode.edges[relatedId]]
+
+			thisEdge.setConnectionPosition( \
 				focalNode.id, focalNode.position, spawnedNodes[int(relatedId)].position)
-
-			#dataAccess.updateEdgeRelativePosition()
-	
-func setAsPinned(nodeId):
-	print(str(nodeId))
-	if !spawnedNodes.keys().has(nodeId):
-		return
-
-	var node = spawnedNodes[nodeId]
+			dataAccess.saveEdgeUsingResources(thisEdge)
 
 	
-	if spawnedNodes[nodeId].isPinned == true :
-		print("SETTING AS PINNED")
-
-		remove_child(node)
-		$GraphViewCamera/PinnedNodes.add_child(node)
-		print("CHILDREN Of PinLayer"+str($GraphViewCamera/PinnedNodes.get_children()))
-		pinnedNodes[node.id] = node
-		spawnedNodes.erase(node.id)
-	elif pinnedNodes[nodeId].isPinned == false:
-		$GraphViewCamera/PinnedNodes.remove_child(node)
-		add_child(node)
-		spawnedNodes[node.id] = node
-		pinnedNodes.erase(node.id)
-		print("NODESCALE" + str(node.scale))
 		
 func setAsFocal(node: NodeViewBase):
 	# Can't set focal node if it's already the focal
@@ -209,10 +207,11 @@ func setAsFocal(node: NodeViewBase):
 		
 	if focalNode != null:
 		focalNode.setAsFocal(node.id)
-		saveRelativePositions()
 	
+	saveRelativePositions()
 	node.setAsFocal(node.id)
 	focalNode = node
+	dataAccess.settings.lastFocalId = node.id
 	
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.edges, spawnedNodes)
 	despawnNodes(toBeDespawned)
@@ -278,9 +277,6 @@ func _draw():
 		draw_dashed_line(nodeEdgeSource.getPositionCenter(), get_global_mouse_position(), 
 						Color.WHITE, 1.0, 2.0)
 						
-func updateRelativePosition(node):
-	pass
-
 # -----------------------------------------------------------------------------
 
 func activeToolSet(tool):
@@ -352,13 +348,14 @@ func handle_node_gui_input(event, node):
 	if event.is_action_released("mouseLeft"):
 		#Releasing the MOVE action
 		node.nodeMoving = false
-		saveOnNodeMoved(node)
 		
 		#Releasing the EDGES action, creating a new edge
 		if nodeHovering != null and nodeEdgeSource != null and nodeEdgeSource != nodeHovering:
-			createEdge(nodeEdgeSource, nodeHovering)
-			nodeEdgeSource = null
+			createEdge(nodeEdgeSource, nodeHovering, false)
 		
+		nodeEdgeSource = null
+			
+				
 	
 	if event.is_action_pressed("delete"):
 		deleteNode(node)
@@ -382,11 +379,21 @@ func handle_node_data_edited(node: NodeViewBase):
 	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
-	var edgeId
-	if node != focalNode:
-		dataAccess.edges[node.dataNode.edges[focalNode.id]].setConnectionPosition(focalNode.id, focalNode.position, node.position)
-	elif node == focalNode:
+	# If the focalNode is moved, all connected edges must be updated.
+	if node == focalNode:	
 		saveRelativePositions()
+	# If a different node is moved, only its connection to the focal 
+	# needs to be updated. Remember, all positions are relative to the
+	# current focal / current context.
+	
+	else:
+		saveRelativePositions()
+#	else:
+#		var thisEdge = dataAccess.edges[node.dataNode.edges[focalNode.id]]
+#
+#		thisEdge.setConnectionPosition( \
+#			focalNode.id, focalNode.position, node.position)
+#		dataAccess.saveEdgeUsingResources(thisEdge)
 
 func handle_node_click(node):
 	pass
@@ -401,8 +408,6 @@ func handle_mouse_hover(node):
 func handle_node_set_itself_focal(newFocalId):
 	setAsFocal(spawnedNodes[newFocalId.id])
 		
-func handle_node_set_itself_pinned(node):
-	setAsPinned(node.id)
 	
 func deleteNode(node):
 	var idArray: Array = [node.id]
@@ -417,7 +422,6 @@ func _on_button_button_down():
 
 # SAVE ALL
 func _on_save_all_button_button_down():
-	saveRelativePositions()
 	dataAccess.saveData()
 
 # CREATE NODE POPUP MENU

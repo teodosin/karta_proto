@@ -58,6 +58,9 @@ offset_bottom = 135.0
 [node name="AreShortcutsEnabled" type="Label" parent="HUD_Layer/TopLeftContainer"]
 layout_mode = 2
 
+[node name="AreNodeNamesShown" type="Label" parent="HUD_Layer/TopLeftContainer"]
+layout_mode = 2
+
 [node name="SideUI" type="VBoxContainer" parent="HUD_Layer"]
 anchors_preset = 9
 anchor_bottom = 1.0
