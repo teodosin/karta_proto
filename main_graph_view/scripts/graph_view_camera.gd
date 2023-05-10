@@ -6,8 +6,20 @@ var panPoint = Vector2(0.0, 0.0)
 var maxZoom: float = 5.0
 var minZoom: float = 0.05
 
+var cameraHistory: Dictionary 
+
 signal zoomSet(zoomLvl: float)
 
+func addToCameraHistory(focalId: int, focalPos: Vector2):
+	cameraHistory[focalId] = self.position - focalPos
+	
+func moveToHistory(focalId: int, focalPos: Vector2):
+	if not cameraHistory.has(focalId):
+		return
+	
+	var newPos = focalPos + cameraHistory[focalId]
+	var cameraTween = create_tween()
+	cameraTween.tween_property(self, "position", newPos, 0.3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
 
 func _process(_delta):
 	

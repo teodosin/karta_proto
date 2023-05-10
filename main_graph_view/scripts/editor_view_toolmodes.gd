@@ -38,7 +38,7 @@ func _ready():
 
 	set_item_tooltip(tools.interactionModes.EDGES,
 		"Shortcut - (E) \n
-		(Not implemented)"
+		Connect nodes to each other. Edge will have the group and type specified below."
 	)
 
 func _on_item_clicked(index, at_position, mouse_button_index):

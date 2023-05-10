@@ -207,11 +207,15 @@ func setAsFocal(node: NodeViewBase):
 		
 	if focalNode != null:
 		focalNode.setAsFocal(node.id)
+		$GraphViewCamera.addToCameraHistory(focalNode.id, focalNode.position)
 	
 	saveRelativePositions()
+	
 	node.setAsFocal(node.id)
 	focalNode = node
 	dataAccess.settings.lastFocalId = node.id
+	
+	$GraphViewCamera.moveToHistory(focalNode.id, focalNode.position)
 	
 	var toBeDespawned = findSpawnedToDespawn(node.dataNode.edges, spawnedNodes)
 	despawnNodes(toBeDespawned)
@@ -319,6 +323,10 @@ func _input(event):
 	if event.is_action_pressed("toggleNodeNames"):
 		showNodeNames = !showNodeNames
 		showNodeNamesSet.emit(showNodeNames)
+		if showNodeNames:
+			$HUD_Layer/TopLeftContainer/AreNodeNamesShown.text = "Node names shown: true"
+		else:
+			$HUD_Layer/TopLeftContainer/AreNodeNamesShown.text = "Node names shown: false"
 			
 	if event.is_action_pressed("toggleOutputView"):
 		setSceneLayerOutput(!sceneOutputSprite.visible)
