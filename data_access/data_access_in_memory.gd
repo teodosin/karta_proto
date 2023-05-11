@@ -74,13 +74,8 @@ func loadEdgesUsingResources():
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
 	
-	var loadedNode: NodeBase
-	
 	for file in dir.get_files():
 		loadNodeUsingResources(int(file))
-#		var filePath: String = vault_path + nodes_path + file
-#		loadedNode = ResourceLoader.load(filePath, "NodeBase")
-#		nodes[loadedNode.id] = loadedNode
 
 func loadNodeUsingResources(nodeId: int) -> NodeBase:
 	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"

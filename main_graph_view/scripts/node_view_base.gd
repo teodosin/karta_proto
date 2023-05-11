@@ -128,7 +128,7 @@ func setAsFocal(newFocalId):
 		$IndicatorPanel.focalIndicator.setActive(false)
 	# Is it okay to use get_parent() here?
 
-func _process(delta):
+func _process(_delta):
 	queue_redraw()
 
 func _draw():

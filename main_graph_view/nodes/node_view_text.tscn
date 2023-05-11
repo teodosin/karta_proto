@@ -14,7 +14,9 @@ focus_mode = 1
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 theme = ExtResource("1_e8ukx")
+placeholder_text = "Double-click to edit text. "
 selecting_enabled = false
+middle_mouse_paste_enabled = false
 wrap_mode = 1
 script = ExtResource("1_wjbmc")
 

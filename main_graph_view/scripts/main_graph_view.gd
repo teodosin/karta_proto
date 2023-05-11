@@ -371,7 +371,7 @@ func handle_node_gui_input(event, node):
 
 func handle_node_mouse_entered(node):
 	nodeHovering = node
-func handle_node_mouse_exited(node):
+func handle_node_mouse_exited(_node):
 	nodeHovering = null
 
 func handle_disable_shortcuts(disable: bool):
@@ -394,16 +394,16 @@ func saveOnNodeMoved(node):
 	# needs to be updated. Remember, all positions are relative to the
 	# current focal / current context.
 	
-	else:
-		saveRelativePositions()
 #	else:
-#		var thisEdge = dataAccess.edges[node.dataNode.edges[focalNode.id]]
-#
-#		thisEdge.setConnectionPosition( \
-#			focalNode.id, focalNode.position, node.position)
-#		dataAccess.saveEdgeUsingResources(thisEdge)
+#		saveRelativePositions()
+	else:
+		var thisEdge = dataAccess.edges[node.dataNode.edges[focalNode.id]]
 
-func handle_node_click(node):
+		thisEdge.setConnectionPosition( \
+			focalNode.id, focalNode.position, node.position)
+		dataAccess.saveEdgeUsingResources(thisEdge)
+
+func handle_node_click(_node):
 	pass
 	
 func handle_new_edge_drag(node):

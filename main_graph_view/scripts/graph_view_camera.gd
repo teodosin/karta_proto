@@ -26,7 +26,7 @@ func _process(_delta):
 	if panning:
 		self.position += panPoint - get_global_mouse_position()
 
-func animatePosition(newPosition):
+func animatePosition(_newPosition):
 	pass
 	
 

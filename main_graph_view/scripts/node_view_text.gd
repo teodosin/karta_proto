@@ -31,6 +31,7 @@ func _on_gui_input(event):
 		grab_focus()
 		
 		get_parent().mouse_filter = Control.MOUSE_FILTER_STOP
+		get_parent().owner.disableShortcuts.emit(true)
 
 func _on_focus_entered():
-	get_parent().owner.disableShortcuts.emit(true)
+	pass

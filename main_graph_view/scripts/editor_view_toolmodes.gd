@@ -41,5 +41,5 @@ func _ready():
 		Connect nodes to each other. Edge will have the group and type specified below."
 	)
 
-func _on_item_clicked(index, at_position, mouse_button_index):
+func _on_item_clicked(index, _at_position, _mouse_button_index):
 	toolChanged.emit(index)

@@ -5,8 +5,8 @@ class_name BaseOperator
 func getSockets():
 	pass
 	
-func isEdgeInSockets(edgeId: int):
+func isEdgeInSockets(_edgeId: int):
 	pass
 
-func execute(dataAccess: DataAccess):
+func execute(_dataAccess: DataAccess):
 	pass
