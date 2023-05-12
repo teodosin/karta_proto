@@ -38,8 +38,10 @@ func loadData():
 	init_vault()
 	
 	loadSettings()
-	loadNodesUsingResources()
-	loadEdgesUsingResources()
+	print("Previous focal was: " + str(settings.lastFocalId))
+	loadNodeUsingResources(settings.lastFocalId)
+#	loadNodesUsingResources()
+#	loadEdgesUsingResources()
 
 
 func loadSettings():
@@ -70,13 +72,32 @@ func loadEdgesUsingResources():
 		#print(firstRel.get_property_list())
 		assert("sourceRelativeData" in firstRel)
 		assert("relativePosition" in firstRel.sourceRelativeData)
+		
+func loadEdgeUsingResources(edgeId):
+	var filePath: String = vault_path + edges_path + str(edgeId) + ".tres"
+	var loadedEdge: EdgeBase = ResourceLoader.load(filePath, "EdgeBase")
+	edges[loadedEdge.id] = loadedEdge
+	return loadedEdge
 
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
 	
 	for file in dir.get_files():
+		# The file string includes the file extension, so converting into 
+		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
 		loadNodeUsingResources(int(file))
-
+		
+func loadNodeConnections(nodeId:int):
+	if !nodes.has(nodeId):
+		loadNodeUsingResources(nodeId)
+	
+	var thisNode = nodes[nodeId]
+	
+	for edge in thisNode.edges.keys():
+		loadNodeUsingResources(edge)
+		loadEdgeUsingResources(thisNode.edges[edge])
+	
+	
 func loadNodeUsingResources(nodeId: int) -> NodeBase:
 	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"
 	var loadedNode: NodeBase = ResourceLoader.load(filePath, "NodeBase")
@@ -87,6 +108,10 @@ func loadNodeUsingResources(nodeId: int) -> NodeBase:
 func saveSettings():
 	var savePath: String = vault_path + settings_path + "settings.tres"
 	ResourceSaver.save(settings, savePath)
+	
+func setLastFocalId(focalId: int):
+	settings.lastFocalId = focalId
+	saveSettings()
 
 func saveAllNodesUsingResources():
 	print("Trying to SAVE: " + str(nodes.size()))

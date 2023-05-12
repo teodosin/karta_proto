@@ -114,6 +114,8 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 	add_child(newNode)
 	spawnedNodes[newNode.id] = newNode
 	
+	dataAccess.loadNodeConnections(newNode.id)
+	
 	# If there is no focalNode, the first node created will become that.	
 	if not focalNode:
 		setAsFocal(newNode)
@@ -213,7 +215,8 @@ func setAsFocal(node: NodeViewBase):
 	
 	node.setAsFocal(node.id)
 	focalNode = node
-	dataAccess.settings.lastFocalId = node.id
+	
+	dataAccess.setLastFocalId(node.id)
 	
 	$GraphViewCamera.moveToHistory(focalNode.id, focalNode.position)
 	
