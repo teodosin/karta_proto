@@ -103,6 +103,10 @@ func loadNodeConnections(nodeId:int):
 	
 func loadNodeUsingResources(nodeId: int) -> NodeBase:
 	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"
+	if !FileAccess.file_exists(filePath):
+		print("No file found. Returning.")
+		return
+	
 	var loadedNode: NodeBase = ResourceLoader.load(filePath, "NodeBase")
 	nodes[loadedNode.id] = loadedNode
 	return loadedNode

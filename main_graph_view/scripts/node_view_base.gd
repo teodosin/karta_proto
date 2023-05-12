@@ -15,6 +15,7 @@ var id: int
 @onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
 
 var dataNode: NodeBase = null
+var graphParent: NodeViewBase
 
 # Variables for highlighting
 var focalHighlightColor = Color(0.8, 0.4, 0.2)
@@ -58,15 +59,15 @@ func _ready():
 	$NodeName.text = str(dataNode.name)
 	
 	#Hide it according to the setting 
-	if get_parent().showNodeNames:
+	if get_tree().current_scene.showNodeNames:
 		$NodeName.visible = true
 	else:
 		$NodeName.visible = false
 	
 	#Connect signals for reacting to changes in VIEW settings
-	get_parent().debugViewSet.connect(self.handle_debug_view_set)
-	get_parent().showNodeNamesSet.connect(self.handle_node_name_set)
-	get_parent().graphZoomSet.connect(self.handle_graph_zoom_set)
+	get_tree().current_scene.debugViewSet.connect(self.handle_debug_view_set)
+	get_tree().current_scene.showNodeNamesSet.connect(self.handle_node_name_set)
+	get_tree().current_scene.graphZoomSet.connect(self.handle_graph_zoom_set)
 	
 func handle_debug_view_set(debug: bool):
 	$DebugContainer.visible = debug

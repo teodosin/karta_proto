@@ -82,13 +82,14 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	return newNode
 
 
-func spawnNode(newNodeData: NodeBase, parent = null, atMouse: bool = false):
+func spawnNode(newNodeData: NodeBase, atMouse: bool = false, parent = null):
 	# Just thinking here:
 	# Required dependency injections (for converting to a Command):
 	# newNodeData, atMouse, dataAccess, camera position, nodeBaseTemplate,
 	# But what about the signal callback functions?
 	# Implementing the Command pattern will require some planning
 	if parent == null and focalNode != null:
+		print("parent of spawned is the focal")
 		parent = focalNode
 	
 	var spawnPos: Vector2 = $GraphViewCamera.position
@@ -96,14 +97,16 @@ func spawnNode(newNodeData: NodeBase, parent = null, atMouse: bool = false):
 	if atMouse: 
 		spawnPos = get_global_mouse_position()
 		
-	elif parent != null and parent.dataNode.edges.keys().has(newNodeData.id): 
-		spawnPos = parent.position + \
-			dataAccess.edges[parent.dataNode.edges[newNodeData.id]].getConnectionPosition(parent.id)
+	elif parent != null and parent is NodeViewBase:
+		if parent.dataNode.edges.keys().has(newNodeData.id): 
+			spawnPos = parent.position + \
+				dataAccess.edges[parent.dataNode.edges[newNodeData.id]].getConnectionPosition(parent.id)
 			
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
 	newNode.id = newNodeData.id
 	newNode.dataNode = newNodeData
+	newNode.graphParent = parent
 	
 	
 	# Signals from the instanced node must be connected right as the node is
@@ -121,6 +124,7 @@ func spawnNode(newNodeData: NodeBase, parent = null, atMouse: bool = false):
 	newNode.set_position(spawnPos-newNode.size/2)	
 
 	add_child(newNode)
+		
 	spawnedNodes[newNode.id] = newNode
 	
 	dataAccess.loadNodeConnections(newNode.id)
@@ -196,7 +200,7 @@ func saveFocalRelativePositions():
 			var thisEdge = dataAccess.edges[focalNode.dataNode.edges[relatedId]]
 
 			thisEdge.setConnectionPosition( \
-				focalNode.id, focalNode.position, spawnedNodes[int(relatedId)].position)
+				focalNode.id, focalNode.global_position, spawnedNodes[int(relatedId)].global_position)
 			dataAccess.saveEdgeUsingResources(thisEdge)
 			
 			var otherNode = spawnedNodes[int(relatedId)]
@@ -291,9 +295,9 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		
 	return toBeSpawned
 	
-func spawnNodes(toBeSpawned, parent =  null):
+func spawnNodes(toBeSpawned, parent = null):
 	for n in toBeSpawned:
-		spawnNode(n, parent)
+		spawnNode(n, false, parent)
 		
 	for w in dataAccess.edges.values():
 		spawnEdge(w)
@@ -399,7 +403,9 @@ func handle_node_gui_input(event, node):
 	
 	if event.is_action_released("mouseLeft"):
 		#Releasing the MOVE action
-		node.nodeMoving = false
+		if node.nodeMoving:
+			node.nodeMoving = false
+			saveOnNodeMoved(node)
 		
 		#Releasing the EDGES action, creating a new edge
 		if nodeHovering != null and nodeEdgeSource != null and nodeEdgeSource != nodeHovering:
@@ -435,10 +441,12 @@ func handle_node_data_edited(node: NodeViewBase):
 	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
+	print("TRYING TO SAVE RELATIVE POSITIONS FOR " + str(node.id) + ". (focal: " + str(node==focalNode)+")")
 	# If it's an expanded node, just skip it for now. Changes are saved
 	# on focal change.
-	if node.get_parent() == typeof(NodeViewBase):
-		return
+	
+	if node.graphParent != focalNode:
+		print("Parent is not focal, but an expanded node")
 	
 	# If the focalNode is moved, all connected edges must be updated.
 	if node == focalNode:	
@@ -450,11 +458,12 @@ func saveOnNodeMoved(node):
 #	else:
 #		saveFocalRelativePositions()
 	else:
-		var thisEdge = dataAccess.edges[node.dataNode.edges[focalNode.id]]
+		if is_instance_valid(node.graphParent):
+			var thisEdge = dataAccess.edges[node.dataNode.edges[node.graphParent.id]]
 
-		thisEdge.setConnectionPosition( \
-			focalNode.id, focalNode.position, node.position)
-		dataAccess.saveEdgeUsingResources(thisEdge)
+			thisEdge.setConnectionPosition( \
+				node.graphParent.id, node.graphParent.position, node.position)
+			dataAccess.saveEdgeUsingResources(thisEdge)
 
 func handle_node_click(_node):
 	pass
