@@ -14,6 +14,8 @@ var id: int
 @onready var elementContainer = get_node("NodeElementContainer")
 @onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
 
+var dataNode: NodeBase = null
+
 # Variables for highlighting
 var focalHighlightColor = Color(0.8, 0.4, 0.2)
 var weight: float = 9.0
@@ -23,11 +25,10 @@ var isPinnedToPosition: bool = false
 var isPinnedToUi: bool = false
 var isPinnedToPresence: bool = false
 
-
+# Variables concerning state
 var nodeMoving: bool = false
 var mouseHovering: bool = false
-
-var dataNode: NodeBase = null
+var expanded: bool = false
 
 signal thisNodeAsFocal
 signal thisNodeAsPinned(nodeId, isTrue)
@@ -73,6 +74,9 @@ func handle_node_name_set(namen: bool):
 	$NodeName.visible = namen
 func handle_graph_zoom_set(zoom: float):
 	weight /= zoom
+	
+func setExpanded(expand: bool):
+	expanded = expand
 
 func setViewType():
 	if dataNode == null:

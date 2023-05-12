@@ -22,6 +22,8 @@ func _on_focus_exited():
 	set_focus_mode(Control.FOCUS_NONE)
 	selecting_enabled = false
 	
+	mouse_default_cursor_shape = Control.CURSOR_ARROW
+	context_menu_enabled = false
 	get_parent().mouse_filter = Control.MOUSE_FILTER_PASS
 
 func _on_gui_input(event):
@@ -32,6 +34,8 @@ func _on_gui_input(event):
 		
 		get_parent().mouse_filter = Control.MOUSE_FILTER_STOP
 		get_parent().owner.disableShortcuts.emit(true)
+		mouse_default_cursor_shape = Control.CURSOR_IBEAM
+		context_menu_enabled = true
 
 func _on_focus_entered():
 	pass

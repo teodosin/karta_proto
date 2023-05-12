@@ -52,7 +52,8 @@ func _ready():
 			for noob in dataAccess.nodes.values():
 				spawnNode(noob)
 				break
-		
+
+
 func _process(_delta):
 	if sceneOutputSprite.visible:
 		#sceneOutputSprite.position = get_viewport_rect().size / 2
@@ -64,7 +65,6 @@ func _process(_delta):
 		
 	
 	queue_redraw()
-
 
 
 func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
@@ -80,16 +80,25 @@ func createNode(nodeType: String, atMouse: bool = false) -> NodeViewBase:
 	createEdge(focalNode, newNode)	
 	
 	return newNode
+
+
+func spawnNode(newNodeData: NodeBase, parent = null, atMouse: bool = false):
+	# Just thinking here:
+	# Required dependency injections (for converting to a Command):
+	# newNodeData, atMouse, dataAccess, camera position, nodeBaseTemplate,
+	# But what about the signal callback functions?
+	# Implementing the Command pattern will require some planning
+	if parent == null and focalNode != null:
+		parent = focalNode
 	
-func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
-	var spawnPos: Vector2
+	var spawnPos: Vector2 = $GraphViewCamera.position
+	
 	if atMouse: 
 		spawnPos = get_global_mouse_position()
-	if focalNode == null:
-		spawnPos = $GraphViewCamera.position
-	elif focalNode.dataNode.edges.keys().has(newNodeData.id): 
-		spawnPos = focalNode.position + \
-			dataAccess.edges[focalNode.dataNode.edges[newNodeData.id]].getConnectionPosition(focalNode.id)
+		
+	elif parent != null and parent.dataNode.edges.keys().has(newNodeData.id): 
+		spawnPos = parent.position + \
+			dataAccess.edges[parent.dataNode.edges[newNodeData.id]].getConnectionPosition(parent.id)
 			
 	var newNode: NodeViewBase = nodeBaseTemplate.instantiate()
 
@@ -122,7 +131,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false):
 		newNode.setAsFocal(focalNode.id)
 	
 	return newNode
-
 
 
 func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
@@ -159,13 +167,10 @@ func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
 
 	dataAccess.saveEdgeUsingResources(newEdgeData)
 
-#	source.dataNode.setRelatedNodePosition(target.id, source.position, target.position)
-#	target.dataNode.setRelatedNodePosition(source.id, target.position, source.position)
-
-		
 	dataAccess.saveData()
 	var newEdge = spawnEdge(newEdgeData)
 	return newEdge
+
 
 func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 	if !spawnedNodes.keys().has(newEdgeData.sourceId) or !spawnedNodes.keys().has(newEdgeData.targetId):
@@ -183,8 +188,7 @@ func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 	return newEdge
 
 
-
-func saveRelativePositions():
+func saveFocalRelativePositions():
 	if focalNode != null:
 
 		for relatedId in focalNode.dataNode.edges.keys():
@@ -194,9 +198,47 @@ func saveRelativePositions():
 			thisEdge.setConnectionPosition( \
 				focalNode.id, focalNode.position, spawnedNodes[int(relatedId)].position)
 			dataAccess.saveEdgeUsingResources(thisEdge)
+			
+			var otherNode = spawnedNodes[int(relatedId)]
+			if otherNode.expanded:
+				saveExpandedRelativePositions(otherNode)
 
-	
+func saveExpandedRelativePositions(node: NodeViewBase):
+	var expandedNodes = node.get_children()
+	if expandedNodes.size() == 0: 
+		print("Node "+ str(node) + " has no children.")
+		return
 		
+	for relatedId in node.dataNode.edges.keys():
+		if !spawnedNodes.has(relatedId):
+			continue
+		
+		var otherNode = spawnedNodes[int(relatedId)]
+	
+		if !expandedNodes.has(otherNode):
+			continue
+		
+		var thisEdge = dataAccess.edges[node.dataNode.edges[relatedId]]
+
+		thisEdge.setConnectionPosition( \
+			node.id, node.position, otherNode.position)
+		dataAccess.saveEdgeUsingResources(thisEdge)
+		
+		
+func expandConnections(node: NodeViewBase):
+	# This function is called when a node requests spawning its own connections
+	# when it is not the focal node. Spawned nodes should be added to that node
+	# as its children. 
+	# Expanded child nodes use their relative position to their parent to find
+	# their global position, because they might not share edges with the focal.
+	# Moving them should update their position relative to their parent, not 
+	# relative to the focal node. They should be able to be collapsed back into
+	# their parent. 
+	
+	node.setExpanded(true)
+	var toBeSpawned = findUnspawnedRelatedNodes(node, spawnedNodes, dataAccess)
+	spawnNodes(toBeSpawned, node)
+
 func setAsFocal(node: NodeViewBase):
 	# Can't set focal node if it's already the focal
 	if focalNode == node:
@@ -211,7 +253,7 @@ func setAsFocal(node: NodeViewBase):
 		focalNode.setAsFocal(node.id)
 		$GraphViewCamera.addToCameraHistory(focalNode.id, focalNode.position)
 	
-	saveRelativePositions()
+	saveFocalRelativePositions()
 	
 	node.setAsFocal(node.id)
 	focalNode = node
@@ -235,8 +277,7 @@ func setAsFocal(node: NodeViewBase):
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
 	
-	
-	
+
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 	var related = node.dataNode.edges
 	
@@ -250,9 +291,9 @@ func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
 		
 	return toBeSpawned
 	
-func spawnNodes(toBeSpawned):
+func spawnNodes(toBeSpawned, parent =  null):
 	for n in toBeSpawned:
-		spawnNode(n)
+		spawnNode(n, parent)
 		
 	for w in dataAccess.edges.values():
 		spawnEdge(w)
@@ -348,7 +389,7 @@ func handle_node_gui_input(event, node):
 			ToolEnums.interactionModes.MOVE:
 				node.nodeMoving = true
 			ToolEnums.interactionModes.FOCAL:
-				print("CLICKING SETS THE FOCAL")
+				print("CLICKING SETS THE FOCAL TO " + str(node.id))
 				setAsFocal(node)
 			ToolEnums.interactionModes.EDGES:
 				nodeEdgeSource = node
@@ -366,7 +407,11 @@ func handle_node_gui_input(event, node):
 		
 		nodeEdgeSource = null
 			
-				
+	if event.is_action_pressed("mouseRight") and !shortcutsDisabled:
+		var popup = $NodeRightClickMenu
+		popup.position = get_viewport().get_mouse_position()
+		popup.setNodeContext(node)
+		popup.popup()
 	
 	if event.is_action_pressed("delete"):
 		deleteNode(node)
@@ -390,15 +435,20 @@ func handle_node_data_edited(node: NodeViewBase):
 	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
+	# If it's an expanded node, just skip it for now. Changes are saved
+	# on focal change.
+	if node.get_parent() == typeof(NodeViewBase):
+		return
+	
 	# If the focalNode is moved, all connected edges must be updated.
 	if node == focalNode:	
-		saveRelativePositions()
+		saveFocalRelativePositions()
 	# If a different node is moved, only its connection to the focal 
 	# needs to be updated. Remember, all positions are relative to the
 	# current focal / current context.
 	
 #	else:
-#		saveRelativePositions()
+#		saveFocalRelativePositions()
 	else:
 		var thisEdge = dataAccess.edges[node.dataNode.edges[focalNode.id]]
 
@@ -438,7 +488,6 @@ func _on_save_all_button_button_down():
 # CREATE NODE POPUP MENU
 func _on_new_node_popup_id_pressed(id):
 	createNode(NodeEnums.NodeTypes.keys()[id], true)
-
 
 func _on_editor_view_toolmodes_tool_changed(tool):
 	activeTool = tool

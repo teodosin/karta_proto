@@ -38,8 +38,11 @@ func loadData():
 	init_vault()
 	
 	loadSettings()
+	
+	# Start from where the user left off
 	print("Previous focal was: " + str(settings.lastFocalId))
 	loadNodeUsingResources(settings.lastFocalId)
+	
 #	loadNodesUsingResources()
 #	loadEdgesUsingResources()
 
