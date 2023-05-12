@@ -28,10 +28,6 @@ func _process(_delta):
 	if is_instance_valid(target):
 		targetPos = target.getPositionCenter()
 		
-		if target.dataNode.typeData.has_method("isEdgeInSockets"): 
-			if target.dataNode.typeData.isEdgeInSockets(id):
-				targetPos = target.socket.position
-
 	$EdgeGroupLabel.global_position = sourcePos + targetPos / 2
 	
 	queue_redraw()
@@ -93,3 +89,8 @@ func _draw():
 				sourcePos, 
 				targetPos, Color(0.5,0.5,0.5), 1.5, true
 			)	
+			
+		if (source.expanded or target.expanded) and !target.isPinnedToFocal and !source.isPinnedToFocal:
+			var thisPos = sourcePos + (targetPos - sourcePos)/2
+			var font = SystemFont.new()
+			draw_char(font, thisPos, "E", 16)

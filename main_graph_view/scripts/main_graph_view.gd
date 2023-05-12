@@ -208,22 +208,19 @@ func saveFocalRelativePositions():
 				saveExpandedRelativePositions(otherNode)
 
 func saveExpandedRelativePositions(node: NodeViewBase):
-	var expandedNodes = node.get_children()
-	if expandedNodes.size() == 0: 
-		print("Node "+ str(node) + " has no children.")
-		return
 		
 	for relatedId in node.dataNode.edges.keys():
 		if !spawnedNodes.has(relatedId):
+			print("spawnedNodes don't have this node")
 			continue
 		
 		var otherNode = spawnedNodes[int(relatedId)]
-	
-		if !expandedNodes.has(otherNode):
+		
+		if otherNode.graphParent != node:
 			continue
 		
 		var thisEdge = dataAccess.edges[node.dataNode.edges[relatedId]]
-
+		print("Getting to this point here, see?")
 		thisEdge.setConnectionPosition( \
 			node.id, node.position, otherNode.position)
 		dataAccess.saveEdgeUsingResources(thisEdge)
@@ -272,11 +269,11 @@ func setAsFocal(node: NodeViewBase):
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned)
 	
-
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
 		if n.id == focalNode.id:
 			continue
+		n.graphParent = focalNode
 		var newPosition = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
@@ -451,12 +448,10 @@ func saveOnNodeMoved(node):
 	# If the focalNode is moved, all connected edges must be updated.
 	if node == focalNode:	
 		saveFocalRelativePositions()
+
 	# If a different node is moved, only its connection to the focal 
 	# needs to be updated. Remember, all positions are relative to the
 	# current focal / current context.
-	
-#	else:
-#		saveFocalRelativePositions()
 	else:
 		if is_instance_valid(node.graphParent):
 			var thisEdge = dataAccess.edges[node.dataNode.edges[node.graphParent.id]]
@@ -464,6 +459,10 @@ func saveOnNodeMoved(node):
 			thisEdge.setConnectionPosition( \
 				node.graphParent.id, node.graphParent.position, node.position)
 			dataAccess.saveEdgeUsingResources(thisEdge)
+	
+	if node.expanded:
+		print("moving expanded node")
+		saveExpandedRelativePositions(node)
 
 func handle_node_click(_node):
 	pass
