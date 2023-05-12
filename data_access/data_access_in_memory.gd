@@ -89,6 +89,15 @@ func loadNodesUsingResources():
 		# The file string includes the file extension, so converting into 
 		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
 		loadNodeUsingResources(int(file))
+
+func loadFirstNode():
+	var dir = DirAccess.open(vault_path + nodes_path)
+	
+	for file in dir.get_files():
+		# The file string includes the file extension, so converting into 
+		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
+		loadNodeUsingResources(int(file))
+		break
 		
 func loadNodeConnections(nodeId:int):
 	if !nodes.has(nodeId):
@@ -100,11 +109,12 @@ func loadNodeConnections(nodeId:int):
 		loadNodeUsingResources(edge)
 		loadEdgeUsingResources(thisNode.edges[edge])
 	
-	
+
 func loadNodeUsingResources(nodeId: int) -> NodeBase:
 	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"
 	if !FileAccess.file_exists(filePath):
 		print("No file found. Returning.")
+		loadFirstNode()
 		return
 	
 	var loadedNode: NodeBase = ResourceLoader.load(filePath, "NodeBase")
@@ -190,9 +200,11 @@ func addNode(dataType: String = "BASE") -> NodeBase:
 		"IMAGE":
 			var newImage: NodeTypeData = NodeImage.new(settings.lastId)
 			newNode.typeData = newImage
-		"CROPIMAGE":
-			var newOperator: NodeTypeData = OperatorCrop.new(settings.lastId)
-			newNode.typeData = newOperator
+		"SCENESTATE":
+			var newImage: NodeTypeData = NodeImage.new(settings.lastId)
+			newNode.typeData = newImage
+		"OBJECT_RECTANGLE":
+			var newRect: NodeTypeData = ObjectRectangle.new(settings.lastId)
 			
 	saveNodeUsingResources(newNode)
 	

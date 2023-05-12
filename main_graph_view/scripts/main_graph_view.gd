@@ -46,18 +46,18 @@ func _ready():
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
-		if dataAccess.settings.lastFocalId != 0:
-			spawnNode(dataAccess.nodes[dataAccess.settings.lastFocalId])
-		else:
-			for noob in dataAccess.nodes.values():
-				spawnNode(noob)
-				break
+		for noob in dataAccess.nodes.values():
+			spawnNode(noob)
+			break
 
 
 func _process(_delta):
+	if !is_instance_valid(focalNode):
+		return
 	if sceneOutputSprite.visible:
 		#sceneOutputSprite.position = get_viewport_rect().size / 2
-		if focalNode and focalNode.dataNode.nodeType == "IMAGE":
+		if focalNode and focalNode.dataNode.typeData is NodeImage:
+			print("image is " + str(focalNode.dataNode.typeData.imageResource))
 			sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
 	
 	if focalNode == null and !spawnedNodes.is_empty():

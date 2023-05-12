@@ -17,7 +17,6 @@ func _ready():
 	if imageData:
 		readyToLoad = true
 
-
 func _process(_delta):
 	if readyToLoad:
 		loadImage(imageData.imagePath)

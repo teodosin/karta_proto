@@ -5,6 +5,8 @@ extends Control
 var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
+var sceneStateNode = preload("res://main_graph_view/nodes/node_view_scenestate.tscn")
+
 # Load components
 var resizer = preload("res://main_graph_view/components/resize_component.tscn")
 
@@ -106,6 +108,12 @@ func setViewType():
 			rszComp.enforceAspect = true
 			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
 			basePanel.add_child(rszComp)
+		
+		"SCENESTATE":
+			var scenePanel = sceneStateNode.instantiate()
+			
+			scenePanel.imageData = dataNode.typeData
+			basePanel.add_child(scenePanel)
 
 		_: 
 			pass

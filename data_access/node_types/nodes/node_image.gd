@@ -36,3 +36,6 @@ func loadImage():
 
 func setImageResource(image: Image):
 	imageResource = image
+
+func getImageResource() -> Image:
+	return imageResource
