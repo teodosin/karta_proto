@@ -106,6 +106,8 @@ visible = false
 [node name="NodeRightClickMenu" type="PopupMenu" parent="."]
 script = ExtResource("6_bq8g8")
 
+[node name="EdgeRightClickMenu" type="PopupPanel" parent="."]
+
 [connection signal="zoomSet" from="GraphViewCamera" to="." method="_on_graph_view_camera_zoom_set"]
 [connection signal="focus_entered" from="GraphViewCamera/FocusGrabber" to="." method="_on_focus_grabber_focus_entered"]
 [connection signal="toolChanged" from="HUD_Layer/SideUI/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
@@ -115,4 +117,5 @@ script = ExtResource("6_bq8g8")
 [connection signal="text_changed" from="HUD_Layer/SideUI/NewEdgeData/EdgeGroupEdit" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_group_edit_text_changed"]
 [connection signal="index_pressed" from="HUD_Layer/SideUI/NewEdgeData/EdgeTypeSelector" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_type_selector_index_pressed"]
 [connection signal="id_pressed" from="NewNodePopup" to="." method="_on_new_node_popup_id_pressed"]
+[connection signal="about_to_popup" from="NodeRightClickMenu" to="NodeRightClickMenu" method="_on_about_to_popup"]
 [connection signal="index_pressed" from="NodeRightClickMenu" to="NodeRightClickMenu" method="_on_index_pressed"]

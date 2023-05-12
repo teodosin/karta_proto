@@ -239,6 +239,24 @@ func expandConnections(node: NodeViewBase):
 	node.setExpanded(true)
 	var toBeSpawned = findUnspawnedRelatedNodes(node, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned, node)
+	
+func collapseConnections(node: NodeViewBase):
+	#This function is bugged, imma put it on hold
+	return
+	
+#	if node.expanded == false:
+#		node.despawn()
+#		return
+#
+#	for n in node.dataNode.edges:
+#		if !spawnedNodes.has(n):
+#			continue
+#
+#		if spawnedNodes[n].graphParent == node:
+#			collapseConnections(spawnedNodes[n])
+#
+#	node.setExpanded(false)
+		
 
 func setAsFocal(node: NodeViewBase):
 	# Can't set focal node if it's already the focal

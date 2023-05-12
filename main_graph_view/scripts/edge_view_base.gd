@@ -12,6 +12,11 @@ var target: NodeViewBase
 var sourcePos: Vector2
 var targetPos: Vector2
 
+var mouseHovering: bool = false
+
+signal mouseEntered
+signal mouseExited
+
 func _ready():
 	$EdgeGroupLabel.text = "BASE"
 
@@ -85,10 +90,15 @@ func _draw():
 					)
 
 		if source.mouseHovering == false and target.mouseHovering == false and getDistanceToEdge(get_global_mouse_position(), source.getPositionCenter(), target.getPositionCenter()) < 10.0:
+			mouseHovering = true
+			mouseEntered.emit()
 			draw_line(
 				sourcePos, 
 				targetPos, Color(0.5,0.5,0.5), 1.5, true
-			)	
+			)
+		else: 
+			mouseHovering = false
+			mouseExited.emit()
 			
 		if (source.expanded or target.expanded) and !target.isPinnedToFocal and !source.isPinnedToFocal:
 			var thisPos = sourcePos + (targetPos - sourcePos)/2
