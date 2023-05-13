@@ -41,7 +41,8 @@ func setOutputFromFocal(focal: NodeViewBase):
 		_:
 			setOutputToNone()
 		
-
+func setTexture(img: ImageTexture):
+	imageOutputTexture.texture = img
 
 func addChildToViewport(child: Node):
 	viewport.add_child(child)	

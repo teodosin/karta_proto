@@ -7,7 +7,7 @@ const ToolEnums = preload("res://main_graph_view/interaction_modes.gd")
 @onready var edgeBaseTemplate = load("res://main_graph_view/edge_view_base.tscn")
 
 
-@onready var sceneOutputSprite: TextureRect = $SceneLayer/SceneOutputTexture
+@onready var sceneLayer: CanvasLayer = $SceneLayer
 
 
 # VIEW variables that nodes listen to 
@@ -39,9 +39,11 @@ var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
 
 func setSceneLayerOutput(active: bool):
-	sceneOutputSprite.visible = active
+	sceneLayer.visible = active
 	
 func _ready():
+
+	print(ClassDB.get_class_list())
 	
 	dataAccess.loadData()
 	
@@ -54,11 +56,11 @@ func _ready():
 func _process(_delta):
 	if !is_instance_valid(focalNode):
 		return
-	if sceneOutputSprite.visible:
+	if sceneLayer.visible:
 		#sceneOutputSprite.position = get_viewport_rect().size / 2
 		if focalNode and focalNode.dataNode.typeData is NodeImage:
-			print("image is " + str(focalNode.dataNode.typeData.imageResource))
-			sceneOutputSprite.texture = ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource)
+			sceneLayer.setTexture(ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource))
+
 	
 	if focalNode == null and !spawnedNodes.is_empty():
 		setAsFocal(spawnedNodes[spawnedNodes.keys()[0]])
@@ -277,6 +279,8 @@ func setAsFocal(node: NodeViewBase):
 	node.setAsFocal(node.id)
 	focalNode = node
 	
+	sceneLayer.setOutputFromFocal(focalNode)
+	
 	dataAccess.setLastFocalId(node.id)
 	
 	$GraphViewCamera.moveToHistory(focalNode.id, focalNode.position)
@@ -392,7 +396,7 @@ func _input(event):
 			$HUD_Layer/TopLeftContainer/AreNodeNamesShown.text = "Node names shown: false"
 			
 	if event.is_action_pressed("toggleOutputView"):
-		setSceneLayerOutput(!sceneOutputSprite.visible)
+		setSceneLayerOutput(!sceneLayer.visible)
 
 # CONNECTED SIGNALS BELOW
 
