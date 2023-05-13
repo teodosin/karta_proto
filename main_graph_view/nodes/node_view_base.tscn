@@ -78,6 +78,11 @@ layout_mode = 2
 size_flags_vertical = 0
 horizontal_alignment = 2
 
+[node name="DataTypeLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+horizontal_alignment = 2
+
 [node name="TimeLabel" type="Label" parent="DebugContainer"]
 layout_mode = 2
 

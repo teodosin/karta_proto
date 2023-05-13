@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq87r7oesutmg"]
+
+[ext_resource type="Script" path="res://data_access/node_types/objects/object_rectangle.gd" id="1_4l0bk"]
+
+[node name="object_rectangle" type="Node2D"]
+script = ExtResource("1_4l0bk")

@@ -20,9 +20,16 @@ func setOutputToImage():
 	viewportContainer.visible = false
 	imageOutputTexture.visible = true
 	
-func setOutputToViewport():
+func setOutputToViewport(focal: NodeViewBase):
 	activeOutput = OutputStates.VIEWPORT
 	
+	for chld in viewport.get_children():
+		viewport.remove_child(chld)
+	
+	if is_instance_valid(focal.dataNode.gobjectData):
+		var child = focal.dataNode.gobjectData
+		viewport.add_child(child)
+		
 	imageOutputTexture.visible = false
 	viewportContainer.visible = true
 	
@@ -36,8 +43,9 @@ func setOutputFromFocal(focal: NodeViewBase):
 	match focal.dataNode.nodeType:
 		"IMAGE":
 			setOutputToImage()
-		"OBJECT":
-			setOutputToViewport()
+		"GOBJECT":
+			print("Hello I am a hideous gobject")
+			setOutputToViewport(focal)
 		_:
 			setOutputToNone()
 		

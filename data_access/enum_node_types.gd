@@ -4,8 +4,8 @@ enum NodeTypes {
 	IMAGE,
 	FILE,
 	
-	SCENESTATE,
-	OBJECT_RECTANGLE,
+	GOBJECT,
+	GOBJECT_RECTANGLE
 }
 
 enum EdgeTypes {

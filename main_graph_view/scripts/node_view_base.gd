@@ -5,7 +5,7 @@ extends Control
 var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
-var sceneStateNode = preload("res://main_graph_view/nodes/node_view_scenestate.tscn")
+var gobjectNode = preload("res://main_graph_view/nodes/node_view_gobject.tscn")
 
 # Load components
 var resizer = preload("res://main_graph_view/components/resize_component.tscn")
@@ -15,6 +15,7 @@ var id: int
 @onready var indicatorPanel = $IndicatorPanel
 @onready var elementContainer = get_node("NodeElementContainer")
 @onready var basePanel: PanelContainer = $BackgroundPanel #get_node("BackgroundPanel")
+	
 
 var dataNode: NodeBase = null
 var graphParent: NodeViewBase
@@ -55,6 +56,7 @@ func _ready():
 	#Set debugging data to labels
 	$DebugContainer/IdLabel.text = str(id)
 	$DebugContainer/TypeLabel.text = str(dataNode.nodeType)
+	$DebugContainer/DataTypeLabel.text = str(dataNode.dataType)
 	$DebugContainer/TimeLabel.text = str(dataNode.time)
 	
 	#Initialise node name
@@ -109,8 +111,8 @@ func setViewType():
 			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
 			basePanel.add_child(rszComp)
 		
-		"SCENESTATE":
-			var scenePanel = sceneStateNode.instantiate()
+		"GOBJECT":
+			var gobjectPanel = gobjectNode.instantiate()
 			
 			#scenePanel.imageData = dataNode.typeData
 			#basePanel.add_child(scenePanel)

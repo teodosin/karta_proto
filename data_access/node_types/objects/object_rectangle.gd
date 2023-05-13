@@ -1,11 +1,10 @@
 class_name ObjectRectangle
-extends NodeTypeData
+extends Node2D
 
 @export var nodeId: int
-@export var position: Vector2
+@export var pos: Vector2
 @export var size: Vector2
 @export var color: Color
-
 
 func _init(
 	t_id: int = 0, 
@@ -15,7 +14,18 @@ func _init(
 	):
 		
 	self.nodeId = t_id
-	self.position = t_pos
+	self.pos = t_pos
 	self.size = t_size
 	self.color = t_col
 	
+func _process(_delta):
+	queue_redraw()
+	
+func _draw():
+	draw_rect(Rect2(pos, size), color, true, 0.0)
+
+func setPosition(newPos: Vector2):
+	self.pos = newPos
+	
+func setSize(newSz: Vector2):
+	self.size = newSz

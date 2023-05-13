@@ -43,7 +43,6 @@ func setSceneLayerOutput(active: bool):
 	
 func _ready():
 
-	print(ClassDB.get_class_list())
 	
 	dataAccess.loadData()
 	
@@ -280,6 +279,10 @@ func setAsFocal(node: NodeViewBase):
 	focalNode = node
 	
 	sceneLayer.setOutputFromFocal(focalNode)
+	
+	var properties = focalNode.dataNode.get_property_list()
+	for line in properties:
+		print(line)
 	
 	dataAccess.setLastFocalId(node.id)
 	
