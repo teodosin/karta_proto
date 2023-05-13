@@ -112,8 +112,8 @@ func setViewType():
 		"SCENESTATE":
 			var scenePanel = sceneStateNode.instantiate()
 			
-			scenePanel.imageData = dataNode.typeData
-			basePanel.add_child(scenePanel)
+			#scenePanel.imageData = dataNode.typeData
+			#basePanel.add_child(scenePanel)
 
 		_: 
 			pass
