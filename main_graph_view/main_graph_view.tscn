@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cidnv0wsgfnjt"]
+[gd_scene load_steps=9 format=3 uid="uid://cidnv0wsgfnjt"]
 
 [ext_resource type="Script" path="res://main_graph_view/scripts/main_graph_view.gd" id="1_ap4qj"]
-[ext_resource type="Script" path="res://main_graph_view/scripts/node_view_scenestate.gd" id="2_2glt2"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/graph_view_camera.gd" id="2_3cc77"]
+[ext_resource type="Script" path="res://main_graph_view/scene_layer.gd" id="2_ildp2"]
 [ext_resource type="PackedScene" uid="uid://dsaxhd402q8a7" path="res://main_graph_view/nodes/editor_view_toolmodes.tscn" id="3_0vd50"]
-[ext_resource type="Texture2D" uid="uid://dco75867llh3x" path="res://icon.svg" id="3_gqkc0"]
 [ext_resource type="PackedScene" uid="uid://exm3mq0bnvk6" path="res://main_graph_view/new_node_popup.tscn" id="3_qpdql"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/new_edge_data_ui.gd" id="4_e4k00"]
 [ext_resource type="Script" path="res://main_graph_view/scripts/node_right_click_menu.gd" id="6_bq8g8"]
@@ -16,8 +15,9 @@ script = ExtResource("1_ap4qj")
 
 [node name="SceneLayer" type="CanvasLayer" parent="."]
 layer = -1
+script = ExtResource("2_ildp2")
 
-[node name="SceneOutputTexture" type="TextureRect" parent="SceneLayer"]
+[node name="OutputTexture" type="TextureRect" parent="SceneLayer"]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,8 +29,7 @@ size_flags_vertical = 3
 expand_mode = 3
 stretch_mode = 5
 
-[node name="ViewPortContainer" type="SubViewportContainer" parent="SceneLayer"]
-custom_minimum_size = Vector2(200, 100)
+[node name="ViewportContainer" type="SubViewportContainer" parent="SceneLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -39,21 +38,12 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-script = ExtResource("2_2glt2")
 
-[node name="SubViewport" type="SubViewport" parent="SceneLayer/ViewPortContainer"]
+[node name="SubViewport" type="SubViewport" parent="SceneLayer/ViewportContainer"]
 disable_3d = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="SceneLayer/ViewPortContainer/SubViewport"]
-position = Vector2(200, 204)
-scale = Vector2(10.442, 10.442)
-texture = ExtResource("3_gqkc0")
-
-[node name="Sprite2D2" type="Sprite2D" parent="SceneLayer/ViewPortContainer/SubViewport"]
-texture = ExtResource("3_gqkc0")
 
 [node name="GraphViewCamera" type="Camera2D" parent="."]
 script = ExtResource("2_3cc77")
