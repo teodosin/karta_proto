@@ -1,7 +1,7 @@
 class_name DataAccessInMemory
 extends DataAccess
 
-
+var sceneObjectRectangle = preload("res://data_access/node_types/objects/object_rectangle.tscn")
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
@@ -206,10 +206,10 @@ func addNode(dataType: String = "BASE") -> NodeBase:
 			var newScene: NodeTypeData = NodeScene.new(settings.lastId)
 			newNode.typeData = newScene
 		"OBJECT_RECTANGLE":
-#			var newRect: Node2D = sceneObjectRectangle.instantiate()
-#			newRect.setPosition(Vector2(200, 200))
-#			newRect.setSize(Vector2(400, 400))
-			pass
+			var newRect: Node2D = sceneObjectRectangle.instantiate()
+			newRect.setPosition(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 500.0)))
+			newRect.setSize(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 200.0)))
+			newNode.objectData = newRect
 			
 			
 	saveNodeUsingResources(newNode)

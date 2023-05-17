@@ -171,6 +171,9 @@ func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
 	if !fromFocal: 
 		newEdgeData.edgeType = newEdgeMenu.edgeType
 		newEdgeData.edgeGroup = newEdgeMenu.edgeGroup
+		
+#	if newEdgeData.edgeType == "PARENT":
+#		sceneLayer.setOutputFromFocal(focalNode)
 
 	dataAccess.saveEdgeUsingResources(newEdgeData)
 
