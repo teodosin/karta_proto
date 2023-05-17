@@ -11,6 +11,7 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 
 @export var dataType: String
 @export var typeData: NodeTypeData
+@export var objectData: Node
 
 @export var viewType: String
 #@export var viewData: NodeViewData

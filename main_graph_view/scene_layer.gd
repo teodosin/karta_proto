@@ -54,11 +54,10 @@ func addChildObjectsAsChildrenToViewport(node: NodeBase):
 			
 			match obj.nodeType:
 				"OBJECT_RECTANGLE":
-					print("Finally we're getting somewhere")
-					var newRect = sceneObjectRectangle.instantiate()
-					newRect.setPosition(Vector2(200, 200))
-					newRect.setSize(Vector2(400, 400))
-					addChildToViewport(newRect)
+					var rect = obj.objectData
+					rect.setPosition(Vector2(200, 200))
+					rect.setSize(Vector2(200, 200))
+					addChildToViewport(rect)
 				_: 
 					print("garble")
 			

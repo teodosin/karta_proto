@@ -19,12 +19,15 @@ signal debugViewSet(debug: bool)
 signal showNodeNamesSet(names: bool)
 signal graphZoomSet(zoom: float)
 
+signal nodeSelected(node: NodeViewBase)
+
 # Variable for disabling shortcuts when writing text
 var shortcutsDisabled: bool = false
 
 var dataAccess: DataAccess = DataAccessInMemory.new()
 
 var focalNode: NodeViewBase = null
+var selectedNode: NodeViewBase = null
 # Indexes for spawned nodes by their id
 var pinnedNodes: Dictionary = {} # id -> NodeViewBase
 var spawnedNodes: Dictionary = {} # id -> NodeViewBase
@@ -404,6 +407,9 @@ func handle_node_gui_input(event, node):
 	
 		
 	if event.is_action_pressed("mouseLeft"):
+		#if node.dataNode.nodeType != "PROPERTIES":
+		selectedNode = node
+		nodeSelected.emit(node)
 		
 		match activeTool:
 			ToolEnums.interactionModes.MOVE:

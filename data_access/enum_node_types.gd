@@ -5,7 +5,9 @@ enum NodeTypes {
 	FILE,
 	
 	SCENE,
-	OBJECT_RECTANGLE
+	OBJECT_RECTANGLE,
+	
+	PROPERTIES,
 }
 
 enum EdgeTypes {

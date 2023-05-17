@@ -6,6 +6,9 @@ var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
 var sceneNode = preload("res://main_graph_view/nodes/node_view_scene.tscn")
+var sceneObjectRectangle = load("res://data_access/node_types/objects/object_rectangle.tscn")
+
+var propertiesNode = preload("res://main_graph_view/nodes/editor_view_properties.tscn")
 
 # Load components
 var resizer = preload("res://main_graph_view/components/resize_component.tscn")
@@ -116,7 +119,17 @@ func setViewType():
 			
 			scenePanel.sceneData = dataNode.typeData
 			basePanel.add_child(scenePanel)
+			
+		"OBJECT_RECTANGLE":
+			var rect = sceneObjectRectangle.instantiate()
+			dataNode.objectData = rect
 
+		"PROPERTIES":
+			var propertiesPanel = propertiesNode.instantiate()
+			
+			propertiesPanel.connectToSelector(get_parent())
+			
+			basePanel.add_child(propertiesPanel)
 		_: 
 			pass
 			
