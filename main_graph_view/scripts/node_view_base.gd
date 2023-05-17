@@ -121,8 +121,12 @@ func setViewType():
 			basePanel.add_child(scenePanel)
 			
 		"OBJECT_RECTANGLE":
-			var rect = sceneObjectRectangle.instantiate()
-			dataNode.objectData = rect
+#			var rect = sceneObjectRectangle.instantiate()
+#			rect.setPosition(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 500.0)))
+#			rect.setSize(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 200.0)))
+
+#			dataNode.objectData = rect
+			pass
 
 		"PROPERTIES":
 			var propertiesPanel = propertiesNode.instantiate()
