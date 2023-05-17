@@ -5,7 +5,7 @@ extends Control
 var textNode = preload("res://main_graph_view/nodes/node_view_text.tscn")
 var imageNode = preload("res://main_graph_view/nodes/node_view_image.tscn")
 
-var gobjectNode = preload("res://main_graph_view/nodes/node_view_gobject.tscn")
+var sceneNode = preload("res://main_graph_view/nodes/node_view_scene.tscn")
 
 # Load components
 var resizer = preload("res://main_graph_view/components/resize_component.tscn")
@@ -111,11 +111,11 @@ func setViewType():
 			imagePanel.setAspectUpdater(rszComp.setAspectRatio)
 			basePanel.add_child(rszComp)
 		
-		"GOBJECT":
-			var gobjectPanel = gobjectNode.instantiate()
+		"SCENE":
+			var scenePanel = sceneNode.instantiate()
 			
-			#scenePanel.imageData = dataNode.typeData
-			#basePanel.add_child(scenePanel)
+			scenePanel.sceneData = dataNode.typeData
+			basePanel.add_child(scenePanel)
 
 		_: 
 			pass

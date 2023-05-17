@@ -1,5 +1,5 @@
 extends NodeTypeData
-class_name NodeGobject
+class_name NodeScene
 
 var nodeId
 var children: Array 

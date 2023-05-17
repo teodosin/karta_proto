@@ -1,7 +1,7 @@
 class_name DataAccessInMemory
 extends DataAccess
 
-var sceneObjectRectangle = load("res://data_access/node_types/objects/object_rectangle.tscn")
+
 
 const Enums = preload("res://data_access/enum_node_types.gd")
 
@@ -202,17 +202,15 @@ func addNode(dataType: String = "BASE") -> NodeBase:
 		"IMAGE":
 			var newImage: NodeTypeData = NodeImage.new(settings.lastId)
 			newNode.typeData = newImage
-		"GOBJECT":
-			var newGobject: NodeTypeData = NodeGobject.new(settings.lastId)
-			newNode.typeData = newGobject
-		"GOBJECT_RECTANGLE":
-			print("creating a gobject rectangle")
-			newNode.nodeType = "GOBJECT"
-			print(str(newNode.nodeType))
-			var newRect: Node2D = sceneObjectRectangle.instantiate()
-			newRect.setPosition(Vector2(200, 200))
-			newRect.setSize(Vector2(400, 400))
-			newNode.gobjectData = newRect
+		"SCENE":
+			var newScene: NodeTypeData = NodeScene.new(settings.lastId)
+			newNode.typeData = newScene
+		"OBJECT_RECTANGLE":
+#			var newRect: Node2D = sceneObjectRectangle.instantiate()
+#			newRect.setPosition(Vector2(200, 200))
+#			newRect.setSize(Vector2(400, 400))
+			pass
+			
 			
 	saveNodeUsingResources(newNode)
 	

@@ -22,7 +22,10 @@ func _process(_delta):
 	queue_redraw()
 	
 func _draw():
-	draw_rect(Rect2(pos, size), color, true, 0.0)
+	draw_line(Vector2(-1000, 300), Vector2(2000, 400), Color(1), 5.0, true)
+	draw_rect(Rect2(pos, size), color, true)
+	print("Desperarely trying to draw at " + str(pos) + " " + str(size))
+	print("Globally I am at " + str(self.global_position))
 
 func setPosition(newPos: Vector2):
 	self.pos = newPos

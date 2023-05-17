@@ -12,8 +12,6 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 @export var dataType: String
 @export var typeData: NodeTypeData
 
-@export var gobjectData: Node
-
 @export var viewType: String
 #@export var viewData: NodeViewData
 
@@ -36,7 +34,6 @@ func _init(
 	
 	n_viewType: String = "BASE",
 	
-	n_gob: Node = Node2D.new()
 	):
 		
 	self.id = n_id
@@ -51,7 +48,6 @@ func _init(
 	
 	self.edges = n_rel	
 	
-	self.gobjectData = n_gob
 		
 func addEdge(connectionId: int, edgeId):
 	edges[connectionId] = edgeId

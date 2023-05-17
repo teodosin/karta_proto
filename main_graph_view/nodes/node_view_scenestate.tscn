@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://corifsaxdt34t"]
+[gd_scene load_steps=2 format=3 uid="uid://dj21qigedif3b"]
 
-[ext_resource type="Script" path="res://main_graph_view/scripts/node_view_scenestate.gd" id="1_mo4xm"]
+[sub_resource type="GDScript" id="GDScript_1j7ab"]
+script/source = "extends SubViewportContainer
+
+var imageData: NodeImage
+
+func _ready():
+	#await RenderingServer.frame_post_draw
+	#imageData.setImageResource($SubViewport.get_texture().get_image())
+
+
+"
 
 [node name="NodeViewScenestate" type="SubViewportContainer"]
 custom_minimum_size = Vector2(200, 100)
@@ -8,7 +18,7 @@ offset_right = 1280.0
 offset_bottom = 720.0
 scale = Vector2(0.5, 0.5)
 stretch = true
-script = ExtResource("1_mo4xm")
+script = SubResource("GDScript_1j7ab")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true

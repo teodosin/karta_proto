@@ -90,7 +90,6 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false, parent = null):
 	# But what about the signal callback functions?
 	# Implementing the Command pattern will require some planning
 	if parent == null and focalNode != null:
-		print("parent of spawned is the focal")
 		parent = focalNode
 	
 	var spawnPos: Vector2 = $GraphViewCamera.position
@@ -212,7 +211,6 @@ func saveExpandedRelativePositions(node: NodeViewBase):
 		
 	for relatedId in node.dataNode.edges.keys():
 		if !spawnedNodes.has(relatedId):
-			print("spawnedNodes don't have this node")
 			continue
 		
 		var otherNode = spawnedNodes[int(relatedId)]
@@ -221,7 +219,6 @@ func saveExpandedRelativePositions(node: NodeViewBase):
 			continue
 		
 		var thisEdge = dataAccess.edges[node.dataNode.edges[relatedId]]
-		print("Getting to this point here, see?")
 		thisEdge.setConnectionPosition( \
 			node.id, node.position, otherNode.position)
 		dataAccess.saveEdgeUsingResources(thisEdge)
@@ -280,9 +277,6 @@ func setAsFocal(node: NodeViewBase):
 	
 	sceneLayer.setOutputFromFocal(focalNode)
 	
-	var properties = focalNode.dataNode.get_property_list()
-	for line in properties:
-		print(line)
 	
 	dataAccess.setLastFocalId(node.id)
 	
@@ -415,7 +409,7 @@ func handle_node_gui_input(event, node):
 			ToolEnums.interactionModes.MOVE:
 				node.nodeMoving = true
 			ToolEnums.interactionModes.FOCAL:
-				print("CLICKING SETS THE FOCAL TO " + str(node.id))
+
 				setAsFocal(node)
 			ToolEnums.interactionModes.EDGES:
 				nodeEdgeSource = node
@@ -459,11 +453,9 @@ func handle_disable_shortcuts(disable: bool):
 			$HUD_Layer/TopLeftContainer/AreShortcutsEnabled.text = "Shortcuts disabled"
 		
 func handle_node_data_edited(node: NodeViewBase):
-	print("Node edited, trying to save")
 	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
-	print("TRYING TO SAVE RELATIVE POSITIONS FOR " + str(node.id) + ". (focal: " + str(node==focalNode)+")")
 	# If it's an expanded node, just skip it for now. Changes are saved
 	# on focal change.
 	
@@ -486,7 +478,6 @@ func saveOnNodeMoved(node):
 			dataAccess.saveEdgeUsingResources(thisEdge)
 	
 	if node.expanded:
-		print("moving expanded node")
 		saveExpandedRelativePositions(node)
 
 func handle_node_click(_node):
