@@ -11,13 +11,15 @@ extends Resource
 
 @export var edgeType: String
 @export var edgeGroup: String
+@export var edgeData: Resource
 
 func _init(
 		eId: int = 0, 
 		srcId: int = 0, 
 		trgtId: int = 0, 
 		type: String = "", 
-		group: String = ""
+		group: String = "",
+		data: Resource = Resource.new()
 		):
 	self.id = eId
 	
@@ -29,6 +31,7 @@ func _init(
 	
 	self.edgeType = type
 	self.edgeGroup = group
+	self.edgeData = data
 	
 func setType(type: String):
 	self.edgeType = type

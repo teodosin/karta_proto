@@ -61,6 +61,7 @@ func _process(_delta):
 	if sceneLayer.visible:
 		#sceneOutputSprite.position = get_viewport_rect().size / 2
 		if focalNode and focalNode.dataNode.typeData is NodeImage:
+			
 			sceneLayer.setTexture(ImageTexture.create_from_image(focalNode.dataNode.typeData.imageResource))
 
 	
@@ -272,19 +273,24 @@ func setAsFocal(node: NodeViewBase):
 	if spawnedNodes.is_empty():
 		return
 		
+	var prevFocal: NodeViewBase
+	var edge: EdgeBase	
+	
 	if focalNode != null:
 		focalNode.setAsFocal(node.id)
 		$GraphViewCamera.addToCameraHistory(focalNode.id, focalNode.position)
+		
 	
 	saveFocalRelativePositions()
+	
 	
 	node.setAsFocal(node.id)
 	focalNode = node
 	
 	sceneLayer.setOutputFromFocal(focalNode)
 	
-	
 	dataAccess.setLastFocalId(node.id)
+	
 	
 	$GraphViewCamera.moveToHistory(focalNode.id, focalNode.position)
 	
@@ -302,6 +308,29 @@ func setAsFocal(node: NodeViewBase):
 		var newPosition = focalNode.position + dataAccess.edges[focalNode.dataNode.edges[n.id]].getConnectionPosition(focalNode.id)
 		n.animatePosition(newPosition)
 	focalNode.dataNode.assignedPositions = 0
+	
+func transitionState(toNode: NodeViewBase):
+	
+	var from: NodeBase = focalNode.dataNode
+	var to: NodeBase = toNode.dataNode
+	var edge = dataAccess.edges[to.edges[from.id]]
+	
+	if edge.edgeType != "TRANSITION":
+		print("Connecting edge is not of type TRANSITION")
+		return
+	
+	if from.nodeType == "SCENE" and to.nodeType == "SCENE":
+		sceneLayer.transitionToViewport(from, to)
+		print("WE ARE TRANSITIONING BETWEEN SCENES")
+		
+	elif from.nodeType == "IMAGE" and to.nodeType == "IMAGE":
+		# Handle transitions between to image nodes. Play the frames stored in 
+		# the transition edge
+		print("WE ARE TRANSITIONING BETWEEN IMAGES")
+		pass
+		
+	setAsFocal(toNode)
+		
 	
 
 func findUnspawnedRelatedNodes(node: NodeViewBase, spawned, data):
@@ -417,9 +446,13 @@ func handle_node_gui_input(event, node):
 		match activeTool:
 			ToolEnums.interactionModes.MOVE:
 				node.nodeMoving = true
+				
 			ToolEnums.interactionModes.FOCAL:
-
 				setAsFocal(node)
+				
+			ToolEnums.interactionModes.TRANSITION:
+				transitionState(node)
+				
 			ToolEnums.interactionModes.EDGES:
 				nodeEdgeSource = node
 				

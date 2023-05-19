@@ -73,6 +73,15 @@ func _draw():
 					sourcePos + ((targetPos-sourcePos)/2), 
 					targetPos, Color(0.6,0.6,0.9), 4.0, true
 				)
+			"TRANSITION":
+				draw_line(
+					sourcePos, 
+					targetPos, Color(0.8,0.2,0.2), 1.0, true
+				)
+				draw_line(
+					sourcePos + ((targetPos-sourcePos)/2), 
+					targetPos, Color(0.8,0.2,0.2), 2.0, true
+				)
 			"BASE":
 				if source.getIsPinnedToFocal() or target.getIsPinnedToFocal():
 					draw_line(

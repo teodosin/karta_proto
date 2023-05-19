@@ -9,8 +9,8 @@
 generate_mipmaps = true
 multichannel_signed_distance_field = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwt55"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryc6q"]
+bg_color = Color(0, 0, 0.0588235, 0.760784)
 
 [node name="NodeViewBase" type="Control"]
 layout_mode = 3
@@ -22,16 +22,17 @@ script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="." groups=["NodeNameLabel"]]
 layout_direction = 1
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 67.0625
+offset_top = -23.0
+offset_right = 66.96
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_fonts/font = SubResource("SystemFont_kqvky")
-theme_override_styles/focus = SubResource("StyleBoxFlat_wwt55")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ryc6q")
 expand_to_text_length = true
 middle_mouse_paste_enabled = false
 selecting_enabled = false

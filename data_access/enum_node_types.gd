@@ -13,6 +13,6 @@ enum NodeTypes {
 enum EdgeTypes {
 	BASE,
 	PARENT,
-	#TRANSITION,
+	TRANSITION,
 	#SEQUENCE
 }

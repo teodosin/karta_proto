@@ -131,6 +131,8 @@ func setViewType():
 		"PROPERTIES":
 			var propertiesPanel = propertiesNode.instantiate()
 			
+			print(propertiesPanel is EditorViewProperties)
+			
 			propertiesPanel.connectToSelector(get_parent())
 			
 			basePanel.add_child(propertiesPanel)
