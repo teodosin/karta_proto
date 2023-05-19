@@ -45,8 +45,8 @@ func loadData():
 	print("Previous focal was: " + str(settings.lastFocalId))
 	loadNodeUsingResources(settings.lastFocalId)
 	
-#	loadNodesUsingResources()
-#	loadEdgesUsingResources()
+	loadNodesUsingResources()
+	loadEdgesUsingResources()
 
 
 func loadSettings():
@@ -98,8 +98,8 @@ func loadFirstNode():
 	for file in dir.get_files():
 		# The file string includes the file extension, so converting into 
 		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
-		loadNodeUsingResources(int(file))
-		break
+		return loadNodeUsingResources(int(file))
+		
 		
 func loadNodeConnections(nodeId:int):
 	if !nodes.has(nodeId):
@@ -207,8 +207,8 @@ func addNode(dataType: String = "BASE") -> NodeBase:
 			newNode.typeData = newScene
 		"OBJECT_RECTANGLE":
 			var newRect: Node2D = sceneObjectRectangle.instantiate()
-			newRect.setPosition(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 500.0)))
-			newRect.setSize(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 200.0)))
+			newRect.setPosition(Vector2(randf_range(-500.0, 500.0), randf_range(-500.0, 500.0)))
+			newRect.setSize(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 500.0)))
 			newNode.objectData = newRect
 			
 			
@@ -224,7 +224,10 @@ func addEdge(srcId: int, trgtId: int, type: String = "BASE", group: String = "no
 	
 func getNode(id: int) -> NodeBase: 
 
-	assert(nodes.has(id), "ERROR node not found")
+	if !nodes.has(id):
+		return loadFirstNode()
+	#assert(nodes.has(id), "ERROR node not found")
+	
 	return nodes[id]
 	
 

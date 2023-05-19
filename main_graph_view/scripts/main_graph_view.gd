@@ -37,6 +37,7 @@ var spawnedEdges: Dictionary = {} # id -> EdgeViewBase
 
 # CONTROLLER variables
 var activeTool: ToolEnums.interactionModes = ToolEnums.interactionModes.MOVE
+var assumeEdgeType: bool = true
 
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
@@ -141,7 +142,7 @@ func spawnNode(newNodeData: NodeBase, atMouse: bool = false, parent = null):
 	return newNode
 
 
-func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
+func createEdge(source: NodeViewBase, target: NodeViewBase, fromFocal: bool = true) -> EdgeViewBase:
 	if source.id == target.id: # Don't connect node to itself
 		return
 	
@@ -173,6 +174,14 @@ func createEdge(source, target, fromFocal: bool = true) -> EdgeViewBase:
 		newEdgeData.edgeType = newEdgeMenu.edgeType
 		newEdgeData.edgeGroup = newEdgeMenu.edgeGroup
 		
+	# For convenience
+	if assumeEdgeType:
+		if source.dataNode.nodeType == "SCENE" and target.dataNode.nodeType == "SCENE":
+			newEdgeData.edgeType = "TRANSITION"
+			
+		if source.dataNode.nodeType == "SCENE" and target.dataNode.nodeType == "OBJECT_RECTANGLE":
+			newEdgeData.edgeType = "PARENT"
+		
 #	if newEdgeData.edgeType == "PARENT":
 #		sceneLayer.setOutputFromFocal(focalNode)
 
@@ -196,6 +205,8 @@ func spawnEdge(newEdgeData: EdgeBase) -> EdgeViewBase:
 	spawnedEdges[str(newEdge.id)] = newEdge
 
 	add_child(newEdge)
+	
+	sceneLayer.setOutputFromFocal(focalNode)
 	return newEdge
 
 
@@ -310,10 +321,12 @@ func setAsFocal(node: NodeViewBase):
 	focalNode.dataNode.assignedPositions = 0
 	
 func transitionState(toNode: NodeViewBase):
+	if focalNode.id == toNode.id:
+		return
 	
 	var from: NodeBase = focalNode.dataNode
 	var to: NodeBase = toNode.dataNode
-	var edge = dataAccess.edges[to.edges[from.id]]
+	var edge = dataAccess.edges[from.edges[to.id]]
 	
 	if edge.edgeType != "TRANSITION":
 		print("Connecting edge is not of type TRANSITION")

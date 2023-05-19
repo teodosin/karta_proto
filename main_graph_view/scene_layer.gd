@@ -5,7 +5,7 @@ var sceneObjectRectangle = load("res://data_access/node_types/objects/object_rec
 @onready var imageOutputTexture = $OutputTexture
 
 @onready var viewportContainer = $ViewportContainer
-@onready var viewport = $ViewportContainer/SubViewport
+@onready var viewport = $ViewportContainer/SubViewport/ScreenCenter
 
 enum OutputStates {
 	NONE,
@@ -14,6 +14,9 @@ enum OutputStates {
 }
 
 var activeOutput: OutputStates = OutputStates.NONE
+
+func _process(_delta):
+	viewport.position = get_viewport().size / 2
 
 # Functions for changing the current output state
 func setOutputToImage():
@@ -52,8 +55,11 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 	var fromChildren: Array
 	var toChildren: Array
 	
-	for chld in viewport.get_children():
-		viewport.remove_child(chld)
+		
+	# Initialise variable to store the from/to child pairs
+	var childPairs: Dictionary
+	
+	# The following mess of loops is disgusting and should be cleaned up
 	
 	for edge in from.edges.values():
 		var edgeObj: EdgeBase = get_parent().dataAccess.edges[edge]
@@ -84,17 +90,43 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 	print("Children from: " + str(fromChildren.size()))
 	print("Children to: " + str(toChildren.size()))
 	
+	var pairSize: int = fromChildren.size()
+	if toChildren.size() < fromChildren.size():
+		pairSize = toChildren.size()
+	
+	var toIndex: int = 0
 	for i in fromChildren.size():
 		if i >= toChildren.size():	
 			break
+		if toChildren.has(fromChildren[i]):
+				print("IT IS THA SAME")
+				childPairs[fromChildren[i]] = fromChildren[i]
+				print(childPairs)
+		else:
+			childPairs[fromChildren[i]] = toChildren[toIndex]
+			toIndex += 1
+	
+	for chld in viewport.get_children():
+		# Code that attempted to keep a rectangle if it is shared between states
+#		if toChildren.has(chld):
+#			continue
+			
+		viewport.remove_child(chld)
+		
+	for key in childPairs.keys():
 		# I think it's better to tween brand new objects, so the originals 
 		# don't get mutated
+		
+		# Second part of the code that wants to keep shared objects
+#		if key == childPairs[key]:
+#			continue
+			
 		var newRect = sceneObjectRectangle.instantiate()
-		newRect.setPosition(fromChildren[i].pos)
-		newRect.setSize(fromChildren[i].size)
+		newRect.setPosition(key.pos)
+		newRect.setSize(key.size)
 		
 		addChildToViewport(newRect)
-		tweenChild(newRect, toChildren[i])
+		tweenChild(newRect, childPairs[key])
 			
 
 		

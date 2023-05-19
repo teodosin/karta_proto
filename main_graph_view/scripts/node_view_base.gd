@@ -89,6 +89,9 @@ func setExpanded(expand: bool):
 func setViewType():
 	if dataNode == null:
 		return
+		
+	basePanel.modulate = Color(0.0, 0.0, 0.2, 1.0)
+	
 	match dataNode.nodeType:
 		"TEXT":
 			var textPanel = textNode.instantiate()
@@ -119,6 +122,8 @@ func setViewType():
 			
 			scenePanel.sceneData = dataNode.typeData
 			basePanel.add_child(scenePanel)
+			basePanel.custom_minimum_size = Vector2(100, 100)
+			basePanel.modulate = Color(0.2, 0.0, 0.0, 1.0)
 			
 		"OBJECT_RECTANGLE":
 #			var rect = sceneObjectRectangle.instantiate()

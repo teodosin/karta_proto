@@ -47,6 +47,8 @@ handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 0
 
+[node name="ScreenCenter" type="Node2D" parent="SceneLayer/ViewportContainer/SubViewport"]
+
 [node name="GraphViewCamera" type="Camera2D" parent="."]
 script = ExtResource("2_3cc77")
 
