@@ -112,7 +112,7 @@ func tweenChild(from, to):
 			print(from.get(prop))
 			tween.set_ease(Tween.EASE_IN_OUT)
 			tween.set_trans(Tween.TRANS_QUINT)
-			#tween.set_parallel()
+			tween.set_parallel()
 			tween.tween_property(from, prop, to.get(prop), 1.0)
 	
 func addChildObjectsAsChildrenToViewport(node: NodeBase):
