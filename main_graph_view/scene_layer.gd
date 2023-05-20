@@ -94,58 +94,54 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 	if toChildren.size() < fromChildren.size():
 		pairSize = toChildren.size()
 	
-	var toIndex: int = 0
-	for i in fromChildren.size():
-		if i >= toChildren.size():	
-			break
-		if toChildren.has(fromChildren[i]):
-				print("IT IS THA SAME")
-				childPairs[fromChildren[i]] = fromChildren[i]
-				print(childPairs)
-		else:
-			childPairs[fromChildren[i]] = toChildren[toIndex]
-			toIndex += 1
+	var despawnable: Array
 	
-	for chld in viewport.get_children():
-		# Code that attempted to keep a rectangle if it is shared between states
-#		if toChildren.has(chld):
-#			continue
-			
-		viewport.remove_child(chld)
+	var toIndex: int = 0
+	
+	for i in viewport.get_children():
+		removeChildFromViewport(i)
 		
-	for key in childPairs.keys():
-		# I think it's better to tween brand new objects, so the originals 
-		# don't get mutated
-		
-		# Second part of the code that wants to keep shared objects
-#		if key == childPairs[key]:
-#			continue
+	addChildObjectsAsChildrenToViewport(from)
+	
+	for i in fromChildren.size():
+		if i >= toChildren.size():
+			print("Yes we are despawning sir")
+			viewport.get_children()[i].despawn()
+	
+	for i in toChildren.size():
+		if i >= viewport.get_child_count():
+			var newRect = sceneObjectRectangle.instantiate()
+			newRect.setCol(Color(1.0, 1.0, 1.0, 0.0))
+			addChildToViewport(newRect)
 			
-		var newRect = sceneObjectRectangle.instantiate()
-		newRect.setPosition(key.pos)
-		newRect.setSize(key.size)
+	for i in toChildren.size():
+		var rect = viewport.get_children()[i]
 		
-		addChildToViewport(newRect)
-		tweenChild(newRect, childPairs[key])
-			
+		if i < fromChildren.size():
+			rect.setPosition(fromChildren[i].pos)
+			rect.setSize(fromChildren[i].size)
+		
+		tweenChild(rect, toChildren[i])
+		
 
+	
 		
 func tweenChild(from, to):
 	if from.get_class() != to.get_class():
 		print("incompatible classes")
 		return
 		
-	var tween = create_tween()
 	
 	if from.has_method("getExportedProperties") and to.has_method("getExportedProperties"):
 		print("Found exportable properties yo")
 		for prop in from.getExportedProperties():
+			var tweener = create_tween()
 			print(prop)
 			print(from.get(prop))
-			tween.set_ease(Tween.EASE_IN_OUT)
-			tween.set_trans(Tween.TRANS_QUINT)
-			tween.set_parallel()
-			tween.tween_property(from, prop, to.get(prop), 1.0)
+			tweener.set_ease(Tween.EASE_IN_OUT)
+			tweener.set_trans(Tween.TRANS_QUINT)
+			tweener.set_parallel()
+			tweener.tween_property(from, prop, to.get(prop), 1.0)
 	
 func addChildObjectsAsChildrenToViewport(node: NodeBase):
 	get_parent().dataAccess.loadNodeConnections(node.id)
@@ -158,7 +154,9 @@ func addChildObjectsAsChildrenToViewport(node: NodeBase):
 			
 			match obj.nodeType:
 				"OBJECT_RECTANGLE":
-					var rect = obj.objectData
+					var rect = sceneObjectRectangle.instantiate()
+					rect.setPosition(obj.objectData.pos)
+					rect.setSize(obj.objectData.size)
 					addChildToViewport(rect)
 				_: 
 					print("garble")

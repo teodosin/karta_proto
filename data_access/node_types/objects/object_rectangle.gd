@@ -7,6 +7,7 @@ extends Node2D
 @export var rot: float
 @export var color: Color
 
+
 func getExportedProperties():
 	var props = [
 		"nodeId",
@@ -31,6 +32,9 @@ func _init(
 	self.rot = t_rot
 	self.color = t_col
 	
+func _ready():
+	var tweener = create_tween()
+	
 func _process(_delta):
 	queue_redraw()
 	
@@ -47,3 +51,18 @@ func setSize(newSz: Vector2):
 	
 func setCol(col: Color):
 	self.color = col
+	
+func despawn():
+	var tweener = create_tween()
+		
+	print("I'll be GONE SOON")
+	
+	tweener.tween_method(setCol, color, Color(1.0, 1.0, 1.0, 0.0), 0.7)
+	tweener.set_ease(Tween.EASE_IN)
+	tweener.tween_callback(deleteSelf)
+		# Also remove the node from the array of references
+func deleteSelf():
+	print("Am I even being deleted tho")
+	get_parent().remove_child(self)
+	queue_redraw()
+	self.queue_free()	
