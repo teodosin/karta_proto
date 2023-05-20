@@ -54,15 +54,12 @@ func setCol(col: Color):
 	
 func despawn():
 	var tweener = create_tween()
-		
-	print("I'll be GONE SOON")
 	
-	tweener.tween_method(setCol, color, Color(1.0, 1.0, 1.0, 0.0), 0.7)
+	tweener.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.7)
 	tweener.set_ease(Tween.EASE_IN)
 	tweener.tween_callback(deleteSelf)
 		# Also remove the node from the array of references
 func deleteSelf():
-	print("Am I even being deleted tho")
 	get_parent().remove_child(self)
 	queue_redraw()
 	self.queue_free()	

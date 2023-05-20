@@ -124,8 +124,6 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 		tweenChild(rect, toChildren[i])
 		
 
-	
-		
 func tweenChild(from, to):
 	if from.get_class() != to.get_class():
 		print("incompatible classes")
@@ -141,7 +139,7 @@ func tweenChild(from, to):
 			tweener.set_ease(Tween.EASE_IN_OUT)
 			tweener.set_trans(Tween.TRANS_QUINT)
 			tweener.set_parallel()
-			tweener.tween_property(from, prop, to.get(prop), 1.0)
+			tweener.tween_property(from, prop, to.get(prop), 0.6)
 	
 func addChildObjectsAsChildrenToViewport(node: NodeBase):
 	get_parent().dataAccess.loadNodeConnections(node.id)

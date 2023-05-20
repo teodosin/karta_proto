@@ -59,15 +59,27 @@ func loadProperties(node: NodeViewBase):
 						var horz = HBoxContainer.new()
 						add_child(horz)
 						
-						print(str(node.dataNode.objectData.get(prprty["name"])))
+						var prop = node.dataNode.objectData.get(prprty["name"])
 						
-						var labl = Label.new()
-						labl.text = str(node.dataNode.objectData.get(prprty["name"]).x)
+						print(str(prop))
+						
+						var labl = SpinBox.new()
+						labl.allow_greater = true
+						labl.allow_lesser = true
+						labl.value = prop.x
+						labl.value_changed.connect(self.handle_property_edit.bind(prop.x))
 						horz.add_child(labl)
 						
-						var labul = Label.new()
-						labul.text = str(node.dataNode.objectData.get(prprty["name"]).y)
+						var labul = SpinBox.new()
+						labul.allow_greater = true
+						labul.allow_lesser = true
+						labul.value = prop.y
+						labul.value_changed.connect(self.handle_property_edit.bind(prop.y))
 						horz.add_child(labul)
 					_:
 						pass
+						
+func handle_property_edit(value: float, prop):
+	print("handling")
+	prop = value
 	
