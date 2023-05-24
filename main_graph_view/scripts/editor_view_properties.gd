@@ -59,27 +59,37 @@ func loadProperties(node: NodeViewBase):
 						var horz = HBoxContainer.new()
 						add_child(horz)
 						
-						var prop = node.dataNode.objectData.get(prprty["name"])
+						var propname = prprty["name"]
+						var prop = node.dataNode.objectData
 						
 						print(str(prop))
 						
 						var labl = SpinBox.new()
 						labl.allow_greater = true
 						labl.allow_lesser = true
-						labl.value = prop.x
-						labl.value_changed.connect(self.handle_property_edit.bind(prop.x))
+						labl.value = prop.get(propname).x
+						labl.value_changed.connect(self.handle_vec2_property_edit.bind(prop, propname, false))
 						horz.add_child(labl)
 						
 						var labul = SpinBox.new()
 						labul.allow_greater = true
 						labul.allow_lesser = true
-						labul.value = prop.y
-						labul.value_changed.connect(self.handle_property_edit.bind(prop.y))
+						labul.value = prop.get(propname).y
+						labul.value_changed.connect(self.handle_vec2_property_edit.bind(prop, propname, true))
 						horz.add_child(labul)
 					_:
 						pass
 						
-func handle_property_edit(value: float, prop):
+func handle_vec2_property_edit(value: float, prop, name: String, isY: bool):
+	var newVec: Vector2 = prop.get(name)
+	if isY:
+		newVec.y = value
+	else:
+		newVec.x = value
+		
 	print("handling")
-	prop = value
+	prop.set(name, newVec)
+	
+	if selected != null:
+		mainGraphView.dataAccess.saveNodeUsingResources(selected.dataNode)
 	
