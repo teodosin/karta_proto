@@ -17,42 +17,7 @@ script = ExtResource("1_ap4qj")
 layer = -1
 script = ExtResource("2_ildp2")
 
-[node name="OutputTexture" type="TextureRect" parent="SceneLayer"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-expand_mode = 3
-stretch_mode = 5
-
-[node name="ViewportContainer" type="SubViewportContainer" parent="SceneLayer"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="SceneLayer/ViewportContainer"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 0
-
-[node name="ScreenCenter" type="Node2D" parent="SceneLayer/ViewportContainer/SubViewport"]
-
-[node name="GraphViewCamera" type="Camera2D" parent="."]
-script = ExtResource("2_3cc77")
-
-[node name="FocusGrabber" type="Control" parent="GraphViewCamera"]
+[node name="FocusGrabber" type="Control" parent="SceneLayer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 3
 anchors_preset = 15
@@ -67,6 +32,43 @@ grow_vertical = 2
 scale = Vector2(8.89264, 1.43098)
 size_flags_horizontal = 3
 focus_mode = 1
+
+[node name="OutputTexture" type="TextureRect" parent="SceneLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="SceneLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SceneLayer/ViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 0
+
+[node name="ScreenCenter" type="Node2D" parent="SceneLayer/ViewportContainer/SubViewport"]
+
+[node name="GraphViewCamera" type="Camera2D" parent="."]
+script = ExtResource("2_3cc77")
 
 [node name="PinnedLayer" type="CanvasLayer" parent="."]
 
@@ -130,9 +132,9 @@ script = ExtResource("6_bq8g8")
 
 [node name="EdgeRightClickMenu" type="PopupPanel" parent="."]
 
+[connection signal="focus_entered" from="SceneLayer/FocusGrabber" to="." method="_on_focus_grabber_focus_entered"]
+[connection signal="gui_input" from="SceneLayer/FocusGrabber" to="." method="_on_focus_grabber_gui_input"]
 [connection signal="zoomSet" from="GraphViewCamera" to="." method="_on_graph_view_camera_zoom_set"]
-[connection signal="focus_entered" from="GraphViewCamera/FocusGrabber" to="." method="_on_focus_grabber_focus_entered"]
-[connection signal="gui_input" from="GraphViewCamera/FocusGrabber" to="." method="_on_focus_grabber_gui_input"]
 [connection signal="toolChanged" from="HUD_Layer/SideUI/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
 [connection signal="pressed" from="HUD_Layer/SideUI/NewEdgeData/EdgeType" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_type_pressed"]
 [connection signal="focus_entered" from="HUD_Layer/SideUI/NewEdgeData/EdgeGroupEdit" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_group_edit_focus_entered"]

@@ -6,17 +6,14 @@ var selected: NodeViewBase
 var mainGraphView
 
 func connectToSelector(view):
-	print(view)
 	mainGraphView = view
 	
 	mainGraphView.nodeSelected.connect(self.handleSelection)
 	
 func handleSelection(node: NodeViewBase):
 	if node.dataNode.nodeType == "PROPERTIES":
-		print("Not editing the properties of properties, dawg")
 		return
 	
-	print("Calling loadProperties")
 	loadProperties(node)
 
 func loadProperties(node: NodeViewBase):
@@ -48,7 +45,6 @@ func loadProperties(node: NodeViewBase):
 					continue
 					
 				# Add label for the property name
-				print(prprty)
 				var label = Label.new()
 				label.text = str(prprty["name"])
 				add_child(label)
@@ -62,7 +58,7 @@ func loadProperties(node: NodeViewBase):
 						var propname = prprty["name"]
 						var prop = node.dataNode.objectData
 						
-						print(str(prop))
+
 						
 						var labl = SpinBox.new()
 						labl.allow_greater = true
@@ -87,7 +83,7 @@ func handle_vec2_property_edit(value: float, prop, name: String, isY: bool):
 	else:
 		newVec.x = value
 		
-	print("handling")
+
 	prop.set(name, newVec)
 	
 	if selected != null:

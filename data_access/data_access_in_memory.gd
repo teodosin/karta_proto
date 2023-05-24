@@ -42,7 +42,6 @@ func loadData():
 	loadSettings()
 	
 	# Start from where the user left off
-	print("Previous focal was: " + str(settings.lastFocalId))
 	#loadNodeUsingResources(settings.lastFocalId)
 	
 	loadNodesUsingResources()
@@ -70,11 +69,8 @@ func loadEdgesUsingResources():
 		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
 		edges[loadedEdge.id] = loadedEdge
 		
-	#print("edges are" + str(edges))
 	if edges.size() != 0:
 		var firstRel = edges[edges.keys()[0]]
-		#print(firstRel)
-		#print(firstRel.get_property_list())
 		assert("sourceRelativeData" in firstRel)
 		assert("relativePosition" in firstRel.sourceRelativeData)
 		
@@ -133,19 +129,13 @@ func setLastFocalId(focalId: int):
 	saveSettings()
 
 func saveAllNodesUsingResources():
-	print("Trying to SAVE: " + str(nodes.size()))
+
 	for c in nodes.values():
 		if (c is NodeBase):
 			saveNodeUsingResources(c)
 			
 func saveNodeUsingResources(node: NodeBase):
 	var save_path: String = vault_path + nodes_path + str(node.id) + ".tres"
-	
-	print("Trying to save the nodeId" + str(node.id) + " to " + save_path)
-	
-	print(nodes[nodes.keys()[0]])
-	
-	print(ResourceSaver.save(node, save_path))
 
 
 func saveAllEdgesUsingResources():
@@ -161,7 +151,6 @@ func saveEdgeUsingResources(edge: EdgeBase):
 func deleteAllNodeResources():
 	var del_path: String = vault_path + nodes_path
 	for file in DirAccess.get_files_at(del_path):
-		print(del_path + file)
 		DirAccess.remove_absolute(del_path + file)
 	
 func deleteAllEdgeResources():
@@ -249,22 +238,18 @@ func getAllEdges() -> Dictionary:
 func deleteNode(nodeId: int):
 	nodes.erase(nodeId)
 	
-	deleteNodeResource(nodeId)
 	
 	for w in edges.values():
-		print("ID: " + str(w.id) + " | SRC: " + str(w.sourceId) + " | TRGT: " + str(w.targetId))
-		
-		print(str(edges))
-		
 		if w.sourceId == nodeId:
 			nodes[w.targetId].edges.erase(w.sourceId)
-			print(str(edges.erase(w.id)) + " was the result of deletion")
+
 		elif w.targetId == nodeId:
 			nodes[w.sourceId].edges.erase(w.targetId)
-			print(str(edges.erase(w.id)) + " was the result of deletion")
+
 			
 		deleteEdgeResource(w.id)
 			
+	deleteNodeResource(nodeId)
 	saveData()
 
 func deleteAll():

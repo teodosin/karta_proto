@@ -230,7 +230,6 @@ func _on_background_panel_mouse_exited():
 	mouse_exited.emit()
 
 func _on_focal_indicator_gui_input():
-	print("Setting " +str(id)+ " as the focal.")
 	thisNodeAsFocal.emit()
 	setAsFocal(id)
 

@@ -37,7 +37,6 @@ func setOutputToViewport(focal: NodeViewBase):
 	for chld in viewport.get_children():
 		viewport.remove_child(chld)
 		
-	print("SETTING THE SCENE")
 	
 	if is_instance_valid(focal.dataNode):
 #		var child = focal.dataNode.sceneData
@@ -87,8 +86,6 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 				_: 
 					print("garble")
 					
-	print("Children from: " + str(fromChildren.size()))
-	print("Children to: " + str(toChildren.size()))
 	
 	var pairSize: int = fromChildren.size()
 	if toChildren.size() < fromChildren.size():
@@ -105,7 +102,6 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 	
 	for i in fromChildren.size():
 		if i >= toChildren.size():
-			print("Yes we are despawning sir")
 			viewport.get_children()[i].despawn()
 	
 	for i in toChildren.size():
@@ -126,12 +122,10 @@ func transitionToViewport(from: NodeBase, to: NodeBase):
 
 func tweenChild(from, to):
 	if from.get_class() != to.get_class():
-		print("incompatible classes")
 		return
 		
 	
 	if from.has_method("getExportedProperties") and to.has_method("getExportedProperties"):
-		print("Found exportable properties yo")
 		for prop in from.getExportedProperties():
 			var tweener = create_tween()
 			print(prop)

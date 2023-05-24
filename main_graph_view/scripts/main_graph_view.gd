@@ -314,6 +314,18 @@ func setAsFocal(node: NodeViewBase):
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned)
 	
+	for n in dataAccess.nodes.values():
+		print("------------------------------------------------------------------------")
+		print("------------------------------------------------------------------------")
+		print("------------------------------------------------------------------------")
+		
+		if n.nodeType != "SCENE":
+			return
+			
+		print("Node: " + str(n.id) + " with the following edges:" )
+		for l in n.edges:
+			print("edge: " + l)
+	
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
 		if n.id == focalNode.id:
@@ -332,17 +344,14 @@ func transitionState(toNode: NodeViewBase):
 	var edge = dataAccess.edges[from.edges[to.id]]
 	
 	if edge.edgeType != "TRANSITION":
-		print("Connecting edge is not of type TRANSITION")
 		return
 	
 	if from.nodeType == "SCENE" and to.nodeType == "SCENE":
 		sceneLayer.transitionToViewport(from, to)
-		print("WE ARE TRANSITIONING BETWEEN SCENES")
 		
 	elif from.nodeType == "IMAGE" and to.nodeType == "IMAGE":
 		# Handle transitions between to image nodes. Play the frames stored in 
 		# the transition edge
-		print("WE ARE TRANSITIONING BETWEEN IMAGES")
 		pass
 		
 	setAsFocal(toNode)
@@ -520,7 +529,7 @@ func saveOnNodeMoved(node):
 	# on focal change.
 	
 	if node.graphParent != focalNode:
-		print("Parent is not focal, but an expanded node")
+		pass
 	
 	# If the focalNode is moved, all connected edges must be updated.
 	if node == focalNode:	
@@ -596,13 +605,24 @@ func _on_focus_grabber_gui_input(event):
 	if event.is_action_released("mouseLeft"):
 		mousePressed = false
 		
-		print("Wanna create a new REKT")
 		var newRect = createNode("OBJECT_RECTANGLE")
 		
-		newRect.dataNode.objectData.setPosition(clickPos - get_viewport_rect().position / 2)
-		newRect.dataNode.objectData.setSize(get_viewport().get_mouse_position() - clickPos)
+		var newObj = sceneLayer.sceneObjectRectangle.instantiate()
+		newObj.setPosition(clickPos - get_viewport_rect().size / 2)
+		newObj.setSize(get_viewport().get_mouse_position() - clickPos)
+		newRect.dataNode.objectData = newObj
 		
-		dataAccess.saveNodeUsingResources(newRect.dataNode)
 		
-		print("Dimensions should be " + str(newRect.dataNode.objectData.size))
+#		newRect.dataNode.objectData.setPosition(clickPos - get_viewport_rect().position / 2)
+#		newRect.dataNode.objectData.setSize(get_viewport().get_mouse_position() - clickPos)
+#
+#		newRect.dataNode.objectData.set("pos", clickPos - get_viewport_rect().position / 2)	
+#		newRect.dataNode.objectData.set("size", get_viewport().get_mouse_position() - clickPos)
+			
+		#dataAccess.saveNodeUsingResources(newRect.dataNode)
 		
+		clickPos = Vector2.ZERO
+		
+		sceneLayer.setOutputFromFocal(focalNode)
+		
+		newRect.global_position = focalNode.global_position + Vector2(randf_range(-500.0, 500.0), randf_range(-500.0, 500.0))

@@ -40,8 +40,7 @@ func _process(_delta):
 	
 func _draw():
 	draw_rect(Rect2(pos, size), color, true)
-#	print("Desperarely trying to draw at " + str(pos) + " " + str(size))
-#	print("Globally I am at " + str(self.global_position))
+
 
 func setPosition(newPos: Vector2):
 	self.pos = newPos
