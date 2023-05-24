@@ -42,6 +42,9 @@ var assumeEdgeType: bool = true
 var nodeEdgeSource: NodeViewBase = null
 var nodeHovering: NodeViewBase = null
 
+var mousePressed: bool = false
+var clickPos: Vector2 = Vector2.ZERO
+
 func setSceneLayerOutput(active: bool):
 	sceneLayer.visible = active
 	
@@ -420,6 +423,8 @@ func _input(event):
 		activeToolSet(ToolEnums.interactionModes.TRANSITION)
 	if event.is_action_pressed("tool_EDGES"):
 		activeToolSet(ToolEnums.interactionModes.EDGES)
+	if event.is_action_pressed("tool_DRAW"):
+		activeToolSet(ToolEnums.interactionModes.DRAW)
 		
 	if activeTool == ToolEnums.interactionModes.EDGES:
 		$HUD_Layer/SideUI/NewEdgeData.visible = true
@@ -578,3 +583,26 @@ func _on_graph_view_camera_zoom_set(zoomLvl):
 #Enable shortcuts when the focus grabber gains focus
 func _on_focus_grabber_focus_entered():
 	handle_disable_shortcuts(false)
+
+
+func _on_focus_grabber_gui_input(event):
+	if activeTool != ToolEnums.interactionModes.DRAW:
+		return
+		
+	if event.is_action_pressed("mouseLeft") and mousePressed == false:
+		mousePressed = true
+		clickPos = get_viewport().get_mouse_position()
+		
+	if event.is_action_released("mouseLeft"):
+		mousePressed = false
+		
+		print("Wanna create a new REKT")
+		var newRect = createNode("OBJECT_RECTANGLE")
+		
+		newRect.dataNode.objectData.setPosition(clickPos - get_viewport_rect().position / 2)
+		newRect.dataNode.objectData.setSize(get_viewport().get_mouse_position() - clickPos)
+		
+		dataAccess.saveNodeUsingResources(newRect.dataNode)
+		
+		print("Dimensions should be " + str(newRect.dataNode.objectData.size))
+		

@@ -4,4 +4,5 @@ enum interactionModes {
 	FOCAL,
 	EDGES,
 	TRANSITION,
+	DRAW,
 }

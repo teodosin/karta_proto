@@ -132,6 +132,7 @@ script = ExtResource("6_bq8g8")
 
 [connection signal="zoomSet" from="GraphViewCamera" to="." method="_on_graph_view_camera_zoom_set"]
 [connection signal="focus_entered" from="GraphViewCamera/FocusGrabber" to="." method="_on_focus_grabber_focus_entered"]
+[connection signal="gui_input" from="GraphViewCamera/FocusGrabber" to="." method="_on_focus_grabber_gui_input"]
 [connection signal="toolChanged" from="HUD_Layer/SideUI/EditorViewToolmodes" to="." method="_on_editor_view_toolmodes_tool_changed"]
 [connection signal="pressed" from="HUD_Layer/SideUI/NewEdgeData/EdgeType" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_type_pressed"]
 [connection signal="focus_entered" from="HUD_Layer/SideUI/NewEdgeData/EdgeGroupEdit" to="HUD_Layer/SideUI/NewEdgeData" method="_on_edge_group_edit_focus_entered"]

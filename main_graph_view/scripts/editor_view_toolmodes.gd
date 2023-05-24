@@ -40,6 +40,11 @@ func _ready():
 		"Shortcut - (E) \n
 		Connect nodes to each other. Edge will have the group and type specified below."
 	)
+	
+	set_item_tooltip(tools.interactionModes.DRAW,
+		"Shortcut - (D) \n
+		Draw rectangles on the background scene."
+	)
 
 func _on_item_clicked(index, _at_position, _mouse_button_index):
 	toolChanged.emit(index)
