@@ -6,11 +6,11 @@ Karta, most fundamentally, is intended to be an augmented file browser and allow
 
 This repository contains the prototype or proof-of-concept for Karta. It was made in the Godot 4 game engine with its internal scripting language GDScript. Therefore a copy of the newest stable version (Godot 4.0.3 as of writing this) is required to edit and run the project. This version is considered to have reached its goal of illustrating the concepts behind Karta and is no longer in active development. If and when the idea is pursued further, the application will be rewritten from scratch (likely not in Godot) to provide a more stable and testable foundation to develop on. 
 
-### Core Features
+## Core Features
 
 This prototype implements the a somewhat scattered set of features. They are unpolished and often buggy. Their purpose is to map out the design space for a future iteration of the app, to give a clearer picture of what the desired architecture should be. 
 
-##### Keyboard shortcuts
+#### Keyboard shortcuts
 
 F - Focal tool
 G - Move tool
@@ -27,7 +27,7 @@ X - delete node (warning: buggy)
 F5 - Toggle node debug info
 F6 - Toggle display of node names
 
-##### Core tools
+#### Core tools
 
 The current active tool determines what clicking with the mouse does. 
 
@@ -38,7 +38,7 @@ The current active tool determines what clicking with the mouse does.
 * Draw - draw rectangles into the scene layer. More on this below. 
 
 
-##### Focal Nodes
+#### Focal Nodes
 
 The basic structure of Karta is that it is a view into a directed graph, made of nodes and edges. The network is always viewed from the context or point-of-view of a single node, displaying that node and its connections with one layer of depth. Like a local graph.
 
@@ -46,13 +46,13 @@ Nodes don't have an absolute position: instead, their position in the graph is a
 
 The aim of this feature is flexibility and reusability. Depending on what you're working on, you might want to organise existing nodes in different arrangements, yet it's preferable to not have to duplicate nodes to do this. Relative positions allow for the reuse of nodes in vastly different layouts, and for nodes to always know the contexts in which they are used and relevant. 
 
-##### Basic Node Types
+#### Basic Node Types
 
 The most basic node is a Base Node. It contains no data except the data common to all nodes, such as the node name. 
 
 The other two most basic nodes are the Text and Image nodes. Both of these are resizable. The Text node is just a text box for writing (non-rich) text. The Image node specifies a path in the file system to an image and then loads and displays that image. These two nodes illustrate how Karta could also be used as a digital whiteboard or canvas, for laying out visuals and text in a dynamic way. 
 
-##### Edges, the connections between Nodes
+#### Edges, the connections between Nodes
 
 Edges between nodes can be one of three different types, which change how they are treated by the app. 
 * Base - generic, two-way connections
@@ -61,13 +61,13 @@ Edges between nodes can be one of three different types, which change how they a
 
 Edges can also have a group, which can be any text. These currently do nothing, but the intended use is for filtering. In a future version it might be better to just allow arbitrary attributes on all edges.
 
-##### Performance mode
+#### Performance mode
 
 When Performance mode is on, the current active Focal node will have its data displayed in a separate view. In this case, the graph background. The ability to display this in a separate window was planned for this prototype, but is apparently not something supported by the game engine. You will have to imagine it. 
 
 Currently this is implemented for Image and Scene nodes. If an Image node is set as the Focal, that image will be displayed in a different view. If a Scene node is set as the Focal, it will display all of its child ObjectRectangles. 
 
-##### Scenes, Rectangles and Transitions
+#### Scenes, Rectangles and Transitions
 
 This is an experimental feature developed during a course on Interactive and Immersive Art. Turning Karta into a state machine. 
 
@@ -77,12 +77,12 @@ The Draw tool can be used to automatically create these rectangle nodes by drawi
 
 There is also a Properties node, which displays the data of whatever other node is currently selected. When selecting a rectangle, the Properties node displays the position and size of it and allows manual editing. The update isn't instantaneous. The rectangle will update when another rectangle is created of when the user reenters the current context. 
 
-##### Other notes
+#### Other notes
 
 * Nodes and edges are stored in the default appdata folder in Godot's resource ( .tres) format. 
 * There exists a bug where sometimes a node's edge index gets erased, and its connections are no longer spawned when they are supposed to. This has proven to be very hard to debug and is not worth fixing at this point, because this prototype is not meant to be used for serious work anyway. Saving nodes is therefore disabled. 
 
-### Future work
+## Future work
 
 Written on 25.5.2023.
 
