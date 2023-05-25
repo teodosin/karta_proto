@@ -78,7 +78,7 @@ There is also a Properties node, which displays the data of whatever other node 
 ##### Other notes
 
 * Nodes and edges are stored in the default appdata folder in Godot's resource ( .tres) format. 
-* There exists a bug where sometimes a node's edge index gets erased, and its connections are no longer spawned when they are supposed to. This has proven to be very hard to debug and is not worth fixing at this point, because this prototype is not meant to be used for serious work anyway. 
+* There exists a bug where sometimes a node's edge index gets erased, and its connections are no longer spawned when they are supposed to. This has proven to be very hard to debug and is not worth fixing at this point, because this prototype is not meant to be used for serious work anyway. Saving nodes is therefore disabled. 
 
 ### Future work
 
