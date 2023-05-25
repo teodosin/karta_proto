@@ -54,9 +54,14 @@ func _ready():
 	dataAccess.loadData()
 	
 	if not dataAccess.nodes.is_empty():	
-		for noob in dataAccess.nodes.values():
-			spawnNode(noob)
-			break
+		if dataAccess.nodes.keys().has(dataAccess.settings.lastFocalId):
+			spawnNode(dataAccess.nodes[dataAccess.settings.lastFocalId])
+		else:
+			for noob in dataAccess.nodes.values():
+				spawnNode(noob)
+				break
+			
+		
 
 
 func _process(_delta):
@@ -262,19 +267,6 @@ func expandConnections(node: NodeViewBase):
 func collapseConnections(node: NodeViewBase):
 	#This function is bugged, imma put it on hold
 	return
-	
-#	if node.expanded == false:
-#		node.despawn()
-#		return
-#
-#	for n in node.dataNode.edges:
-#		if !spawnedNodes.has(n):
-#			continue
-#
-#		if spawnedNodes[n].graphParent == node:
-#			collapseConnections(spawnedNodes[n])
-#
-#	node.setExpanded(false)
 		
 
 func setAsFocal(node: NodeViewBase):
@@ -283,7 +275,6 @@ func setAsFocal(node: NodeViewBase):
 		return
 	
 	# Can't set focal if no nodes are currently spawned.
-	# Perhaps this requirement will change later.
 	if spawnedNodes.is_empty():
 		return
 		
@@ -314,17 +305,7 @@ func setAsFocal(node: NodeViewBase):
 	var toBeSpawned = findUnspawnedRelatedNodes(focalNode, spawnedNodes, dataAccess)
 	spawnNodes(toBeSpawned)
 	
-	for n in dataAccess.nodes.values():
-		print("------------------------------------------------------------------------")
-		print("------------------------------------------------------------------------")
-		print("------------------------------------------------------------------------")
-		
-		if n.nodeType != "SCENE":
-			return
-			
-		print("Node: " + str(n.id) + " with the following edges:" )
-		for l in n.edges:
-			print("edge: " + l)
+
 	
 	# Move spawned related nodes to new positions and reset the counter at the end
 	for n in spawnedNodes.values():
@@ -426,8 +407,6 @@ func _input(event):
 		activeToolSet(ToolEnums.interactionModes.MOVE)
 	if event.is_action_pressed("tool_FOCAL"):
 		activeToolSet(ToolEnums.interactionModes.FOCAL)
-	if event.is_action_pressed("tool_SELECT"):
-		activeToolSet(ToolEnums.interactionModes.SELECT)
 	if event.is_action_pressed("tool_TRANSITION"):
 		activeToolSet(ToolEnums.interactionModes.TRANSITION)
 	if event.is_action_pressed("tool_EDGES"):
@@ -522,6 +501,9 @@ func handle_disable_shortcuts(disable: bool):
 			$HUD_Layer/TopLeftContainer/AreShortcutsEnabled.text = "Shortcuts disabled"
 		
 func handle_node_data_edited(node: NodeViewBase):
+	
+	pass 
+	
 	dataAccess.saveNodeUsingResources(node.dataNode)
 
 func saveOnNodeMoved(node):
@@ -612,14 +594,6 @@ func _on_focus_grabber_gui_input(event):
 		newObj.setSize(get_viewport().get_mouse_position() - clickPos)
 		newRect.dataNode.objectData = newObj
 		
-		
-#		newRect.dataNode.objectData.setPosition(clickPos - get_viewport_rect().position / 2)
-#		newRect.dataNode.objectData.setSize(get_viewport().get_mouse_position() - clickPos)
-#
-#		newRect.dataNode.objectData.set("pos", clickPos - get_viewport_rect().position / 2)	
-#		newRect.dataNode.objectData.set("size", get_viewport().get_mouse_position() - clickPos)
-			
-		#dataAccess.saveNodeUsingResources(newRect.dataNode)
 		
 		clickPos = Vector2.ZERO
 		

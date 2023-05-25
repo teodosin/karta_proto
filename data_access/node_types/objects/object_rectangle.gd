@@ -23,7 +23,7 @@ func _init(
 	t_pos: Vector2 = Vector2.ZERO,
 	t_size: Vector2 = Vector2.ZERO,
 	t_rot: float = 0.0,
-	t_col: Color = Color(0.5, 0.8, 0.5, 0.7),
+	t_col: Color = Color(1.0, 1.0, 0.0, 0.7),
 	):
 		
 	self.nodeId = t_id

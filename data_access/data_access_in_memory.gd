@@ -42,7 +42,7 @@ func loadData():
 	loadSettings()
 	
 	# Start from where the user left off
-	#loadNodeUsingResources(settings.lastFocalId)
+	# loadNodeUsingResources(settings.lastFocalId)
 	
 	loadNodesUsingResources()
 	loadEdgesUsingResources()
@@ -136,6 +136,8 @@ func saveAllNodesUsingResources():
 			
 func saveNodeUsingResources(node: NodeBase):
 	var save_path: String = vault_path + nodes_path + str(node.id) + ".tres"
+	
+	# ResourceSaver.save(node, save_path)
 
 
 func saveAllEdgesUsingResources():
@@ -253,6 +255,8 @@ func deleteNode(nodeId: int):
 	saveData()
 
 func deleteAll():
+	pass
+	
 	nodes = {}
 	edges = {}
 	deleteAllNodeResources()

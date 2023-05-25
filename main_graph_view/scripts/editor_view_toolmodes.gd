@@ -28,12 +28,7 @@ func _ready():
 		
 	set_item_tooltip(tools.interactionModes.TRANSITION,
 		"Shortcut - (T) \n
-		(Not implemented)"
-	)
-	
-	set_item_tooltip(tools.interactionModes.SELECT,
-		"Shortcut - (S) \n
-		(Not implemented)"
+		Transition between valid states."
 	)
 
 	set_item_tooltip(tools.interactionModes.EDGES,

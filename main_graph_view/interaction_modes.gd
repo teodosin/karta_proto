@@ -1,5 +1,5 @@
 enum interactionModes {
-	SELECT,
+	# SELECT,
 	MOVE,
 	FOCAL,
 	EDGES,
