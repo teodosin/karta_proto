@@ -8,7 +8,13 @@ const Enums = preload("res://data_access/enum_node_types.gd")
 @export var name: String
 
 @export var nodeType: String
+
+@export var dataType: String
 @export var typeData: NodeTypeData
+@export var objectData: Node
+
+@export var viewType: String
+#@export var viewData: NodeViewData
 
 @export var edges: Dictionary # connectedNodeId -> edgeId
 
@@ -22,7 +28,13 @@ func _init(
 	n_time: float = Time.get_unix_time_from_system(),
 	n_name: String = "node", 
 	n_rel: Dictionary = {}, 
-	n_type: String = "BASE"
+	
+	n_type: String = "BASE",
+	
+	n_typeData: NodeTypeData = NodeTypeData.new(),
+	
+	n_viewType: String = "BASE",
+	
 	):
 		
 	self.id = n_id
@@ -30,9 +42,13 @@ func _init(
 	self.name = n_name
 	
 	self.nodeType = n_type
-	self.typeData = NodeTypeData.new()
+	
+	self.typeData = n_typeData
+	
+	self.viewType = n_viewType
 	
 	self.edges = n_rel	
+	
 		
 func addEdge(connectionId: int, edgeId):
 	edges[connectionId] = edgeId

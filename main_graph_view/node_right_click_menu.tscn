@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c6q5nareu4opx"]
+
+[node name="node_right_click_menu" type="PopupMenu"]
+visible = true
+item_count = 1
+item_0/text = ""
+item_0/id = 0

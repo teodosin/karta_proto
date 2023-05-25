@@ -1,6 +1,8 @@
 class_name DataAccessInMemory
 extends DataAccess
 
+var sceneObjectRectangle = preload("res://data_access/node_types/objects/object_rectangle.tscn")
+
 const Enums = preload("res://data_access/enum_node_types.gd")
 
 var nodes: Dictionary = {} # id -> NodeBase
@@ -38,10 +40,14 @@ func loadData():
 	init_vault()
 	
 	loadSettings()
+	
+	# Start from where the user left off
+	#loadNodeUsingResources(settings.lastFocalId)
+	
 	loadNodesUsingResources()
 	loadEdgesUsingResources()
 
-		
+
 func loadSettings():
 	var filePath: String = vault_path + settings_path + "settings.tres"
 	if not FileAccess.file_exists(filePath):
@@ -51,7 +57,8 @@ func loadSettings():
 	else:
 		var loadedSettings: KartaSettings = ResourceLoader.load(filePath, "KartaSettings")
 		settings = loadedSettings
-	
+
+
 func loadEdgesUsingResources():
 	var dir = DirAccess.open(vault_path + edges_path)
 	
@@ -62,52 +69,73 @@ func loadEdgesUsingResources():
 		loadedEdge = ResourceLoader.load(filePath, "EdgeBase")
 		edges[loadedEdge.id] = loadedEdge
 		
-	#print("edges are" + str(edges))
 	if edges.size() != 0:
 		var firstRel = edges[edges.keys()[0]]
-		#print(firstRel)
-		#print(firstRel.get_property_list())
 		assert("sourceRelativeData" in firstRel)
 		assert("relativePosition" in firstRel.sourceRelativeData)
 		
+func loadEdgeUsingResources(edgeId):
+	var filePath: String = vault_path + edges_path + str(edgeId) + ".tres"
+	var loadedEdge: EdgeBase = ResourceLoader.load(filePath, "EdgeBase")
+	edges[loadedEdge.id] = loadedEdge
+	return loadedEdge
+
 func loadNodesUsingResources():
 	var dir = DirAccess.open(vault_path + nodes_path)
 	
-	var loadedNode: NodeBase
+	for file in dir.get_files():
+		# The file string includes the file extension, so converting into 
+		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
+		loadNodeUsingResources(int(file))
+
+func loadFirstNode():
+	var dir = DirAccess.open(vault_path + nodes_path)
 	
 	for file in dir.get_files():
-		var filePath: String = vault_path + nodes_path + file
-		loadedNode = ResourceLoader.load(filePath, "NodeBase")
-		nodes[loadedNode.id] = loadedNode
+		# The file string includes the file extension, so converting into 
+		# an int is ugly but seems to work. Clean-up would be nice, but not urgent.
+		return loadNodeUsingResources(int(file))
 		
+		
+func loadNodeConnections(nodeId:int):
+	if !nodes.has(nodeId):
+		loadNodeUsingResources(nodeId)
+	
+	var thisNode = nodes[nodeId]
+	
+	for edge in thisNode.edges.keys():
+		loadNodeUsingResources(edge)
+		loadEdgeUsingResources(thisNode.edges[edge])
+	
 
-func updateEdgeRelativePosition(edgeId: int, selfId: int, selfPos: Vector2, newPos: Vector2):
-	assert(edges.has(edgeId))
+func loadNodeUsingResources(nodeId: int) -> NodeBase:
+	var filePath: String = vault_path + nodes_path + str(nodeId) + ".tres"
+	if !FileAccess.file_exists(filePath):
+		print("No file found. Returning.")
+		loadFirstNode()
+		return
 	
-	edges[edgeId].setConnectionPosition(selfId, selfPos, newPos)
-	
-	#Autosave after edit edge
-	saveEdgeUsingResources(edges[edgeId])
-	
+	var loadedNode: NodeBase = ResourceLoader.load(filePath, "NodeBase")
+	nodes[loadedNode.id] = loadedNode
+	return loadedNode
+
 
 func saveSettings():
 	var savePath: String = vault_path + settings_path + "settings.tres"
 	ResourceSaver.save(settings, savePath)
+	
+func setLastFocalId(focalId: int):
+	settings.lastFocalId = focalId
+	saveSettings()
 
 func saveAllNodesUsingResources():
-	print("Trying to SAVE: " + str(nodes.size()))
+
 	for c in nodes.values():
 		if (c is NodeBase):
 			saveNodeUsingResources(c)
 			
 func saveNodeUsingResources(node: NodeBase):
 	var save_path: String = vault_path + nodes_path + str(node.id) + ".tres"
-	
-	print("Trying to save the nodeId" + str(node.id) + " to " + save_path)
-	
-	print(nodes[nodes.keys()[0]])
-	
-	print(ResourceSaver.save(node, save_path))
 
 
 func saveAllEdgesUsingResources():
@@ -119,17 +147,16 @@ func saveEdgeUsingResources(edge: EdgeBase):
 	var save_path: String = vault_path + edges_path + str(edge.id) + ".tres"
 	ResourceSaver.save(edge, save_path)
 	
+	
 func deleteAllNodeResources():
 	var del_path: String = vault_path + nodes_path
 	for file in DirAccess.get_files_at(del_path):
-		print(del_path + file)
 		DirAccess.remove_absolute(del_path + file)
 	
 func deleteAllEdgeResources():
 	var del_path: String = vault_path + edges_path
 	for file in DirAccess.get_files_at(del_path):
 		DirAccess.remove_absolute(del_path + file)
-	
 	
 func deleteEdgeResource(edgeId: int):
 	var del_path: String = vault_path + edges_path + str(edgeId) + ".tres"
@@ -146,18 +173,33 @@ func saveData():
 	saveAllEdgesUsingResources()
 	saveSettings()
 
-func addNode(nodeType: String = "BASE") -> NodeBase:
+func addNode(dataType: String = "BASE") -> NodeBase:
 	settings.lastId += 1
-	var newNode: NodeBase = NodeBase.new(settings.lastId, Time.get_unix_time_from_system(), "node", {}, nodeType)
+	var newNode: NodeBase = NodeBase.new(
+		settings.lastId, 
+		Time.get_unix_time_from_system(), 
+		"node", 
+		{}, 
+		dataType
+	)
 	nodes[settings.lastId] = newNode
 	
-	match nodeType:
+	match dataType:
 		"TEXT":
-			var newText: NodeTypeData = NodeText.new(settings.lastId, Vector2(0.0,0.0), "")
+			var newText: NodeTypeData = NodeText.new(settings.lastId)
 			newNode.typeData = newText
 		"IMAGE":
-			var newImage: NodeTypeData = NodeImage.new(settings.lastId, Vector2(0.0,0.0), "")
+			var newImage: NodeTypeData = NodeImage.new(settings.lastId)
 			newNode.typeData = newImage
+		"SCENE":
+			var newScene: NodeTypeData = NodeScene.new(settings.lastId)
+			newNode.typeData = newScene
+		"OBJECT_RECTANGLE":
+			var newRect: Node2D = sceneObjectRectangle.instantiate()
+			newRect.setPosition(Vector2(randf_range(-500.0, 500.0), randf_range(-500.0, 500.0)))
+			newRect.setSize(Vector2(randf_range(0.0, 500.0), randf_range(0.0, 500.0)))
+			newNode.objectData = newRect
+			
 			
 	saveNodeUsingResources(newNode)
 	
@@ -171,7 +213,10 @@ func addEdge(srcId: int, trgtId: int, type: String = "BASE", group: String = "no
 	
 func getNode(id: int) -> NodeBase: 
 
-	assert(nodes.has(id), "ERROR node not found")
+	if !nodes.has(id):
+		return loadFirstNode()
+	#assert(nodes.has(id), "ERROR node not found")
+	
 	return nodes[id]
 	
 
@@ -193,22 +238,18 @@ func getAllEdges() -> Dictionary:
 func deleteNode(nodeId: int):
 	nodes.erase(nodeId)
 	
-	deleteNodeResource(nodeId)
 	
 	for w in edges.values():
-		print("ID: " + str(w.id) + " | SRC: " + str(w.sourceId) + " | TRGT: " + str(w.targetId))
-		
-		print(str(edges))
-		
 		if w.sourceId == nodeId:
 			nodes[w.targetId].edges.erase(w.sourceId)
-			print(str(edges.erase(w.id)) + " was the result of deletion")
+
 		elif w.targetId == nodeId:
 			nodes[w.sourceId].edges.erase(w.targetId)
-			print(str(edges.erase(w.id)) + " was the result of deletion")
+
 			
 		deleteEdgeResource(w.id)
 			
+	deleteNodeResource(nodeId)
 	saveData()
 
 func deleteAll():

@@ -12,15 +12,12 @@ func _ready():
 	focalIndicator.onlyOn = true
 	add_child(focalIndicator)
 	
-	positionIndicator = IndicatorToggle.instantiate()
-	add_child(positionIndicator)
-	
-	uiIndicator = IndicatorToggle.instantiate()
-	add_child(uiIndicator)
-	
-	presenceIndicator = IndicatorToggle.instantiate()
-	add_child(presenceIndicator)
+#	positionIndicator = IndicatorToggle.instantiate()
+#	add_child(positionIndicator)
+#
+#	uiIndicator = IndicatorToggle.instantiate()
+#	add_child(uiIndicator)
+#
+#	presenceIndicator = IndicatorToggle.instantiate()
+#	add_child(presenceIndicator)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

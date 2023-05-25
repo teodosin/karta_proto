@@ -11,13 +11,15 @@ extends Resource
 
 @export var edgeType: String
 @export var edgeGroup: String
+@export var edgeData: Resource
 
 func _init(
 		eId: int = 0, 
 		srcId: int = 0, 
 		trgtId: int = 0, 
 		type: String = "", 
-		group: String = ""
+		group: String = "",
+		data: Resource = Resource.new()
 		):
 	self.id = eId
 	
@@ -29,28 +31,29 @@ func _init(
 	
 	self.edgeType = type
 	self.edgeGroup = group
+	self.edgeData = data
 	
 func setType(type: String):
 	self.edgeType = type
 func setGroup(group: String):
 	self.edgeGroup = group
 
-func addSource(srcId: int, relPos: Vector2 = Vector2.ZERO):
+func addSource(srcId: int, _relPos: Vector2 = Vector2.ZERO):
 	sourceId = srcId
 	sourceRelativeData = RelatedNode.new(srcId)
-func addTarget(trgtId: int, relPos: Vector2 = Vector2.ZERO):
+func addTarget(trgtId: int, _relPos: Vector2 = Vector2.ZERO):
 	self.targetId = trgtId
 	self.targetRelativeData = RelatedNode.new(trgtId)
 	
-func setSourcePosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
+func setSourcePosition(_nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
 		sourceRelativeData.setRelativePosition(Vector2.ZERO)
 	else:
-		sourceRelativeData.setRelativePosition(relatedPos - selfPos)
+		sourceRelativeData.setRelativePosition(selfPos - relatedPos)
 		
 	print("sourceRelative in edge is " + str(sourceRelativeData.relativePosition))
 
-func setTargetPosition(nodeId: int, selfPos: Vector2, relatedPos: Vector2):
+func setTargetPosition(_nodeId: int, selfPos: Vector2, relatedPos: Vector2):
 	if relatedPos == Vector2.ZERO or relatedPos == null:
 		targetRelativeData.setRelativePosition(Vector2.ZERO)
 	else:

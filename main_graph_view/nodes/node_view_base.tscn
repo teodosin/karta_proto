@@ -9,8 +9,8 @@
 generate_mipmaps = true
 multichannel_signed_distance_field = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwt55"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryc6q"]
+bg_color = Color(0, 0, 0.0588235, 0.760784)
 
 [node name="NodeViewBase" type="Control"]
 layout_mode = 3
@@ -22,16 +22,17 @@ script = ExtResource("1_jnnre")
 
 [node name="NodeName" type="LineEdit" parent="." groups=["NodeNameLabel"]]
 layout_direction = 1
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 67.0625
+offset_top = -23.0
+offset_right = 66.96
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_fonts/font = SubResource("SystemFont_kqvky")
-theme_override_styles/focus = SubResource("StyleBoxFlat_wwt55")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ryc6q")
 expand_to_text_length = true
 middle_mouse_paste_enabled = false
 selecting_enabled = false
@@ -40,19 +41,24 @@ caret_blink = true
 script = ExtResource("2_km87o")
 
 [node name="IndicatorPanel" parent="." instance=ExtResource("3_71dym")]
+visible = false
 layout_mode = 1
 offset_left = -23.0
 
+[node name="BackgroundPanel" type="PanelContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+offset_right = 75.0
+offset_bottom = 50.0
+focus_mode = 1
+theme = ExtResource("4_8xxui")
+
 [node name="NodeElementContainer" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="BackgroundPanel" type="PanelContainer" parent="NodeElementContainer"]
-custom_minimum_size = Vector2(100, 25)
-layout_mode = 2
-focus_mode = 1
-theme = ExtResource("4_8xxui")
 
 [node name="DebugContainer" type="VBoxContainer" parent="." groups=["DEBUG"]]
 visible = false
@@ -73,9 +79,21 @@ layout_mode = 2
 size_flags_vertical = 0
 horizontal_alignment = 2
 
+[node name="DataTypeLabel" type="Label" parent="DebugContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+horizontal_alignment = 2
+
 [node name="TimeLabel" type="Label" parent="DebugContainer"]
 layout_mode = 2
 
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="focus_entered" from="NodeName" to="NodeName" method="_on_focus_entered"]
 [connection signal="focus_exited" from="NodeName" to="NodeName" method="_on_focus_exited"]
 [connection signal="gui_input" from="NodeName" to="NodeName" method="_on_gui_input"]
 [connection signal="text_changed" from="NodeName" to="." method="_on_node_name_text_changed"]
+[connection signal="focus_entered" from="BackgroundPanel" to="." method="_on_background_panel_focus_entered"]
+[connection signal="focus_exited" from="BackgroundPanel" to="." method="_on_background_panel_focus_exited"]
+[connection signal="gui_input" from="BackgroundPanel" to="." method="_on_background_panel_gui_input"]
+[connection signal="mouse_entered" from="BackgroundPanel" to="." method="_on_background_panel_mouse_entered"]
+[connection signal="mouse_exited" from="BackgroundPanel" to="." method="_on_background_panel_mouse_exited"]

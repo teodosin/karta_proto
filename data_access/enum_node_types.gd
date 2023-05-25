@@ -3,5 +3,16 @@ enum NodeTypes {
 	TEXT,
 	IMAGE,
 	FILE,
-	FOLDER
+	
+	SCENE,
+	OBJECT_RECTANGLE,
+	
+	PROPERTIES,
+}
+
+enum EdgeTypes {
+	BASE,
+	PARENT,
+	TRANSITION,
+	#SEQUENCE
 }

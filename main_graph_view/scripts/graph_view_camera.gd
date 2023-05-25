@@ -3,15 +3,30 @@ extends Camera2D
 var panning = false
 var panPoint = Vector2(0.0, 0.0)
 
+var maxZoom: float = 5.0
+var minZoom: float = 0.05
 
+var cameraHistory: Dictionary 
 
+signal zoomSet(zoomLvl: float)
 
-func _physics_process(_delta):
+func addToCameraHistory(focalId: int, focalPos: Vector2):
+	cameraHistory[focalId] = self.position - focalPos
+	
+func moveToHistory(focalId: int, focalPos: Vector2):
+	if not cameraHistory.has(focalId):
+		return
+	
+	var newPos = focalPos + cameraHistory[focalId]
+	var cameraTween = create_tween()
+	cameraTween.tween_property(self, "position", newPos, 0.3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
+
+func _process(_delta):
 	
 	if panning:
 		self.position += panPoint - get_global_mouse_position()
 
-func animatePosition(newPosition):
+func animatePosition(_newPosition):
 	pass
 	
 
@@ -23,12 +38,12 @@ func _input(event):
 		panning = false
 
 	if event.is_action_pressed("zoomInCamera"):
-		if zoom.x >= 2.0:
+		if zoom.x >= maxZoom:
 			return
 
 		setZoom(1.1, true)
 	if event.is_action_pressed("zoomOutCamera"):
-		if zoom.x <= 0.1:
+		if zoom.x <= minZoom:
 			return
 			
 		setZoom(0.9, false)
@@ -36,6 +51,7 @@ func _input(event):
 func setZoom(mult: float, toMouse: bool):
 	
 	self.zoom *= mult
+	zoomSet.emit(mult)
 
 	if toMouse:
 				# Zoom is centered on mouse position
