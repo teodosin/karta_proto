@@ -1,5 +1,7 @@
 # Karta
 
+![image](https://github.com/teodosin/karta_proto/assets/31853349/cb24ebd0-fe57-4cec-8471-4fe9bc85c3e5)
+
 Karta, most fundamentally, is intended to be an augmented file browser and allow for visual and conceptual connections to be made between files in the file system.  This makes it potentially a great tool for file and project management, as a sort of in-between layer between other, more specialised software. It would allow compositing and packaging up of some files and data to sequence them into new files. For example, exporting a sequence of image nodes into pdf's or videos. This would provide a great base set of functionality from which Karta can then be specialised into different use cases depending on what there is demand for.
 
 This repository contains the prototype or proof-of-concept for Karta. It was made in the Godot 4 game engine with its internal scripting language GDScript. Therefore a copy of the newest stable version (Godot 4.0.3 as of writing this) is required to edit and run the project. This version is considered to have reached its goal of illustrating the concepts behind Karta and is no longer in active development. If and when the idea is pursued further, the application will be rewritten from scratch (likely not in Godot) to provide a more stable and testable foundation to develop on. 
