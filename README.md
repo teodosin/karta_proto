@@ -6,6 +6,8 @@ Karta, most fundamentally, is intended to be an augmented file browser and allow
 
 This repository contains the prototype or proof-of-concept for Karta. It was made in the Godot 4 game engine with its internal scripting language GDScript. Therefore a copy of the newest stable version (Godot 4.0.3 as of writing this) is required to edit and run the project. This version is considered to have reached its goal of illustrating the concepts behind Karta and is no longer in active development. If and when the idea is pursued further, the application will be rewritten from scratch (likely not in Godot) to provide a more stable and testable foundation to develop on. 
 
+https://github.com/teodosin/karta_proto/assets/31853349/817a5f13-079e-46a7-8807-b1cd39aed741
+
 ## Core Features
 
 This prototype implements the a somewhat scattered set of features. They are unpolished and often buggy. Their purpose is to map out the design space for a future iteration of the app, to give a clearer picture of what the desired architecture should be. 
@@ -36,6 +38,10 @@ The current active tool determines what clicking with the mouse does.
 * Edges - clicking and dragging from one node to another creates a new edge between them. The type and group of the edge is defined in the pop-up menu under the tools panel. 
 * Transition - moves into a Focal context, but only if there is an edge of type "transition" connecting them. More on this feature below. 
 * Draw - draw rectangles into the scene layer. More on this below. 
+
+
+
+
 
 
 #### Focal Nodes
